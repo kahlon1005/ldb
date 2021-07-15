@@ -1,0 +1,145 @@
+package com.bcldb.web.wms.repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.bcldb.services.common.EmptyRequestType;
+import com.bcldb.services.common.GetVersionResponse;
+import com.bcldb.services.common.type.PostServiceResponseType;
+import com.bcldb.services.wmsservice.GetStuckTransactionsResponse;
+import com.bcldb.services.wmsservice.TransactionIDType;
+import com.bcldb.services.wmsservice.TransactionIDsType;
+import com.bcldb.services.wmsservice.TransactionType;
+import com.bcldb.services.wmsservice.UpdateStuckTransactionsRequest;
+import com.bcldb.web.wms.dto.TransactionReturnType;
+import com.bcldb.web.wms.model.Order;
+
+import wmsservice.ErrorMessage;
+import wmsservice.WMSService;
+
+@Component
+public class WMSServiceEndpoint {
+
+	
+	private static final Logger log = LoggerFactory.getLogger(WMSServiceEndpoint.class);
+
+	private static final String DEFAULT_INCIDENT_NUMBER = "INCIDENT NUMBER NOT EXISTS";
+
+	@Value("${wms.service.endpoint}")
+	private String endPoint;
+
+	@Value("${wms.service.endpoint.username}")
+	private String wms_service_wsdl_username;
+
+	@Value("${wms.service.endpoint.password}")
+	private String wms_service_wsdl_password;
+
+	
+	private WMSService service;
+	
+	
+	
+	/**
+	 * get wms service version number
+	 * 
+	 * @return
+	 * @throws ErrorMessage
+	 */
+	public String getVersion() {
+		EmptyRequestType part = new EmptyRequestType();
+		GetVersionResponse response = new GetVersionResponse();
+		try {
+			response = this.getService().getVersionInfo(part);
+		} catch (ErrorMessage e) {
+			log.error(e.getMessage());			
+		}
+		return response.getVersion();
+
+	}
+
+	/**
+	 * get stuck transactions
+	 * 
+	 * 
+	 * @return
+	 */
+	public List<Order> getStuckTransactions() {
+		EmptyRequestType part = new EmptyRequestType();
+		List<Order> orders = new ArrayList<Order>();
+		try {
+			GetStuckTransactionsResponse response = this.getService().getStuckTransactions(part);
+			List<TransactionType> list = response.getTransaction();
+			for (TransactionType transactionType : list) {
+				Order order = new Order();
+				order.setOrderNumber(transactionType.getId());
+				order.setOrderType(transactionType.getType());
+				order.setIssueDescription(transactionType.getIssueDescription());
+				orders.add(order);
+			}
+		} catch (ErrorMessage e) {
+			log.error(e.getMessage());			
+		}
+
+		return orders;
+	}
+
+	/**
+	 * 
+	 * update stuck transactions
+	 * 
+	 * @param orderNumbers
+	 * @return
+	 */
+	public TransactionReturnType updateStuckTransaction(List<Order> orders) {
+		UpdateStuckTransactionsRequest part = new UpdateStuckTransactionsRequest();
+		TransactionReturnType responseType = null;
+		try {
+			
+			if (part.getTransactions() == null) {				 
+				part.setTransactions(new TransactionIDsType());
+			}
+			
+			if(part.getIncidentNumber() == null) {
+				part.setIncidentNumber(DEFAULT_INCIDENT_NUMBER);
+			}
+			for (Order order : orders) {
+				TransactionIDType idType = new TransactionIDType() ;
+				idType.setId(order.getOrderNumber());
+				idType.setType(order.getOrderType());
+				part.getTransactions().getTransaction().add(idType);
+			}
+			
+			
+
+			PostServiceResponseType response = this.getService().updateStuckTransactions(part);
+			responseType = new TransactionReturnType(response.getAuxMessage(), response.isSuccess());
+
+		} catch (ErrorMessage e) {			
+			responseType = new TransactionReturnType(e.getMessage(), Boolean.FALSE);
+			log.error(e.getMessage());
+		}
+		return responseType;
+	}
+	
+	private WMSService getService() {
+		
+		if (service == null) {
+			try {
+				service = WMSServiceAdapter.createSecureService(this.endPoint, wms_service_wsdl_username, wms_service_wsdl_password);
+			
+			} catch (Exception e) {
+				log.error("Fail to initialize wms service instance");
+				throw e;
+			}
+		}
+		return service;
+	}
+	
+	
+
+}

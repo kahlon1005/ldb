@@ -1,0 +1,82 @@
+package com.bcldb.web.wms.service;
+
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.bcldb.emailservice.SendEmailFault_Exception;
+import com.bcldb.osb.emailrequest.EmailType;
+import com.bcldb.web.wms.endpoint.EmailServiceEndPoint;
+
+@Service
+public class EmailService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
+
+	
+	@Autowired
+	EmailServiceEndPoint endpoint;
+
+	@Value("${to.email}")
+	String toEmail;
+	
+	@Value("${from.email}")
+	String fromEmail;
+	
+	@Value("${reply.address}")
+	String replyAddress;
+
+	@Value("${reply.to}")
+	String replyTo;
+	
+	@Value("${email.header.text}")
+	String headerText;
+	
+	public String sendEmail(String transactionType, String transactionId) {
+		// send email
+		try {
+			EmailType emailType = new EmailType();
+
+			String formattedSubjectLine = MessageFormat.format(getEmailSubject(), transactionType, transactionId);
+			String formattedEmailContent = MessageFormat.format(getEmailContent(), transactionType, transactionId);		
+			emailType.setContent(formattedEmailContent);
+			emailType.setContentType("text/html");
+			emailType.setFrom(fromEmail);
+			emailType.setTo(toEmail);
+			emailType.setReplyAddress( replyAddress );
+			emailType.setReplyTo( replyTo );
+			emailType.setSubject(formattedSubjectLine);
+
+			return endpoint.getService().sendEmail(emailType);
+		} catch (MalformedURLException | SendEmailFault_Exception e) {
+			LOG.error(e.getStackTrace().toString());
+			e.printStackTrace();
+			
+		}
+		return null;
+	}
+
+	private String getEmailSubject() {
+		String subject = "WMS Utils - data-fix applied for {0} : {1}";
+		return subject;
+	}
+	private String getEmailContent() {
+		String content = "";
+		
+		if(!headerText.isEmpty()) {
+			content = "<p><strong>"+headerText+"</strong></p>";
+		}
+		
+		content = content + "<p>This is to inform that a data fix is applied using WMS Utils application for {0} number <strong>{1}</strong><p><br/><br/>"
+				+ "<p>This is an auto generated email, please contact helpdesk for support.</p>";
+		return content;
+	}
+
+		
+
+}

@@ -1,0 +1,42 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Transaction } from 'src/app/domain/transaction';
+import { TransactionService } from 'src/app/service/transaction.service';
+
+@Component({
+  selector: 'app-transaction-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.css']
+})
+export class TransactionListComponent implements OnInit {
+
+  transactions : Transaction[];  
+  message:string;
+  transactionExists = true;
+
+  constructor(private transactionService:TransactionService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.getTransactions();
+  }
+
+  private getTransactions(){
+    this.transactionService.getTransactionList().subscribe(data => {
+      this.transactions = data;
+      if(this.transactions.length == 0){
+        this.transactionExists = false;        
+      }else{        
+        this.transactionExists = true;       
+      }
+    })
+  }
+
+  updateTransaction(name:number, type:string){
+    //type = type.toLowerCase();
+    this.router.navigate(['update-transaction', type.toLowerCase(), name]);
+  }
+
+  refreshPage(){
+    window.location.reload();
+  }
+}

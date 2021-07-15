@@ -1,0 +1,227 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-zw"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/8.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2016-6-23. 10:32:47--><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/6.0/" to "http://developer.cognos.com/schemas/report/8.0/" at 2011-11-17. 17:8:54--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2009-2-18. 9:34:26--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/3.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2008-3-17. 15:35:14--><!--RS:8.2-->
+	<modelPath>/content/folder[@name='TECSYS EliteSeries']/folder[@name='Models']/package[@name='Report Model - Warehouse Management System']/model[@name='model']</modelPath>
+	
+	<layouts>
+		<layout>
+			<reportPages>
+				<page name="ReportPage">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="List1" refQuery="Query1">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="whse_code"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="whse_code"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="sku"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku_desc"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="sku_desc"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="fp_repl_uom"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="fp_repl_uom"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="fp_repl_uom_qty"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="fp_repl_uom_qty"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_dynam_qty_sum"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_dynam_qty_sum"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="FP Quantity (Cases)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="FP Quantity (Cases)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="plan_qty_to_plan"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="plan_qty_to_plan"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Build Quantity (Cases)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Build Quantity (Cases)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="plan_qty_planned"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="plan_qty_planned"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="plan_qty_total"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="plan_qty_total"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_count_to_plan"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_count_to_plan"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_count_planned"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_count_planned"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_count_total"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_count_total"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Plan Full Pallet Allocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Plan Full Pallet Allocation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Unplan Full Pallet Allocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Unplan Full Pallet Allocation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="recv_iv"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="recv_iv"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="fifo_iv"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="fifo_iv"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Planned Replenishments"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Planned Replenishments"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Forecast Replen Cases Report</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse</staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><textBox parameter="p_whse_code" required="false"><defaultSelections><defaultSimpleSelection>VDC</defaultSimpleSelection></defaultSelections></textBox><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><promptButton type="finish">
+			<contents/>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="bp"/>
+				</defaultStyles>
+			</style>
+		</promptButton></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												</contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page>
+			</reportPages>
+		<pageSetup orientation="landscape"><namedPaper name="/configuration/pageDefinition[@name='A4']"/></pageSetup></layout>
+	</layouts>
+<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="false"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><reportVariables><reportVariable name="select_criteria" type="locale"><reportExpression>ReportLocale()</reportExpression><variableValues><variableValue value="en-zw"/><variableValue value="de"/><variableValue value="en-ca"/><variableValue value="en-gb"/><variableValue value="en-us"/><variableValue value="es"/><variableValue value="fr-ca"/><variableValue value="fr"/><variableValue value="pt"/></variableValues></reportVariable></reportVariables><reportName>LDB Forecast Replen Cases Report</reportName><queries><query name="Query1">
+			<source>
+				
+			<sqlQuery name="SQL1" dataSource="wms" type="passThrough">
+			<sqlText>;with fullPalByOrdSku as (
+SELECT od.whse_code, 
+		od.sku, 
+		sum(IIF(od.ob_lno_stt IN ('HOLD','BLD','IHLD','IPLN','SPLN','SSPL','SSRL'), floor(od.plan_qty/pm.qty1in2/(pm.custom_numeric_1 * pm.custom_numeric_2)), 0)) as ord_pal_unplanned,
+		sum(IIF(od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP'), floor(od.plan_qty/qty1in2/(pm.custom_numeric_1 * pm.custom_numeric_2)), 0)) as ord_pal_planned
+	FROM od_f od 
+		inner join pm_f pm on od.whse_code = pm.whse_code and od.sku = pm.sku
+	GROUP BY od.whse_code, od.sku, od.ob_oid),
+fullPalBySku as (
+	select 
+		whse_code, 
+		sku, 
+		sum(ord_pal_unplanned) as sku_pal_unplanned, 
+		sum(ord_pal_planned) as sku_pal_planned
+	from fullPalByOrdSku
+	group by whse_code, sku
+) 
+SELECT --836 rows
+  a.whse_code,
+  a.sku, 
+  a.sku_desc, 
+  a.fp_repl_uom, --replen UOM of the FP locations of the item, e.g. BTL, CASE12, PALLET. If there are multiple repl_uom, the highest one is used.
+  a.fp_repl_uom_qty, --BTL qty of the replen UOM, e.g. 12 if repl_uom = CASE12
+  repl_dynam_qty_sum, --sum of dynamic replen qty of all FP locations of the item
+  fpQty.fp_iv/fp_repl_uom_qty as [FP Quantity (Cases)],
+  ord_qty_unplanned/fp_repl_uom_qty AS plan_qty_to_plan, --total plan_qty of the item in all sales orders that are not planned, in repl_uom.
+  bld_qty/fp_repl_uom_qty AS [Build Quantity (Cases)],
+  (ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty AS plan_qty_planned, --total plan_qty of the item in all sales orders that are planned but not picked, in repl_uom.
+  (ISNULL(ord_qty_unplanned,0)+ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty AS plan_qty_total, --total plan_qty of the item in all sales orders that are not picked, in repl_uom.
+  ord_qty_unplanned/fp_repl_uom_qty/repl_dynam_qty_sum AS repl_count_to_plan, --total replen count of the item in all sales orders that are not planned.
+  (ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty/repl_dynam_qty_sum AS repl_count_planned, --total replen count of the item in all sales orders that are planned but not picked.
+  (ISNULL(ord_qty_unplanned,0)+ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty/repl_dynam_qty_sum AS repl_count_total, --total replen count of the item in all sales orders that are not picked.
+  fps.sku_pal_planned as [Plan Full Pallet Allocation], --fps.sku_pal_planned
+  fps.sku_pal_unplanned as [Unplan Full Pallet Allocation], --fps.sku_pal_unplanned
+  isnull(recv_iv/fp_repl_uom_qty, 0) AS recv_iv, --total qty of current FIFO inventory of the item, in repl_uom.
+  isnull(fifo_iv/fp_repl_uom_qty, 0) AS fifo_iv,  --total qty of current RECV inventory of the item, in repl_uom.
+  isnull(Replns.replnCount, 0) as[Planned Replenishments]
+FROM 
+  (SELECT pm.whse_code, pm.sku, pm.sku_desc, 
+    repl_dynam_qty_sum, -- total of dynamic repl qty of all FP locations of the item
+	recv_iv, 
+	fifo_iv, -- current inventory qty of the locations of RECV and FIFO.
+    CASE WHEN uom2=repl_uom THEN uom2 WHEN uom1=repl_uom THEN uom1 ELSE uom3 END AS fp_repl_uom, --replenishment UOM
+    CASE WHEN uom2=repl_uom THEN qty1in2 WHEN uom1=repl_uom THEN 1 ELSE qty1in2*qty2in3 END AS fp_repl_uom_qty --qty of repl_uom in UOM1
+    FROM pm_f pm 
+		INNER JOIN (SELECT MAX(pm_rid) AS pm_rid 
+			FROM pm_f GROUP BY whse_code, sku) pm2 ON pm2.pm_rid=pm.pm_rid
+		INNER JOIN (SELECT whse_code, sku, MAX(repl_uom) AS repl_uom, SUM(repl_dynam_qty) AS repl_dynam_qty_sum 
+			FROM lc_f 
+			WHERE loc_type='FP' AND area IN ('APCK','SCAGE','SCAGEP') GROUP BY whse_code, sku) lc ON pm.whse_code=lc.whse_code AND pm.sku=lc.sku 
+		LEFT JOIN (
+			SELECT iv.whse_code, 
+				iv.sku, 
+				sum(IIF(lc.loc_type='RECV', qty, 0)) as recv_iv,
+				sum(IIF(lc.loc_type='FIFO', qty, 0)) as fifo_iv
+			FROM iv_f iv 
+				INNER JOIN lc_f lc ON iv.loc=lc.loc 
+			WHERE lc.loc_type='RECV' AND area IN ('APCK','SCAGE','SCAGEP')
+			GROUP BY iv.whse_code, iv.sku) iv1 ON pm.whse_code=iv1.whse_code AND pm.sku=iv1.sku
+  ) a
+  LEFT JOIN --unplanned qty in UOM1 
+    (SELECT od.whse_code, 
+		od.sku, 
+		sum(IIF(od.ob_lno_stt IN ('HOLD','BLD','IHLD','IPLN','SPLN','SSPL','SSRL'), od.plan_qty, 0)) as ord_qty_unplanned,
+		sum(IIF(od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP'), od.plan_qty, 0)) as ord_qty_planned,
+		sum(IIF(od.ob_lno_stt IN ('BLD'), od.plan_qty, 0)) as bld_qty
+	FROM od_f od 
+	GROUP BY od.whse_code, od.sku
+	) c ON c.whse_code=a.whse_code AND c.sku=a.sku
+  LEFT JOIN --non-FP cm qty in UOM1 
+    (SELECT 
+		cm.whse_code, 
+		cm.sku, 
+		SUM(cm.qty) AS qty_cm_non_fp 
+	FROM cm_f cm
+	  INNER JOIN lc_f lc ON lc.whse_code=cm.whse_code AND lc.loc=cm.loc 
+	  INNER JOIN od_f od ON od.whse_code=cm.whse_code AND od.od_rid=cm.od_rid 
+	WHERE lc.loc_type!='FP' AND cm.task_code='PICK' AND cm.to_cont IS NOT NULL AND LEN(cm.to_cont)&gt;0 AND od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP') AND lc.area IN ('APCK','SCAGE','SCAGEP')
+	GROUP BY cm.whse_code, cm.sku
+	) e ON e.whse_code=a.whse_code AND e.sku=a.sku
+  LEFT JOIN --picked qty in UOM1 
+    (SELECT it.whse_code, it.sku, SUM(it.act_qty) AS qty_picked 
+	FROM it_f it 
+	  INNER JOIN lc_f lc ON lc.whse_code=it.whse_code AND lc.loc=it.from_loc
+	  INNER JOIN od_f od ON od.whse_code=it.whse_code AND od.ob_oid=it.ob_oid AND od.ob_lno=it.ob_lno
+	  WHERE it.transact='RPCK' AND lc.loc_type IN ('FP','FIFO') AND od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP','HOLD','BLD','IHLD','IPLN','SPLN','SSPL','SSRL') AND area IN ('APCK','SCAGE','SCAGEP')
+	  GROUP BY it.whse_code, it.sku
+	) f ON f.whse_code=a.whse_code AND f.sku=a.sku
+  LEFT JOIN ( 
+	select cm_f.whse_code, cm_f.sku, count(0) as replnCount 
+	from cm_f 
+	inner join lc_F on lc_f.whse_code = cm_f.whse_code and lc_f.loc = cm_f.loc
+	where task_code = 'REPL'AND lc_f.area IN ('APCK','SCAGE','SCAGEP')
+	group by cm_f.whse_code, cm_f.sku
+  ) Replns on Replns.whse_code=a.whse_code AND Replns.sku=a.sku
+  LEFT JOIN (
+  select 
+		iv.whse_code,
+		iv.sku,
+		sum(IIF(lc.loc_type='fp', qty, 0)) as fp_iv
+	from iv_f iv
+		INNER JOIN lc_f lc ON iv.loc=lc.loc 
+	where lc.loc_type = 'FP' AND area IN ('APCK','SCAGE','SCAGEP')
+	group by iv.sku, iv.whse_code
+  ) fpQty on fpQty.whse_code=a.whse_code AND fpQty.sku=a.sku
+  LEft join fullPalBySku fps on fps.whse_code=a.whse_code AND fps.sku=a.sku
+  WHERE (ISNULL(ord_qty_unplanned,0)&gt;0 OR ISNULL(ord_qty_planned,0)&gt;0)</sqlText>
+		<mdProjectedItems><mdProjectedItem name="whse_code"/><mdProjectedItem name="sku"/><mdProjectedItem name="sku_desc"/><mdProjectedItem name="fp_repl_uom"/><mdProjectedItem name="fp_repl_uom_qty"/><mdProjectedItem name="repl_dynam_qty_sum"/><mdProjectedItem name="FP Quantity (Cases)"/><mdProjectedItem name="plan_qty_to_plan"/><mdProjectedItem name="Build Quantity (Cases)"/><mdProjectedItem name="plan_qty_planned"/><mdProjectedItem name="plan_qty_total"/><mdProjectedItem name="repl_count_to_plan"/><mdProjectedItem name="repl_count_planned"/><mdProjectedItem name="repl_count_total"/><mdProjectedItem name="Plan Full Pallet Allocation"/><mdProjectedItem name="Unplan Full Pallet Allocation"/><mdProjectedItem name="recv_iv"/><mdProjectedItem name="fifo_iv"/><mdProjectedItem name="Planned Replenishments"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="whse_code"><expression>[SQL1].[whse_code]</expression></dataItem><dataItem name="sku"><expression>[SQL1].[sku]</expression></dataItem><dataItem name="sku_desc"><expression>[SQL1].[sku_desc]</expression></dataItem><dataItem name="fp_repl_uom"><expression>[SQL1].[fp_repl_uom]</expression></dataItem><dataItem name="fp_repl_uom_qty"><expression>[SQL1].[fp_repl_uom_qty]</expression></dataItem><dataItem name="repl_dynam_qty_sum"><expression>[SQL1].[repl_dynam_qty_sum]</expression></dataItem><dataItem name="FP Quantity (Cases)"><expression>[SQL1].[FP Quantity (Cases)]</expression></dataItem><dataItem name="plan_qty_to_plan"><expression>[SQL1].[plan_qty_to_plan]</expression></dataItem><dataItem name="Build Quantity (Cases)"><expression>[SQL1].[Build Quantity (Cases)]</expression></dataItem><dataItem name="plan_qty_planned"><expression>[SQL1].[plan_qty_planned]</expression></dataItem><dataItem name="plan_qty_total"><expression>[SQL1].[plan_qty_total]</expression></dataItem><dataItem name="repl_count_to_plan"><expression>[SQL1].[repl_count_to_plan]</expression></dataItem><dataItem name="repl_count_planned"><expression>[SQL1].[repl_count_planned]</expression></dataItem><dataItem name="repl_count_total"><expression>[SQL1].[repl_count_total]</expression></dataItem><dataItem name="Plan Full Pallet Allocation"><expression>[SQL1].[Plan Full Pallet Allocation]</expression></dataItem><dataItem name="Unplan Full Pallet Allocation"><expression>[SQL1].[Unplan Full Pallet Allocation]</expression></dataItem><dataItem name="recv_iv"><expression>[SQL1].[recv_iv]</expression></dataItem><dataItem name="fifo_iv"><expression>[SQL1].[fifo_iv]</expression></dataItem><dataItem name="Planned Replenishments"><expression>[SQL1].[Planned Replenishments]</expression></dataItem></selection>
+		<detailFilters><detailFilter use="optional"><filterExpression>[whse_code]=?p_whse_code?</filterExpression></detailFilter></detailFilters></query></queries></report>

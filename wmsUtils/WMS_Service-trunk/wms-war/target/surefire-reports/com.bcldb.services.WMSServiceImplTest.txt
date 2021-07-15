@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.bcldb.services.WMSServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.246 sec - in com.bcldb.services.WMSServiceImplTest

@@ -1,0 +1,410 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" useStyleVersion="10" expressionLocale="en">
+				<modelPath>/content/folder[@name='TECSYS EliteSeries']/folder[@name='Models']/package[@name='Report Model - Warehouse Management System']/model[@name='model']</modelPath>
+				<drillBehavior modelBasedDrillThru="true"/>
+				<queries>
+					<query name="Query1">
+						<source>
+							
+						<sqlQuery name="SQL1" dataSource="wms">
+			<sqlText>-- Operations Scorecard, for a specified date.
+-- The productivity numbers are in PPH (Pallet Per Hour), CPH (Cases Per Hour), or BPH (Bottles Per Hour).
+DECLARE @date1 date = DATEADD(DAY, -32, GETDATE());
+DECLARE @date2 date = DATEADD(DAY, -1, GETDATE());
+SELECT dw.date, dw.whse_code warehouse, receipt_pph, putaway_pph, case_repl_pph, bottle_repl_cph, case_pick_cph, bottle_pick_bph, 
+  total_orders, total_orders-orders_nodelay orders_delayed, shipped_cases, shipped_bottles, total_customers, customers_shorted
+FROM
+-- Date-Warehouse List:
+  (SELECT date, whse_code FROM
+    (SELECT TOP (DATEDIFF(DAY, @date1, @date2)+1) date=DATEADD(DAY, ROW_NUMBER() OVER(ORDER BY a.object_id)-1, @date1)
+    FROM sys.all_objects a CROSS JOIN sys.all_objects b) dl
+    JOIN so_f ON 1=1) dw
+  LEFT JOIN
+-- Receipt Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) receipt_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,create_stamp) date0, whse_code, sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f 
+	  WHERE (transact='RCPT' AND from_loc LIKE '%RECV%') AND sku!='' AND CONVERT(date,create_stamp) BETWEEN @date1 AND @date2 
+	  AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,create_stamp), whse_code, sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY whse_code, date0) rp ON dw.date=rp.date0 AND dw.whse_code=rp.whse_code
+  LEFT JOIN
+-- Putaway Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) putaway_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,create_stamp) date0, whse_code, sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f 
+	  WHERE (transact='STOR' AND from_loc LIKE '%RECV%') AND sku!='' AND CONVERT(date,create_stamp) BETWEEN @date1 AND @date2 
+	  AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,create_stamp), whse_code, sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) pp ON dw.date=pp.date0 AND dw.whse_code=pp.whse_code
+  LEFT JOIN
+-- Case Replenishment Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) case_repl_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+	  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.to_loc=lc.loc
+	  WHERE transact='REPL' AND it.sku!='' AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.loc_type='FP' AND lc.area in ('APCK','ACAG','INVM') AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) crp ON dw.date=crp.date0 AND dw.whse_code=crp.whse_code
+  LEFT JOIN
+-- Bottle Replenishment Productivity (CPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_cases)/(SUM(sku_sec)/3600.0),1,0) bottle_repl_cph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom1='BTL' THEN sku_qty/qty1in2 ELSE sku_qty END) sku_cases, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+      JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.to_loc=lc.loc
+	  WHERE transact='REPL' AND it.sku!='' AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.loc_type='FP' AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) brp ON dw.date=brp.date0 AND dw.whse_code=brp.whse_code
+  LEFT JOIN
+-- Case Assembly Productivity (CPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_cases)/(SUM(sku_sec)/3600.0),1,0) case_pick_cph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom1='BTL' THEN sku_qty/qty1in2 ELSE sku_qty END) sku_cases, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+      JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+      WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.area in ('APCK','ACAG','INVM') AND lc.loc_type='FP' AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) cap ON dw.date=cap.date0 AND dw.whse_code=cap.whse_code
+  LEFT JOIN
+-- Bottle Assembly Productivity (BPH):
+  (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, ROUND(SUM(act_qty)/(SUM(DATEDIFF(SECOND,start_time,end_time))/3600.0),1,0) bottle_pick_bph FROM it_f it 
+  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc 
+  WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+  AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND lc.loc_type='FP' AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+  GROUP BY CONVERT(date,it.create_stamp), it.whse_code) bap ON dw.date=bap.date0 AND dw.whse_code=bap.whse_code
+  LEFT JOIN
+-- Total Outbound Orders:
+  (SELECT CONVERT(date,ship_date) date0, whse_code, COUNT(1) total_orders FROM v_u_om_f 
+  WHERE CONVERT(date,ship_date) BETWEEN @date1 AND @date2  
+  GROUP BY whse_code, CONVERT(date,ship_date)) too ON dw.Date=too.date0 AND dw.whse_code=too.whse_code
+  LEFT JOIN
+-- Outbound Orders No-Delay:
+  (SELECT CONVERT(date,om.ship_date) date0, c.whse_code, COUNT(1) orders_nodelay FROM 
+    (SELECT whse_code, ob_oid, MAX(dtime_hist) ship_time FROM cp_h cp WHERE task_code='PICK' AND cont&lt;&gt;'' 
+	AND NOT EXISTS (SELECT * FROM cm_f WHERE ob_oid=cp.ob_oid AND task_code='PICK') GROUP BY whse_code, ob_oid) c
+    JOIN v_u_om_f om ON c.whse_code=om.whse_code AND c.ob_oid=om.ob_oid 
+    WHERE CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2 
+    AND DATEDIFF(minute,ship_time,CONVERT(DATETIME,om.ship_date+' '+ISNULL(om.appoint_time,'0:0:0')))&gt;0 
+  GROUP BY c.whse_code, CONVERT(date,om.ship_date)) ond ON dw.date=ond.date0 AND dw.whse_code=ond.whse_code
+  LEFT JOIN
+-- Total Shipped Cases:
+  (SELECT date0, whse_code, SUM(cases) shipped_cases FROM 
+    (SELECT t1.date0, t1.whse_code, t1.ob_oid, (FLOOR((t1.qty)/ISNULL(pm.custom_numeric_3,1))) cases FROM
+      (SELECT CONVERT(date,om.ship_date) date0, it.whse_code, it.ob_oid, it.sku, SUM(it.act_qty) qty FROM it_f it 
+	  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+	  JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+	  WHERE it.transact in ('RPCK','PICK') AND it.sku!='' AND it.act_qty&gt;0 
+	  AND lc.area in ('APCK','ACAG','INVM') AND lc.loc_type='FP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+	  GROUP BY it.whse_code, it.ob_oid, it.sku, CONVERT(date,om.ship_date)) t1
+    JOIN 
+      (SELECT it.whse_code, it.ob_oid FROM it_f it 
+      JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+      WHERE it.transact='SHIP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+      GROUP BY it.whse_code, it.ob_oid) t2 ON t1.whse_code=t2.whse_code AND t1.ob_oid=t2.ob_oid
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t3
+  GROUP BY whse_code, date0) tsc ON dw.date=tsc.date0 AND dw.whse_code=tsc.whse_code
+  LEFT JOIN 
+-- Total Shipped Bottles: 
+  (SELECT date0, t1.whse_code, FLOOR(SUM(t1.qty)) shipped_bottles FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, it.whse_code, it.ob_oid, SUM(act_qty) qty FROM it_f it 
+    JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+    JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid 
+    WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 
+    AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND lc.loc_type='FP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+    GROUP BY it.whse_code, it.ob_oid, CONVERT(date,om.ship_date)) t1
+  JOIN 
+    (SELECT it.whse_code, it.ob_oid FROM it_f it 
+    JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+    WHERE it.transact='SHIP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+    GROUP BY it.whse_code, it.ob_oid) t2 ON t1.whse_code=t2.whse_code AND t1.ob_oid=t2.ob_oid
+  GROUP BY t1.whse_code, date0) tsb ON dw.date=tsb.date0 AND dw.whse_code=tsb.whse_code
+  LEFT JOIN
+-- Outbound Customers Shorted:
+  (SELECT date0, whse_code, COUNT(1) customers_shorted FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, om.whse_code, om.ship_name FROM od_h od
+    JOIN v_u_om_f om ON om.whse_code=od.whse_code AND om.ob_oid=od.ob_oid 
+    WHERE ship_qty&lt;ord_qty AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2 
+    GROUP BY om.whse_code, om.ship_name, CONVERT(date,om.ship_date)) ob
+  GROUP BY whse_code, date0) ocs ON dw.date=ocs.date0 AND dw.whse_code=ocs.whse_code
+  LEFT JOIN
+-- Total Outbound Customers
+  (SELECT date0, whse_code, COUNT(1) total_customers FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, whse_code, ship_name FROM v_u_om_f om 
+    WHERE CONVERT(date,ship_date) BETWEEN @date1 AND @date2 
+    GROUP BY whse_code, ship_name, CONVERT(date,om.ship_date)) ob
+  GROUP BY whse_code, date0) toc ON dw.date=toc.date0 AND dw.whse_code=toc.whse_code
+ORDER BY dw.whse_code DESC, dw.date;
+</sqlText>
+		<mdProjectedItems><mdProjectedItem name="date"/><mdProjectedItem name="warehouse"/><mdProjectedItem name="receipt_pph"/><mdProjectedItem name="putaway_pph"/><mdProjectedItem name="case_repl_pph"/><mdProjectedItem name="bottle_repl_cph"/><mdProjectedItem name="case_pick_cph"/><mdProjectedItem name="bottle_pick_bph"/><mdProjectedItem name="total_orders"/><mdProjectedItem name="orders_delayed"/><mdProjectedItem name="shipped_cases"/><mdProjectedItem name="shipped_bottles"/><mdProjectedItem name="total_customers"/><mdProjectedItem name="customers_shorted"/></mdProjectedItems></sqlQuery></source>
+						<selection><dataItem name="date" aggregate="none" rollupAggregate="none" label="Date"><expression>[SQL1].[date]</expression></dataItem><dataItem name="warehouse" rollupAggregate="none" label="Warehouse" aggregate="none"><expression>[SQL1].[warehouse]</expression></dataItem><dataItem name="receipt_pph" aggregate="total" rollupAggregate="total" label="Receiving Productivity (PPH)"><expression>[SQL1].[receipt_pph]</expression></dataItem><dataItem name="putaway_pph" aggregate="total" rollupAggregate="total" label="Putaway Productivity (PPH)"><expression>[SQL1].[putaway_pph]</expression></dataItem><dataItem name="case_repl_pph" aggregate="total" rollupAggregate="total" label="Case Replenishment Productivity (PPH)"><expression>[SQL1].[case_repl_pph]</expression></dataItem><dataItem name="bottle_repl_cph" aggregate="total" rollupAggregate="total" label="Bottle Replenishment Productivity (CPH)"><expression>[SQL1].[bottle_repl_cph]</expression></dataItem><dataItem name="case_pick_cph" aggregate="total" rollupAggregate="total" label="Assembly Productivity (Cases) (CPH)"><expression>[SQL1].[case_pick_cph]</expression></dataItem><dataItem name="bottle_pick_bph" aggregate="total" rollupAggregate="total" label="Assembly Productivity (Bottles) (BPH)"><expression>[SQL1].[bottle_pick_bph]</expression></dataItem><dataItem name="total_orders" aggregate="total" rollupAggregate="total" label="Total Outbound Orders"><expression>[SQL1].[total_orders]</expression></dataItem><dataItem name="orders_delayed" aggregate="total" rollupAggregate="total" label="Outbound Orders Delayed"><expression>[SQL1].[orders_delayed]</expression></dataItem><dataItem name="shipped_cases" aggregate="total" rollupAggregate="total" label="Total Shipped Cases (Cases)"><expression>[SQL1].[shipped_cases]</expression></dataItem><dataItem name="shipped_bottles" aggregate="total" rollupAggregate="total" label="Total Shipped Bottles (bottles)"><expression>[SQL1].[shipped_bottles]</expression></dataItem><dataItem name="total_customers" aggregate="total" rollupAggregate="total" label="Number of Outbound Customers"><expression>[SQL1].[total_customers]</expression></dataItem><dataItem name="customers_shorted" aggregate="total" rollupAggregate="total" label="Number of Shorted Customers"><expression>[SQL1].[customers_shorted]</expression></dataItem></selection>
+					<detailFilters><detailFilter><filterExpression>[SQL1].[warehouse]='VDC'</filterExpression></detailFilter></detailFilters></query>
+				<query name="Query2">
+						<source>
+							
+						<sqlQuery name="SQL1" dataSource="wms">
+			<sqlText>-- Operations Scorecard, for a specified date.
+-- The productivity numbers are in PPH (Pallet Per Hour), CPH (Cases Per Hour), or BPH (Bottles Per Hour).
+DECLARE @date1 date = DATEADD(DAY, -32, GETDATE());
+DECLARE @date2 date = DATEADD(DAY, -1, GETDATE());
+SELECT dw.date, dw.whse_code warehouse, receipt_pph, putaway_pph, case_repl_pph, bottle_repl_cph, case_pick_cph, bottle_pick_bph, 
+  total_orders, total_orders-orders_nodelay orders_delayed, shipped_cases, shipped_bottles, total_customers, customers_shorted
+FROM
+-- Date-Warehouse List:
+  (SELECT date, whse_code FROM
+    (SELECT TOP (DATEDIFF(DAY, @date1, @date2)+1) date=DATEADD(DAY, ROW_NUMBER() OVER(ORDER BY a.object_id)-1, @date1)
+    FROM sys.all_objects a CROSS JOIN sys.all_objects b) dl
+    JOIN so_f ON 1=1) dw
+  LEFT JOIN
+-- Receipt Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) receipt_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,create_stamp) date0, whse_code, sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f 
+	  WHERE (transact='RCPT' AND from_loc LIKE '%RECV%') AND sku!='' AND CONVERT(date,create_stamp) BETWEEN @date1 AND @date2 
+	  AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,create_stamp), whse_code, sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY whse_code, date0) rp ON dw.date=rp.date0 AND dw.whse_code=rp.whse_code
+  LEFT JOIN
+-- Putaway Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) putaway_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,create_stamp) date0, whse_code, sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f 
+	  WHERE (transact='STOR' AND from_loc LIKE '%RECV%') AND sku!='' AND CONVERT(date,create_stamp) BETWEEN @date1 AND @date2 
+	  AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,create_stamp), whse_code, sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) pp ON dw.date=pp.date0 AND dw.whse_code=pp.whse_code
+  LEFT JOIN
+-- Case Replenishment Productivity (PPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_pallets)/(SUM(sku_sec)/3600.0),1,0) case_repl_pph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom2='PALLET' THEN sku_qty/qty1in2 ELSE sku_qty/qty1in2/qty2in3 END) sku_pallets, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+	  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.to_loc=lc.loc
+	  WHERE transact='REPL' AND it.sku!='' AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.loc_type='FP' AND lc.area in ('APCK','ACAG','INVM') AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) crp ON dw.date=crp.date0 AND dw.whse_code=crp.whse_code
+  LEFT JOIN
+-- Bottle Replenishment Productivity (CPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_cases)/(SUM(sku_sec)/3600.0),1,0) bottle_repl_cph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom1='BTL' THEN sku_qty/qty1in2 ELSE sku_qty END) sku_cases, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+      JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.to_loc=lc.loc
+	  WHERE transact='REPL' AND it.sku!='' AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.loc_type='FP' AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) brp ON dw.date=brp.date0 AND dw.whse_code=brp.whse_code
+  LEFT JOIN
+-- Case Assembly Productivity (CPH):
+  (SELECT date0, whse_code, ROUND(SUM(sku_cases)/(SUM(sku_sec)/3600.0),1,0) case_pick_cph FROM 
+    (SELECT date0, t1.whse_code, t1.sku, (CASE WHEN uom1='BTL' THEN sku_qty/qty1in2 ELSE sku_qty END) sku_cases, sku_sec FROM
+      (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, it.sku, SUM(act_qty) sku_qty, (SUM(DATEDIFF(SECOND,start_time,end_time))) sku_sec FROM it_f it 
+      JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+      WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+	  AND lc.area in ('APCK','ACAG','INVM') AND lc.loc_type='FP' AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+	  GROUP BY CONVERT(date,it.create_stamp), it.whse_code, it.sku) t1
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t2
+  GROUP BY t2.whse_code, date0) cap ON dw.date=cap.date0 AND dw.whse_code=cap.whse_code
+  LEFT JOIN
+-- Bottle Assembly Productivity (BPH):
+  (SELECT CONVERT(date,it.create_stamp) date0, it.whse_code, ROUND(SUM(act_qty)/(SUM(DATEDIFF(SECOND,start_time,end_time))/3600.0),1,0) bottle_pick_bph FROM it_f it 
+  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc 
+  WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 AND CONVERT(date,it.create_stamp) BETWEEN @date1 AND @date2 
+  AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND lc.loc_type='FP' AND DATEDIFF(SECOND,start_time,end_time)&gt;0 
+  GROUP BY CONVERT(date,it.create_stamp), it.whse_code) bap ON dw.date=bap.date0 AND dw.whse_code=bap.whse_code
+  LEFT JOIN
+-- Total Outbound Orders:
+  (SELECT CONVERT(date,ship_date) date0, whse_code, COUNT(1) total_orders FROM v_u_om_f 
+  WHERE CONVERT(date,ship_date) BETWEEN @date1 AND @date2  
+  GROUP BY whse_code, CONVERT(date,ship_date)) too ON dw.Date=too.date0 AND dw.whse_code=too.whse_code
+  LEFT JOIN
+-- Outbound Orders No-Delay:
+  (SELECT CONVERT(date,om.ship_date) date0, c.whse_code, COUNT(1) orders_nodelay FROM 
+    (SELECT whse_code, ob_oid, MAX(dtime_hist) ship_time FROM cp_h cp WHERE task_code='PICK' AND cont&lt;&gt;'' 
+	AND NOT EXISTS (SELECT * FROM cm_f WHERE ob_oid=cp.ob_oid AND task_code='PICK') GROUP BY whse_code, ob_oid) c
+    JOIN v_u_om_f om ON c.whse_code=om.whse_code AND c.ob_oid=om.ob_oid 
+    WHERE CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2 
+    AND DATEDIFF(minute,ship_time,CONVERT(DATETIME,om.ship_date+' '+ISNULL(om.appoint_time,'0:0:0')))&gt;0 
+  GROUP BY c.whse_code, CONVERT(date,om.ship_date)) ond ON dw.date=ond.date0 AND dw.whse_code=ond.whse_code
+  LEFT JOIN
+-- Total Shipped Cases:
+  (SELECT date0, whse_code, SUM(cases) shipped_cases FROM 
+    (SELECT t1.date0, t1.whse_code, t1.ob_oid, (FLOOR((t1.qty)/ISNULL(pm.custom_numeric_3,1))) cases FROM
+      (SELECT CONVERT(date,om.ship_date) date0, it.whse_code, it.ob_oid, it.sku, SUM(it.act_qty) qty FROM it_f it 
+	  JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+	  JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+	  WHERE it.transact in ('RPCK','PICK') AND it.sku!='' AND it.act_qty&gt;0 
+	  AND lc.area in ('APCK','ACAG','INVM') AND lc.loc_type='FP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+	  GROUP BY it.whse_code, it.ob_oid, it.sku, CONVERT(date,om.ship_date)) t1
+    JOIN 
+      (SELECT it.whse_code, it.ob_oid FROM it_f it 
+      JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+      WHERE it.transact='SHIP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+      GROUP BY it.whse_code, it.ob_oid) t2 ON t1.whse_code=t2.whse_code AND t1.ob_oid=t2.ob_oid
+    JOIN pm_f pm ON t1.whse_code=pm.whse_code AND t1.sku=pm.sku) t3
+  GROUP BY whse_code, date0) tsc ON dw.date=tsc.date0 AND dw.whse_code=tsc.whse_code
+  LEFT JOIN 
+-- Total Shipped Bottles: 
+  (SELECT date0, t1.whse_code, FLOOR(SUM(t1.qty)) shipped_bottles FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, it.whse_code, it.ob_oid, SUM(act_qty) qty FROM it_f it 
+    JOIN lc_f lc ON it.whse_code=lc.whse_code AND it.from_loc=lc.loc
+    JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid 
+    WHERE transact in ('RPCK','PICK') AND it.sku!='' AND act_qty&gt;0 
+    AND lc.area in ('AB1R','AB2R','AB3L','AB3P','AB3T') AND lc.loc_type='FP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+    GROUP BY it.whse_code, it.ob_oid, CONVERT(date,om.ship_date)) t1
+  JOIN 
+    (SELECT it.whse_code, it.ob_oid FROM it_f it 
+    JOIN v_u_om_f om ON it.whse_code=om.whse_code AND it.ob_oid=om.ob_oid
+    WHERE it.transact='SHIP' AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2
+    GROUP BY it.whse_code, it.ob_oid) t2 ON t1.whse_code=t2.whse_code AND t1.ob_oid=t2.ob_oid
+  GROUP BY t1.whse_code, date0) tsb ON dw.date=tsb.date0 AND dw.whse_code=tsb.whse_code
+  LEFT JOIN
+-- Outbound Customers Shorted:
+  (SELECT date0, whse_code, COUNT(1) customers_shorted FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, om.whse_code, om.ship_name FROM od_h od
+    JOIN v_u_om_f om ON om.whse_code=od.whse_code AND om.ob_oid=od.ob_oid 
+    WHERE ship_qty&lt;ord_qty AND CONVERT(date,om.ship_date) BETWEEN @date1 AND @date2 
+    GROUP BY om.whse_code, om.ship_name, CONVERT(date,om.ship_date)) ob
+  GROUP BY whse_code, date0) ocs ON dw.date=ocs.date0 AND dw.whse_code=ocs.whse_code
+  LEFT JOIN
+-- Total Outbound Customers
+  (SELECT date0, whse_code, COUNT(1) total_customers FROM 
+    (SELECT CONVERT(date,om.ship_date) date0, whse_code, ship_name FROM v_u_om_f om 
+    WHERE CONVERT(date,ship_date) BETWEEN @date1 AND @date2 
+    GROUP BY whse_code, ship_name, CONVERT(date,om.ship_date)) ob
+  GROUP BY whse_code, date0) toc ON dw.date=toc.date0 AND dw.whse_code=toc.whse_code
+ORDER BY dw.whse_code DESC, dw.date;
+</sqlText>
+		<mdProjectedItems><mdProjectedItem name="date"/><mdProjectedItem name="warehouse"/><mdProjectedItem name="receipt_pph"/><mdProjectedItem name="putaway_pph"/><mdProjectedItem name="case_repl_pph"/><mdProjectedItem name="bottle_repl_cph"/><mdProjectedItem name="case_pick_cph"/><mdProjectedItem name="bottle_pick_bph"/><mdProjectedItem name="total_orders"/><mdProjectedItem name="orders_delayed"/><mdProjectedItem name="shipped_cases"/><mdProjectedItem name="shipped_bottles"/><mdProjectedItem name="total_customers"/><mdProjectedItem name="customers_shorted"/></mdProjectedItems></sqlQuery></source>
+						<selection><dataItem name="date" aggregate="none" rollupAggregate="none" label="Date"><expression>[SQL1].[date]</expression></dataItem><dataItem name="warehouse" rollupAggregate="none" label="Warehouse" aggregate="none"><expression>[SQL1].[warehouse]</expression></dataItem><dataItem name="receipt_pph" aggregate="total" rollupAggregate="total" label="Receiving Productivity (PPH)"><expression>[SQL1].[receipt_pph]</expression></dataItem><dataItem name="putaway_pph" aggregate="total" rollupAggregate="total" label="Putaway Productivity (PPH)"><expression>[SQL1].[putaway_pph]</expression></dataItem><dataItem name="case_repl_pph" aggregate="total" rollupAggregate="total" label="Case Replenishment Productivity (PPH)"><expression>[SQL1].[case_repl_pph]</expression></dataItem><dataItem name="bottle_repl_cph" aggregate="total" rollupAggregate="total" label="Bottle Replenishment Productivity (CPH)"><expression>[SQL1].[bottle_repl_cph]</expression></dataItem><dataItem name="case_pick_cph" aggregate="total" rollupAggregate="total" label="Assembly Productivity (Cases) (CPH)"><expression>[SQL1].[case_pick_cph]</expression></dataItem><dataItem name="bottle_pick_bph" aggregate="total" rollupAggregate="total" label="Assembly Productivity (Bottles) (BPH)"><expression>[SQL1].[bottle_pick_bph]</expression></dataItem><dataItem name="total_orders" aggregate="total" rollupAggregate="total" label="Total Outbound Orders"><expression>[SQL1].[total_orders]</expression></dataItem><dataItem name="orders_delayed" aggregate="total" rollupAggregate="total" label="Outbound Orders Delayed"><expression>[SQL1].[orders_delayed]</expression></dataItem><dataItem name="shipped_cases" aggregate="total" rollupAggregate="total" label="Total Shipped Cases (Cases)"><expression>[SQL1].[shipped_cases]</expression></dataItem><dataItem name="shipped_bottles" aggregate="total" rollupAggregate="total" label="Total Shipped Bottles (bottles)"><expression>[SQL1].[shipped_bottles]</expression></dataItem><dataItem name="total_customers" aggregate="total" rollupAggregate="total" label="Number of Outbound Customers"><expression>[SQL1].[total_customers]</expression></dataItem><dataItem name="customers_shorted" aggregate="total" rollupAggregate="total" label="Number of Shorted Customers"><expression>[SQL1].[customers_shorted]</expression></dataItem></selection>
+					<detailFilters><detailFilter><filterExpression>[SQL1].[warehouse]='KDC'</filterExpression></detailFilter></detailFilters></query></queries>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="Report"><style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style>
+								<pageBody><style><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles><CSS value="text-align:center"/></style>
+									<contents>
+										
+									<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><crosstab horizontalPagination="true" name="Crosstab1" refQuery="Query1">
+			<crosstabCorner>
+				<contents><textItem><dataSource><dataItemValue refDataItem="warehouse"/></dataSource></textItem></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="xm"/>
+					</defaultStyles>
+				</style>
+			</crosstabCorner>
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="xt"/>
+				</defaultStyles>
+			</style>
+		<crosstabColumns><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="date" edgeLocation="e1"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles><CSS value="text-align:center"/></style><contents><textItem><dataSource><memberCaption/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode></crosstabColumns><crosstabFactCell><contents><textItem><dataSource><cellValue/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="mv"/></defaultStyles></style></crosstabFactCell><crosstabRows><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="receipt_pph" edgeLocation="e3"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="receipt_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="putaway_pph" edgeLocation="e2"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="putaway_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="case_repl_pph" edgeLocation="e4"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="case_repl_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="bottle_repl_cph" edgeLocation="e5"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="bottle_repl_cph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="case_pick_cph" edgeLocation="e6"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="case_pick_cph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="bottle_pick_bph" edgeLocation="e7"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="bottle_pick_bph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="total_orders" edgeLocation="e8"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="total_orders"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="orders_delayed" edgeLocation="e9"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="orders_delayed"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="shipped_cases" edgeLocation="e10"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="shipped_cases"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="shipped_bottles" edgeLocation="e11"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="shipped_bottles"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="total_customers" edgeLocation="e12"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="total_customers"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="customers_shorted" edgeLocation="e13"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="customers_shorted"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode></crosstabRows><defaultMeasure refDataItem="receipt_pph"/></crosstab></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><crosstab horizontalPagination="true" name="Crosstab2" refQuery="Query2">
+			<crosstabCorner>
+				<contents><textItem><dataSource><dataItemValue refDataItem="warehouse"/></dataSource></textItem></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="xm"/>
+					</defaultStyles>
+				</style>
+			</crosstabCorner>
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="xt"/>
+				</defaultStyles>
+			</style>
+		<crosstabColumns><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="date" edgeLocation="e1"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles><CSS value="text-align:center"/></style><contents><textItem><dataSource><memberCaption/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode></crosstabColumns><crosstabFactCell><contents><textItem><dataSource><cellValue/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="mv"/></defaultStyles></style></crosstabFactCell><crosstabRows><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="receipt_pph" edgeLocation="e3"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="receipt_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="putaway_pph" edgeLocation="e2"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="putaway_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="case_repl_pph" edgeLocation="e4"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="case_repl_pph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="bottle_repl_cph" edgeLocation="e5"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="bottle_repl_cph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="case_pick_cph" edgeLocation="e6"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="case_pick_cph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="bottle_pick_bph" edgeLocation="e7"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="bottle_pick_bph"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="total_orders" edgeLocation="e8"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="total_orders"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="orders_delayed" edgeLocation="e9"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="orders_delayed"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="shipped_cases" edgeLocation="e10"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="shipped_cases"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="shipped_bottles" edgeLocation="e11"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="shipped_bottles"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="total_customers" edgeLocation="e12"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="total_customers"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode><crosstabNode><crosstabNodeMembers><crosstabNodeMember refDataItem="customers_shorted" edgeLocation="e13"><style><defaultStyles><defaultStyle refStyle="ml"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="customers_shorted"/></dataSource></textItem></contents></crosstabNodeMember></crosstabNodeMembers></crosstabNode></crosstabRows><defaultMeasure refDataItem="receipt_pph"/></crosstab></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+								</pageBody>
+								<pageHeader>
+									<contents>
+										<block><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles></style>
+											<contents>
+												<textItem><style><defaultStyles><defaultStyle refStyle="tt"/></defaultStyles></style>
+													<dataSource>
+														<staticValue>Warehouse Operations Scorecard</staticValue>
+													</dataSource>
+												</textItem>
+											</contents>
+										</block>
+									<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Report Run: </staticValue></dataSource></textItem><date>
+																	<style>
+																		<dataFormat>
+																			<dateFormat/>
+																		</dataFormat>
+																	</style>
+																</date><textItem><dataSource><staticValue>   </staticValue></dataSource></textItem><time>
+																	<style>
+																		<dataFormat>
+																			<timeFormat/>
+																		</dataFormat>
+																	</style>
+																</time></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="ph"/>
+										</defaultStyles>
+										<CSS value="padding-bottom:10px"/>
+									</style>
+								</pageHeader>
+								<pageFooter>
+									<contents>
+										
+									</contents>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pf"/>
+										</defaultStyles>
+										<CSS value="padding-top:10px"/>
+									</style>
+								</pageFooter>
+							</page>
+						</reportPages>
+					</layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" value="true" output="no"/><XMLAttribute name="listSeparator" value="," output="no"/><XMLAttribute name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z" output="no"/></XMLAttributes><reportName>Warehouse Operations Scorecard</reportName></report>

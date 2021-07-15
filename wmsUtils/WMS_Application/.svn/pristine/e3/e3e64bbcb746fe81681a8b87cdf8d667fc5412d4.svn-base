@@ -1,0 +1,13 @@
+<div class="container">
+    
+    <div *ngIf="!success" class="alert alert-warning" role="alert">
+        <strong>Error! </strong>{{error}}
+    </div>    
+    <div class="alert alert-success" role="alert">
+        {{message}}
+    </div>
+    
+    <button (click) = "goToOrderList()" class="btn btn-secondary">Return</button>    
+
+</div>
+

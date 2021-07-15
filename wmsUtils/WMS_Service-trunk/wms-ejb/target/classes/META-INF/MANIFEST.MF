@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Built-By: bikahlon
+Build-Jdk: 15.0.1
+Specification-Title: WMS Util Service - EJB
+Specification-Version: 1.2.13-SNAPSHOT
+Specification-Vendor: BC Liquor Distribution Branch
+Implementation-Title: WMS Util Service - EJB
+Implementation-Version: 1.2.13-SNAPSHOT
+Implementation-Vendor-Id: com.bcldb.service
+Implementation-Vendor: BC Liquor Distribution Branch
+Implementation-URL: http://www.bcldb.com/wms-ejb
+Created-By: Maven Integration for Eclipse
+

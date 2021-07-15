@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.bcldb.web</groupId>
+		<artifactId>wms-app</artifactId>
+		<version>1.2.4-SNAPSHOT</version>
+		<relativePath>../wms-app/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>wms-app-ws</artifactId>
+	<packaging>jar</packaging>
+	<name>WMS Util Application - WS</name>
+
+	<scm>
+		<connection>scm:svn:http://subversion.bcliquor.com/svn/web/WMSApplication/trunk/wms-app-ws</connection>
+	</scm>
+
+	<properties>
+		<jdk.version>1.8</jdk.version>
+		<cxf.version>3.1.3</cxf.version>		
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+	
+		<!-- SERVICES -->
+		<dependency>
+			<groupId>com.bcldb.service.wsdl</groupId>
+			<artifactId>wms-service-wsdl-proxy</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<!-- /SERVICES -->
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+	</dependencies>
+
+
+</project>

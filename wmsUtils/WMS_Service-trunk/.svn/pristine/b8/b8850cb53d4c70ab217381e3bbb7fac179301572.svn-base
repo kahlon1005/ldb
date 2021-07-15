@@ -1,0 +1,194 @@
+package com.bcldb.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "cpack")
+public class CpackEntity implements Serializable{
+
+	private static final long serialVersionUID = 568967145654024298L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cpack_id")
+	private long id;
+	
+	@Column(name = "whse_code")
+	private String warehouse;
+	
+	@Column(name = "cont_packing_list")
+	private String conPackingList;
+	
+	@Column(name = "station")
+	private String station;
+	
+	@Column(name = "cont")
+	private String cont;
+	
+	@Column(name = "is_mult_bill_tos")
+	private int isMultBillTos;
+	
+	@Column(name = "is_mult_carriers")
+	private int isMultCarriers;
+		
+	@Column(name = "is_mult_ship_tos")
+	private int isMultShipTos;
+	
+	@Column(name = "create_stamp")
+	private Date createdDate;
+	
+	@Column(name = "create_user")
+	private String createdBy;
+	
+	@Column(name = "mod_counter")
+	private int modifiedCounter;
+	
+	@Column(name = "memo")
+	private String memo;
+	
+	
+	
+	
+	public CpackEntity() {
+		super();
+	}
+
+	
+	
+	public CpackEntity(String warehouse, String conPackingList, String station, String cont) {
+		super();
+		this.warehouse = warehouse;
+		this.conPackingList = conPackingList;
+		this.station = station;
+		this.cont = cont;
+		
+		this.isMultBillTos = 0;
+		this.isMultCarriers = 0;
+		this.isMultShipTos = 0;
+		this.createdDate = new Date();
+		this.createdBy = "system";
+		this.modifiedCounter = 0;
+		this.memo = "";
+	
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public String getConPackingList() {
+		return conPackingList;
+	}
+
+	public void setConPackingList(String conPackingList) {
+		this.conPackingList = conPackingList;
+	}
+
+	public String getStation() {
+		return station;
+	}
+
+	public void setStation(String station) {
+		this.station = station;
+	}
+
+	public String getCont() {
+		return cont;
+	}
+
+	public void setCont(String cont) {
+		this.cont = cont;
+	}
+
+	public int getIsMultBillTos() {
+		return isMultBillTos;
+	}
+
+	public void setIsMultBillTos(int isMultBillTos) {
+		this.isMultBillTos = isMultBillTos;
+	}
+
+	public int getIsMultCarriers() {
+		return isMultCarriers;
+	}
+
+	public void setIsMultCarriers(int isMultCarriers) {
+		this.isMultCarriers = isMultCarriers;
+	}
+
+	public int getIsMultShipTos() {
+		return isMultShipTos;
+	}
+
+	public void setIsMultShipTos(int isMultShipTos) {
+		this.isMultShipTos = isMultShipTos;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getModifiedCounter() {
+		return modifiedCounter;
+	}
+
+	public void setModifiedCounter(int modifiedCounter) {
+		this.modifiedCounter = modifiedCounter;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return "CpackEntity [id=" + id + ", warehouse=" + warehouse + ", conPackingList=" + conPackingList
+				+ ", station=" + station + ", cont=" + cont + ", isMultBillTos=" + isMultBillTos + ", isMultCarriers="
+				+ isMultCarriers + ", isMultShipTos=" + isMultShipTos + ", createdDate=" + createdDate + ", createdBy="
+				+ createdBy + ", modifiedCounter=" + modifiedCounter + ", meno=" + memo 
+				+ "]";
+	}
+	
+	
+	
+	
+}

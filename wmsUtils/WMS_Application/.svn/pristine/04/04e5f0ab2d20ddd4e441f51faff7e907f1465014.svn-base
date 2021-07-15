@@ -1,0 +1,16 @@
+import { Component, NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { OrderListComponent } from './component/order-list/order-list.component';
+import { OrderUpdateComponent } from './component/order-update/order-update.component';
+
+const routes: Routes = [ 
+  {path : '', component : OrderListComponent },  
+  {path : 'order-list', component : OrderListComponent },
+  {path : 'update-order/:orderType/:orderNumber', component : OrderUpdateComponent}  
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

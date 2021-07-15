@@ -1,0 +1,296 @@
+package com.bcldb.ejb;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.jboss.ejb3.annotation.Clustered;
+import org.jboss.logging.Logger;
+
+import com.bcldb.dto.TransactionDto;
+import com.bcldb.dto.TransactionReturnType;
+import com.bcldb.helper.DTOConverter;
+import com.bcldb.model.InventoryEntity;
+import com.bcldb.model.QueueCommands;
+import com.bcldb.model.ShippingActivityEntity;
+import com.bcldb.model.SystemPropertiesEntity;
+import com.bcldb.model.TaskCompletionEntity;
+import com.bcldb.model.TaskMessageQueue;
+import com.bcldb.model.WaveEntity;
+import com.bcldb.util.WMSUtilServiceException;
+
+@Stateless
+@Clustered
+public class WmsServiceBean {
+
+	private static final Logger log = Logger.getLogger(WmsServiceBean.class);
+
+	private static final String SHIPPING_ACTIVITY_RECORD_NOT_FOUND = "Shipping activity record not found in view (shipunit_f) for container : ";
+	private static final String INVENTORY_RECORD_NOT_FOUND = "Inventory Stuck in Truck location not found for order : ";
+	private static final String MSG_EXISTS_WAVE_PENDING_PICK_COMMANDS = "Please perform container pick complete before applying fix.";
+
+	private static final String TRANSACTION_TYPE_ORDER = "ORDER";
+	private static final String TRANSACTION_TYPE_WAVE = "WAVE";
+
+	private static final String MSG_DATA_FIX_SOLUTION_NOT_IMPLEMENTED = "Solution for this senario is not implemented, please contact support for manual fix.";
+
+	private static final String MSG_TASK_MESSAGE_NOT_EXISTS = "Wave release queue message not found.";
+
+	private static final String MSG_TASK_QUEUE_IN_ERROR = "Wave release queue message is in error.";
+
+	private static final String WAREHOUSE_INSTANCE_PROPERTY_NOT_FOUND = "Warehouse instance name not setup in System Properties";
+	
+	@PersistenceContext
+	private EntityManager em;
+
+	DTOConverter converter = new DTOConverter();
+
+	public TransactionReturnType getStuckShipments() {
+
+		TransactionReturnType ret = new TransactionReturnType();
+
+		
+		// 1. Inventory Stuck in truck location
+		List<TransactionDto> taskCompletionEntities = getInventoryStuckInTruckLocation();
+		ret.getTransactionType().addAll(taskCompletionEntities);
+		
+		//2. Stuck Waves
+		List<TransactionDto>  stuckWaves = getStuckWave();
+		ret.getTransactionType().addAll(stuckWaves);
+		
+		return ret;
+	}
+	
+
+	public boolean updateStuckShipment(String transactionNumber, String transactionType, String incidentNumber, String username) throws WMSUtilServiceException {
+		Boolean success = Boolean.FALSE;
+		try {
+			
+			if(transactionType.equalsIgnoreCase(TRANSACTION_TYPE_ORDER)) {
+				List<InventoryEntity> inventories = getInventoryStuckInTruckLocation(transactionNumber);
+				if (inventories == null || inventories.isEmpty()) {
+					throw new WMSUtilServiceException(INVENTORY_RECORD_NOT_FOUND + transactionNumber);
+				}
+				for (InventoryEntity inventory : inventories) {
+					List<TaskCompletionEntity> tasks = inventory.getTasks();
+					for(TaskCompletionEntity task : tasks) {
+						ShippingActivityEntity shippingActivity = getShippingActivity(task.getContainer());
+						if (shippingActivity == null || shippingActivity.getId() == 0) {
+							//TO DO Senario#3 fix 
+							throw new WMSUtilServiceException(SHIPPING_ACTIVITY_RECORD_NOT_FOUND + task.getContainer() +"\n"+ MSG_DATA_FIX_SOLUTION_NOT_IMPLEMENTED);							
+						}
+						
+						updateInventory(task.getContainer(), shippingActivity.getId(), inventory.getId());
+						updateOrderDetails(task.getOrderDetailId(), task.getQuantity());		
+						updateWarehouseTask();						
+					}					
+				}
+			} else if(transactionType.equalsIgnoreCase(TRANSACTION_TYPE_WAVE)) {
+				WaveEntity waveEntity = getWave(transactionNumber);
+				int count = getPendingWavePicks(transactionNumber, waveEntity.getWarehouse());
+				long taskId = getWaveTaskMessageQueue(waveEntity.getId());
+				if(count > 0) {
+					throw new WMSUtilServiceException(MSG_EXISTS_WAVE_PENDING_PICK_COMMANDS);				
+				}else {
+					//long taskId = getWaveTaskMessageQueue(waveEntity.getId());
+					if(taskId == 0) {						
+						createWaveTaskMessageQueue(waveEntity.getId(), waveEntity.getWarehouse());	
+					}else {
+						updateWaveTaskMessageQueue(taskId, waveEntity.getWarehouse());
+					}
+					
+				}
+				
+			} else {
+				throw new WMSUtilServiceException(MSG_DATA_FIX_SOLUTION_NOT_IMPLEMENTED);
+			}
+			success  = Boolean.TRUE;
+		} catch (WMSUtilServiceException e) {
+			throw new WMSUtilServiceException(e.getMessage());
+		}catch (Exception e) {
+			log.error(e.getMessage());
+			throw new WMSUtilServiceException(e);
+		}
+
+		return success;
+	}
+
+
+	private WaveEntity getWave(String wave) {
+		Query query = em.createNamedQuery(WaveEntity.FIND_WAVE_BY_NAME);
+		query.setParameter("wave", wave);
+		WaveEntity waveEntity = (WaveEntity) query.getSingleResult();
+		return waveEntity;
+	}
+
+	private ShippingActivityEntity getShippingActivity(String container) {
+		ShippingActivityEntity entity = null;
+		try {
+			Query query = em.createNamedQuery(ShippingActivityEntity.FIND_BY_CONTAINER);
+			query.setParameter("container", container);
+			entity = (ShippingActivityEntity) query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+		return entity;
+	}
+
+	// get stuck inventory in truck location
+	@SuppressWarnings("unchecked")
+	private List<InventoryEntity> getInventoryStuckInTruckLocation(String orderNumber) {
+		Query query = em.createNamedQuery(InventoryEntity.INVENTORY_STUCK_IN_TRUCK_LOCATION);
+		query.setParameter("orderNumber", orderNumber);
+		return query.getResultList();
+	}
+
+	private void updateInventory(String container, int shipunitId, int inventoryId) {
+		String sql = "update iv_f set alloc_qty = alloc_qty - qty, loc = '', cont = :container, shipunit_rid =  :shipunitId where iv_rid = :inventoryId and loc = 'TRUCK'";
+		Query query = em.createNativeQuery(sql);
+		query.setParameter("container", container);
+		query.setParameter("shipunitId", shipunitId);
+		query.setParameter("inventoryId", inventoryId);
+		query.executeUpdate();		
+	}
+
+	private void updateOrderDetails(int orderDetailId, int quantity) {
+		String sql = "update od_f set cmp_qty = cmp_qty + :quantity, sched_qty = sched_qty - :quantity where od_rid = :orderDetailId";
+		Query query = em.createNativeQuery(sql);
+		query.setParameter("orderDetailId", orderDetailId);
+		query.setParameter("quantity", quantity);
+		query.executeUpdate();		
+	}
+
+	private void updateWarehouseTask() {
+		String sql = "update mq_warehouse_task set is_error = 0 where queue_name = 'wms_shipment_completion'";
+		Query query = em.createNativeQuery(sql);
+		query.executeUpdate();		
+	}
+	
+	
+	/**
+	 * get stuck waves
+	 *  
+	 * @return list
+	 */
+	@SuppressWarnings("unchecked")
+	private List<TransactionDto> getStuckWave() {		
+		Query query = em.createNamedQuery(WaveEntity.FIND_STUCK_WAVE_RELEASE_MSG);
+		List<WaveEntity> waves =  query.getResultList();
+		List<TransactionDto> dtos = new ArrayList<TransactionDto>();
+		for (WaveEntity wave : waves) {	
+			int count = getPendingWavePicks(wave.getWave(), wave.getWarehouse());
+			String message = null;
+			if(count > 0) {
+				message = MSG_EXISTS_WAVE_PENDING_PICK_COMMANDS;				
+			}else {
+				long taskId = getWaveTaskMessageQueue(wave.getId());
+				if(taskId == 0 ) {
+					message = MSG_TASK_MESSAGE_NOT_EXISTS;
+				}
+				else if(taskId > 0) {
+					message = MSG_TASK_QUEUE_IN_ERROR;
+				}else {
+				//TODO: Wave lock reason
+				message = MSG_DATA_FIX_SOLUTION_NOT_IMPLEMENTED;
+				}
+			}
+			TransactionDto dto = converter.convertWaveEntityToTransactionDto(wave,  message);			
+			dtos.add(dto);
+		}		
+		return dtos;
+	}
+	
+	
+	
+	private void updateWaveTaskMessageQueue(long taskId, String warehouse) {
+		String sql = "update mq_warehouse_task set is_error = 0 where queue_msg_id = :taskId and msg_group = :warehouse";		
+		Query query = em.createNativeQuery(sql);
+		query.setParameter("taskId", taskId);
+		query.setParameter("warehouse", warehouse);
+		query.executeUpdate();
+	}
+
+	private void createWaveTaskMessageQueue(long waveId, String warehouse) {
+		try {
+			String sql = "INSERT INTO mq_warehouse_task (queue_name, instance_name, job_execution_id, msg_error, msg_group, run_as_user_name, msg_header, msg_body, is_error, create_user, mod_user, mod_counter, create_stamp, mod_stamp) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())";	
+			Query query = em.createNativeQuery(sql);
+			
+			query.setParameter(1, "wms_wave_releasing");
+			query.setParameter(2, getInstanceName(warehouse));
+			query.setParameter(3, null);
+			query.setParameter(4, null);
+			query.setParameter(5, warehouse);
+			query.setParameter(6, "system");
+			query.setParameter(7,"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?> <MsgQueueHeader>     <routes>         <queueName>wms_wave_releasing</queueName>         <status></status>     </routes>     <stopQueueOnErrors>false</stopQueueOnErrors> </MsgQueueHeader>");  
+			query.setParameter(8, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?> <WmsWaveReleasing>     <recordId>" + Long.toString(waveId) + "</recordId>     <warehouse>VDC</warehouse> </WmsWaveReleasing> ");
+			query.setParameter(9, 0);
+			query.setParameter(10, "system");
+			query.setParameter(11, "system");
+			query.setParameter(12, 0);
+			
+			query.executeUpdate();
+			
+		}catch (Exception e) {			
+			throw new WMSUtilServiceException(e.getMessage());
+		}
+	}
+
+	private String getInstanceName(String warehouse) {
+		try {
+			Query query = em.createNamedQuery(SystemPropertiesEntity.FIND_DEFAULT_INSTANCE);
+			query.setParameter("warehouse", warehouse);
+			
+			SystemPropertiesEntity property  = (SystemPropertiesEntity) query.getSingleResult();
+			
+			return property.getPropertyValue();			
+		}catch (NoResultException e) {
+			throw new WMSUtilServiceException(WAREHOUSE_INSTANCE_PROPERTY_NOT_FOUND);
+		}catch (Exception e) {
+			throw new WMSUtilServiceException(e.getMessage());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private int getPendingWavePicks(String wave, String warehouse) {
+		Query query = em.createNamedQuery(QueueCommands.FIND_PENDING_WAVE_PICKS);
+		query.setParameter("warehouse", warehouse);
+		query.setParameter("wave", wave);
+		List<QueueCommands> commands = query.getResultList();		
+		return commands.size();
+	}
+	
+	private long getWaveTaskMessageQueue(long waveId) {
+		long taskId = 0;
+		try {
+			Query q1 = em.createNamedQuery(TaskMessageQueue.FIND_STUCK_WAVE_BY_ID);
+			q1.setParameter("wave_tag", "%<recordId>"+Long.toString(waveId)+"</recordId>%");
+			TaskMessageQueue task = (TaskMessageQueue) q1.getSingleResult();
+			taskId = task.getId();
+		}catch (NoResultException e) {
+			taskId = 0;
+		}catch (Exception e) {
+			throw new WMSUtilServiceException(e.getMessage());
+		}
+		return taskId;		
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<TransactionDto> getInventoryStuckInTruckLocation() {
+		Query query = em.createNamedQuery(InventoryEntity.FIND_ALL_INVENTORY_STUCK_IN_TRUCK_LOCATION);
+		List<InventoryEntity> entities = query.getResultList();
+		return converter.convertInventoryEntityToTransactionDto(entities);
+	}
+
+
+	public boolean updateStuckWave(String id, String incidentNumber, String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

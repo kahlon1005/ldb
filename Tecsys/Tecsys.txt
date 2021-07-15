@@ -1,0 +1,137 @@
+DEV - system / syst3m CP=tecsys/t3csys
+https://tswmsea.dev.bcldb.com/dev_94x/webui
+
+INT3 - SIT: system/int3sit CP = tecsys/Tecint3
+https://tswmsea.int3.bcldb.com/int3_94x/webui 
+
+INT1 - SIT: system/int1uat  CP = tecsys/Tecint1
+https://tswmsea.int1.bcldb.com/int1_94x/webui 
+
+
+Control Panel
+-----------------
+SBX - tecsys/Tecsys
+https://tswmsea.sbox.bcldb.com/TecsysCP2/do
+
+DEV - tecsys/tecsys
+https://tswmsea.dev.bcldb.com/TecsysCP2/do
+
+INT3 - tecsys/tecsys
+https://tswmsea.int3.bcldb.com/TecsysCP2/do
+
+INT1 - tecsys/Tecsys
+https://tswmsea.int1.bcldb.com/TecsysCP2/do
+
+INT5 - tecsys/Tecint5
+https://tswmsea.int5.bcldb.com/TecsysCP2/do
+
+
+\"%'t*T\\ZFZARCzWB1@v.
+Prod:
+system/ Jb!+u|yL/U7yFpV83
+CP=tecsys/Tecprod
+
+INT5:
+system/B9`crtBk*yK$9A~1?$aR
+CP = tecsys/Tecint5
+
+https://tswmsea.int5.bcldb.com/TecsysCP2/do? 
+https://wms.int5.bcldb.com/wms/portal/home? 
+https://wms.int5.bcldb.com/wms/webui 
+https://tswmsea.int5.bcldb.com/wms/webui 
+
+
+PROD:
+-----
+https://wms.bcldb.com/TecsysCP2/do CP = tecsys/Tecprod
+https://wms.bcldb.com/wms/ums/authenticator 
+
+Need your own user ID.  Please ask Andrei who should he ask to create a user in PROD for you, same as Harrie’s
+
+
+
+Production logs 
+--------------------------
+D:\wildfly-8.2.1.Final-jdk-1.8.0\wms\deployments\Tecsys.ear\logs
+
+ddcpwmsea1, ddcpwmsea2 and ddcpwmsea3
+
+
+https://ddcpwmsea1.bcliquor.com/TecsysCP2/do
+https://ddcpwmsea2.bcliquor.com/TecsysCP2/do
+https://ddcpwmsea3.bcliquor.com/TecsysCP2/do
+
+database
+--------------
+tswmsdb.dev.bcldb.com
+tswmsdb.int3.bcldb.com
+tswmsdb.int1.bcldb.com
+tswmsdb.int5.bcldb.com
+tswmsdb.trn.bcldb.com
+tswmsdb.sbox.bcldb.com
+tswmsdb.bcldb.com
+
+Tecsys Server
+-----------------
+SBX  - kdctwmsea1
+DEV  - 
+INT1 - kdci1wmsea1 
+INT3 - kdci3wmsea1
+INT5 - kdci5wmsea1, kdci5wmsea2, kdci5wmsea3
+
+INT5 iTopia Control Panel 
+------------------------------
+https://kdci5wmsea1.bcliquor.com/TecsysCP2/do
+https://kdci5wmsea2.bcliquor.com/TecsysCP2/do
+https://kdci5wmsea3.bcliquor.com/TecsysCP2/do
+
+
+BI server
+-----------------
+INT1 - kdci1wmsbi1
+INT5 - kdci5wmsbi1
+PROD - ddcpwmsbi1
+
+
+RFI
+---------------------------
+S:\techmgmt\TecSys\RFI\
+
+FTP
+---------------------------
+x:\temporary\andywong\tecsys\wms\patch\
+
+
+Configuration Changes 
+----------------------
+[WMS ENVIRONMENT]
+#Limit number of replenishment requests by FP location
+wms.max.location.repl.requests=10
+
+
+
+Tecsys BI 
+---------
+queries to check BI last run prod_94x_a
+
+SELECT * FROM BI_DMR_ATT;
+SELECT * FROM BI_DMR
+
+Tecsys Cannabis
+---------------
+INT5 URL: 
+https://cbwms.int5.bcldb.com/cbwms/ums/authenticator?emulation=desktop
+system/i5@y@t3m
+
+BI Server 
+----------
+INT5 - cbwmsbi.int5.bcldb.com
+
+
+IAM
+-------------
+
+
+
+email:Thursday0422
+sis:Cana==@**20

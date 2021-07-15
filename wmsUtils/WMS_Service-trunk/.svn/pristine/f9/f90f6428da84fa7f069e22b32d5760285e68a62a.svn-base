@@ -1,0 +1,125 @@
+package com.bcldb.services;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.jws.WebService;
+
+import org.jboss.logging.Logger;
+
+import com.bcldb.common.util.Version;
+import com.bcldb.dto.TransactionDto;
+import com.bcldb.dto.TransactionReturnType;
+import com.bcldb.ejb.WmsServiceBean;
+import com.bcldb.services.common.EmptyRequestType;
+import com.bcldb.services.common.GetVersionResponse;
+import com.bcldb.services.common.type.PostServiceResponseType;
+import com.bcldb.services.wmsservice.GetStuckTransactionsResponse;
+import com.bcldb.services.wmsservice.TransactionIDType;
+import com.bcldb.services.wmsservice.TransactionType;
+import com.bcldb.services.wmsservice.UpdateStuckTransactionsRequest;
+import com.bcldb.util.ErrorHandler;
+import com.bcldb.util.ParamValidator;
+import com.bcldb.util.WMSUtilServiceException;
+
+import wmsservice.ErrorMessage;
+import wmsservice.WMSService;
+
+@WebService(serviceName = "WMSService", endpointInterface = "wmsservice.WMSService")
+public class WMSServiceImpl implements WMSService {
+
+	private static final Logger log = Logger.getLogger(WMSServiceImpl.class);
+
+	private static final String TRANSACTION_UPDATED_SUCCESSFULLY = "Transaction updated successfully";
+
+	private static final String TYPE_ORDER = "Order";
+	
+	ErrorHandler handler = new ErrorHandler();
+	ParamValidator validator = new ParamValidator();	
+	
+	
+	
+	public WMSServiceImpl() {			
+	}
+
+	public WMSServiceImpl(WmsServiceBean service) {		
+		this.service = service;
+	}
+
+	@Inject
+	WmsServiceBean service;
+
+	@Override
+	public GetVersionResponse getVersionInfo(EmptyRequestType part) throws ErrorMessage {
+		GetVersionResponse versionResponse = new GetVersionResponse();
+		versionResponse.setVersion(Version.get().getVersionNumber());
+		log.info("getVersion: version number : " + Version.get().getVersionNumber());
+		
+		return versionResponse;
+	}
+
+	@Override
+	public GetStuckTransactionsResponse getStuckTransactions(EmptyRequestType part) throws ErrorMessage {
+		GetStuckTransactionsResponse ret = new GetStuckTransactionsResponse();
+		
+		try {
+
+			TransactionReturnType returnType = service.getStuckShipments();
+
+			List<TransactionDto> dtos = returnType.getTransactionType();
+
+			for (TransactionDto dto : dtos) {
+				TransactionType transactionType = new TransactionType();
+				transactionType.setId(dto.getOrderNumber());
+				transactionType.setIssueDescription(dto.getMessage());
+				transactionType.setType(TYPE_ORDER);
+				ret.getTransaction().add(transactionType);
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			handler.reportError(e, e.getMessage());
+		}
+
+		return ret;
+
+	}
+
+	@Override
+	public PostServiceResponseType updateStuckTransactions(UpdateStuckTransactionsRequest part) throws ErrorMessage {
+		PostServiceResponseType ret = new PostServiceResponseType();	    
+		
+		try {
+		validator.validateRequest(part);
+		
+		List<TransactionIDType> transactions = part.getTransactions().getTransaction();
+		
+		String incidentNumber = part.getIncidentNumber();
+		
+		String username = null;
+		
+		if(part.getLastUpdated() != null) {
+			username = part.getLastUpdated().getLastUpdatedBy();
+		}
+		
+		
+		boolean success = Boolean.FALSE;
+		for (TransactionIDType transaction : transactions) {
+			if (transaction.getType().equals(TYPE_ORDER)) {
+				success = service.updateStuckShipment(transaction.getId(), incidentNumber, username);
+			}			
+		}
+		
+		ret.setAuxMessage(TRANSACTION_UPDATED_SUCCESSFULLY);
+		ret.setSuccess(success);
+		}catch (WMSUtilServiceException e) {
+			ret.setSuccess(false);
+			ret.setAuxMessage(e.getMessage());
+		}catch (Exception e) {
+			log.error(e.getMessage());
+			handler.reportError(e, e.getMessage());
+		}		
+		return ret;
+	}
+	
+}

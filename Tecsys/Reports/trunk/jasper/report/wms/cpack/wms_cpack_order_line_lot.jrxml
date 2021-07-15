@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2018-05-22T16:05:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_cpack_order_line_lot" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="71cce759-cb56-4206-a2a7-bb526df15ccf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="jasper*locale_name" class="java.lang.String"/>
+	<parameter name="lot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="Lot" class="java.lang.String"/>
+	<field name="ItemExpirationDate" class="java.lang.String"/>
+	<columnHeader>
+		<band height="1">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="100" height="0" isRemoveLineWhenBlank="true" uuid="7023e589-85d6-463b-8bbd-46c47af2461b"/>
+				<textElement>
+					<font size="9" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lot}+":"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="100" height="0" isRemoveLineWhenBlank="true" uuid="9b476494-5283-4424-aa74-bfb7c07313f1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lot}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="100" y="0" width="100" height="0" isRemoveLineWhenBlank="true" uuid="5428f512-1925-4306-9c85-b37f13588835">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new SimpleDateFormat("yyyy-MM-dd")).parse($F{ItemExpirationDate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="100" y="0" width="100" height="0" isRemoveLineWhenBlank="true" uuid="a75688e1-9c0a-4307-8657-4ce5dbe1de88">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("fr")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new SimpleDateFormat("yyyy-MM-dd")).parse($F{ItemExpirationDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

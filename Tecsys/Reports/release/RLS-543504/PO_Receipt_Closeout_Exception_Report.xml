@@ -1,0 +1,266 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-ca"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/11.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2018-8-15. 16:20:17--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/8.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/11.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2016-4-12. 14:40:17--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/8.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2015-4-21. 14:22:15-->
+				<modelPath>/content/folder[@name=&apos;TECSYS EliteSeries&apos;]/folder[@name=&apos;Models&apos;]/package[@name=&apos;Report Model - Warehouse Management System&apos;]/model[@name=&apos;model&apos;]</modelPath>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="Page1">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									<CSS value="text-align:center"/></style>
+									<contents><list horizontalPagination="true" name="List1" refQuery="Main">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:left"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="PO Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:left"/><dataFormat><numberFormat decimalSize="0" useGrouping="false"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="PO Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="PO Line Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:left"/><dataFormat><numberFormat decimalSize="0" useGrouping="false"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="PO Line Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Receipt"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:left"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Receipt"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="SKU"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:left"/><dataFormat><numberFormat decimalSize="0" useGrouping="false"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="SKU"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Ordered Quantity (bottles)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Ordered Quantity (bottles)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quantity Received (bottles)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Quantity Received (bottles)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Ordered Quantity (cases)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Ordered Quantity (cases)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quantity Received (cases)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Quantity Received (cases)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quantity to be Received (cases)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Quantity to be Received (cases)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Order Creation Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><dateTimeFormat dateStyle="medium" showDays="2-digits" showHours="2-digits" showMinutes="2-digits" showSeconds="2-digits"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Order Creation Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Receipt Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><dateTimeFormat dateStyle="medium" showDays="2-digits" showHours="2-digits" showMinutes="2-digits" showSeconds="2-digits"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Receipt Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Receipt Closeout Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><dateTimeFormat dateStyle="medium" showDays="2-digits" showHours="2-digits" showMinutes="2-digits" showSeconds="2-digits"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Receipt Closeout Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="# of Days Since Received"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="# of Days Since Received"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Cost per Case"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><CSS value="text-align:right"/><dataFormat><currencyFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Cost per Case"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Total Cost - Received"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="text-align:right"/><dataFormat><currencyFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="Total Cost - Received"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns><listOverallGroup><listFooter><listRows><listRow><rowCells><rowCell colSpan="5"><contents><textItem><dataSource><staticValue>Overall</staticValue></dataSource></textItem><textItem><dataSource><staticValue> - </staticValue></dataSource></textItem><textItem><dataSource><staticValue>Total</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="if"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Ordered Quantity (bottles))"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Quantity Received (bottles))"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Ordered Quantity (cases))"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Quantity Received (cases))"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Quantity to be Received (cases))"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><numberFormat decimalSize="0" useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell><rowCell colSpan="5"><contents/><style><defaultStyles><defaultStyle refStyle="if"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(Total Cost - Received)"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><dataFormat><currencyFormat useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style></rowCell></rowCells></listRow></listRows></listFooter></listOverallGroup></list></contents>
+								</pageBody>
+							<pageHeader>
+									<contents>
+										
+									<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><style><defaultStyles><defaultStyle refStyle="tt"/></defaultStyles><CSS value="color:black;text-decoration:underline;font-size:14pt;font-weight:bold"/></style>
+													<dataSource>
+														<staticValue>PO Receipt Closeout Exception Report</staticValue>
+													</dataSource>
+												</textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>Report Run: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem><date>
+																	
+																<style><CSS value="font-weight:normal;font-family:Arial;font-size:10pt;font-style:normal"/><dataFormat><dateFormat dateStyle="medium" pattern="dd-MMM-yyyy"/></dataFormat></style></date><textItem><dataSource><staticValue>  </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem><time>
+																	<style>
+																		
+																	<CSS value="font-weight:normal;font-family:Arial;font-size:10pt;font-style:normal"/><dataFormat><timeFormat timeStyle="short"/></dataFormat></style>
+																</time></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>As of:  </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;p_cutoffdate&apos;)</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents/><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="ph"/>
+										</defaultStyles>
+										<CSS value="padding-bottom:10px"/>
+									</style>
+								</pageHeader></page>
+						</reportPages>
+					<promptPages><page name="Prompt Page1">
+			<pageHeader>
+				<contents>
+					
+				<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><style><defaultStyles><defaultStyle refStyle="tt"/></defaultStyles><CSS value="color:black;text-decoration:underline;font-size:14pt;font-weight:bold"/></style>
+													<dataSource>
+														<staticValue>PO Receipt Closeout Exception Report</staticValue>
+													</dataSource>
+												</textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents/><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="hp"/>
+					</defaultStyles>
+				</style>
+			</pageHeader>
+			<pageBody>
+				<contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:80%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse</staticValue></dataSource></textItem></contents><style><CSS value="text-align:center;padding-top:10px;padding-bottom:10px;width:50%;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectValue parameter="p_whse_code" refQuery="Warehouse" required="false" selectValueUI="radioGroup"><useItem refDataItem="whse_code"><displayItem refDataItem="whse_code"/></useItem><defaultSelections><defaultSimpleSelection>VDC</defaultSimpleSelection></defaultSelections></selectValue></contents><style><CSS value="text-align:center;padding-top:10px;padding-bottom:10px;width:50%;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>As of Date</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;width:50%;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectDate parameter="p_cutoffdate"/></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;vertical-align:top;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="py"/>
+					</defaultStyles>
+				<CSS value="text-align:center;padding-top:40px;padding-bottom:50px"/></style>
+			</pageBody>
+			<pageFooter>
+				<contents>
+					<promptButton type="cancel">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					
+					
+					<promptButton type="finish">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="fp"/>
+					</defaultStyles>
+				<CSS value="text-align:center"/></style>
+			</pageFooter>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pp"/>
+				</defaultStyles>
+			</style>
+		</page></promptPages></layout>
+				</layouts>
+				<classStyles>
+					<classStyle name="pd_1">
+						<CSS value="background-color:#009933; color:#FFFFFF;"/>
+					</classStyle>
+					<classStyle name="pd_2">
+						<CSS value="background-color:#FFFFFF; color:#009933;"/>
+					</classStyle>
+					<classStyle name="pd_3">
+						<CSS value="background-color:#FFFFFF; color:#CC9900;"/>
+					</classStyle>
+					<classStyle name="pd_4">
+						<CSS value="background-color:#FFFFFF; color:#990000;"/>
+					</classStyle>
+					<classStyle name="pd_5">
+						<CSS value="background-color:#990000; color:#FFFFFF;"/>
+					</classStyle>
+				</classStyles>
+			<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute name="RS_modelModificationTime" output="no" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><queries><query name="WMS">
+			<source>
+				
+			<sqlQuery dataSource="wms" name="SQL1">
+			<sqlText>SELECT a.[Warehouse]
+      , a.[PO Number]
+	  , a.[PO Line Number]
+	  , a.[Receipt]
+	  , a.[SKU]
+	  , a.[Ordered Quantity (bottles)]	AS  &quot;Ordered Quantity (bottles)&quot;
+	  , a.[Quantity Received (bottles)] AS &quot;Quantity Received (bottles)&quot;  
+	  , CASE WHEN pm_f.uom1=&apos;BTL&apos; THEN a.[Ordered Quantity (bottles)]/ISNULL(pm_f.qty1in2, 1) ELSE a.[Ordered Quantity (bottles)] END AS &quot;Ordered Quantity (cases)&quot;
+	  , CASE WHEN pm_f.uom1=&apos;BTL&apos; THEN a.[Quantity Received (bottles)]/ISNULL(pm_f.qty1in2, 1) ELSE a.[Quantity Received (bottles)] END AS &quot;Quantity Received (cases)&quot;
+	  , CASE WHEN pm_f.uom1=&apos;BTL&apos; THEN a.[Quantity to be Received (bottles)]/ISNULL(pm_f.qty1in2, 1) ELSE a.[Quantity to be Received (bottles)] END AS &quot;Quantity to be Received (cases)&quot;
+	  , a.[Order Creation Date]
+	  , a.[Receipt Date]
+	  , a.[Receipt Closeout Date]
+	  , DATEDIFF(DAY, a.[Receipt Date], ISNULL(a.[Receipt Closeout Date], getDate())) AS &quot;# of Days Since Received&quot;
+FROM (
+SELECT  ibod_f.whse_code AS &quot;Warehouse&quot;
+      , ibod_f.ib_oid AS &quot;PO Number&quot;
+	  , ibod_f.ib_lno AS &quot;PO Line Number&quot;
+	  , ibod_f.receipt AS &quot;Receipt&quot;
+	  , ibod_f.sku AS &quot;SKU&quot;
+	  , ibod_f.ord_qty AS &quot;Ordered Quantity (bottles)&quot;
+	  , ibod_f.cmp_qty AS &quot;Quantity Received (bottles)&quot;
+	  , ibod_f.ord_qty - cmp_qty AS &quot;Quantity to be Received (bottles)&quot;
+	  , ibod_f.create_stamp AS &quot;Order Creation Date&quot;
+	  , MIN(it_f.create_stamp) AS &quot;Receipt Date&quot;
+	  , upr.create_stamp AS &quot;Receipt Closeout Date&quot;
+ FROM   dbo.ibod_f
+ LEFT OUTER JOIN dbo.it_f
+   ON   ibod_f.whse_code = it_f.whse_code
+  AND	ibod_f.receipt = it_f.receipt
+  AND   ibod_f.ib_oid = it_f.ib_oid
+  AND   ibod_f.ib_type = it_f.ib_type
+  AND   ibod_f.ib_lno = it_f.ib_lno
+  AND   it_f.transact = &apos;RCPT&apos;
+LEFT OUTER JOIN dbo.v_u_up_rcpt upr
+   ON   ibod_f.whse_code = upr.whse_code
+  AND	ibod_f.receipt = upr.receipt
+  AND   ibod_f.ib_oid = upr.ib_oid
+  AND   ibod_f.ib_type = upr.ib_type
+WHERE   ISNUMERIC(ibod_f.ib_oid) = 1
+  AND   ibod_f.cmp_qty &gt; 0
+  AND   ibod_f.receipt &lt;&gt; &apos;&apos;  
+  AND (upr.up_rcpt_id is NULL OR upr.create_stamp &gt;= DATEADD(day, 1, #prompt(&apos;p_cutoffdate&apos;)#))  
+GROUP BY ibod_f.whse_code, ibod_f.ib_oid, ibod_f.ib_lno, ibod_f.ib_type, ibod_f.receipt, ibod_f.sku, ibod_f.pkg, ibod_f.ord_qty, ibod_f.cmp_qty, ibod_f.create_stamp, upr.create_stamp
+HAVING MIN(it_f.create_stamp) &lt; DATEADD(day, 1, #prompt(&apos;p_cutoffdate&apos;)#)
+) AS a
+JOIN dbo.pm_f
+	ON	a.warehouse = pm_f.whse_code AND a.sku = pm_f.sku
+ORDER BY DATEDIFF(DAY, a.[Receipt Date], ISNULL(a.[Receipt Closeout Date], getDate())) DESC
+
+</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="PO Number"/><mdProjectedItem name="PO Line Number"/><mdProjectedItem name="Receipt"/><mdProjectedItem name="SKU"/><mdProjectedItem name="Ordered Quantity (bottles)"/><mdProjectedItem name="Quantity Received (bottles)"/><mdProjectedItem name="Ordered Quantity (cases)"/><mdProjectedItem name="Quantity Received (cases)"/><mdProjectedItem name="Quantity to be Received (cases)"/><mdProjectedItem name="Order Creation Date"/><mdProjectedItem name="Receipt Date"/><mdProjectedItem name="Receipt Closeout Date"/><mdProjectedItem name="# of Days Since Received"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Warehouse]</expression></dataItem><dataItem name="PO Number" aggregate="none" rollupAggregate="none"><expression>[SQL1].[PO Number]</expression></dataItem><dataItem name="PO Line Number" aggregate="none" rollupAggregate="none"><expression>[SQL1].[PO Line Number]</expression></dataItem><dataItem name="Receipt" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Receipt]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>cast ([SQL1].[SKU], integer)</expression></dataItem><dataItem name="Ordered Quantity (bottles)" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Ordered Quantity (bottles)]</expression></dataItem><dataItem name="Quantity Received (bottles)" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Quantity Received (bottles)]</expression></dataItem><dataItem name="Ordered Quantity (cases)" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Ordered Quantity (cases)]</expression></dataItem><dataItem name="Quantity Received (cases)" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Quantity Received (cases)]</expression></dataItem><dataItem name="Quantity to be Received (cases)" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Quantity to be Received (cases)]</expression></dataItem><dataItem name="Order Creation Date" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Order Creation Date]</expression></dataItem><dataItem name="Receipt Date" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Receipt Date]</expression></dataItem><dataItem name="Receipt Closeout Date" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Receipt Closeout Date]</expression></dataItem><dataItem name="# of Days Since Received" aggregate="none" rollupAggregate="none"><expression>[SQL1].[# of Days Since Received]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Warehouse]=?p_whse_code?</filterExpression></detailFilter></detailFilters></query><query name="Product Configuration">
+			<source>
+				
+			<sqlQuery name="SQL3" dataSource="DWMARTP">
+			<sqlText>SELECT  &quot;PRODUCT_SKU_NO&quot;,
+        &quot;PRODUCT_INFO_EFFECTIVE_DATE&quot;,
+        &quot;PRODUCT_INFO_END_DATE&quot;,
+        &quot;PRD_CONTAINER_PER_SELL_UNIT&quot;,
+        &quot;PRD_CONTAINER_PER_SHIP_UNIT&quot;
+        
+FROM DV_PRODUCT</sqlText>
+		<mdProjectedItems><mdProjectedItem name="PRODUCT_SKU_NO"/><mdProjectedItem name="PRODUCT_INFO_EFFECTIVE_DATE"/><mdProjectedItem name="PRODUCT_INFO_END_DATE"/><mdProjectedItem name="PRD_CONTAINER_PER_SELL_UNIT"/><mdProjectedItem name="PRD_CONTAINER_PER_SHIP_UNIT"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="PRODUCT_SKU_NO" aggregate="none" rollupAggregate="none"><expression>[SQL3].[PRODUCT_SKU_NO]</expression></dataItem><dataItem name="PRODUCT_INFO_EFFECTIVE_DATE" aggregate="none" rollupAggregate="none"><expression>[SQL3].[PRODUCT_INFO_EFFECTIVE_DATE]</expression></dataItem><dataItem name="PRODUCT_INFO_END_DATE" aggregate="none" rollupAggregate="none"><expression>[SQL3].[PRODUCT_INFO_END_DATE]</expression></dataItem><dataItem name="PRD_CONTAINER_PER_SELL_UNIT" aggregate="none" rollupAggregate="none"><expression>[SQL3].[PRD_CONTAINER_PER_SELL_UNIT]</expression></dataItem><dataItem name="PRD_CONTAINER_PER_SHIP_UNIT" aggregate="none" rollupAggregate="none"><expression>[SQL3].[PRD_CONTAINER_PER_SHIP_UNIT]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[SQL3].[PRODUCT_INFO_END_DATE] &gt;= _add_days (current_date, -30)</filterExpression></detailFilter><detailFilter><filterExpression>?p_cutoffdate? between [SQL3].[PRODUCT_INFO_EFFECTIVE_DATE] and [SQL3].[PRODUCT_INFO_END_DATE]</filterExpression></detailFilter></detailFilters></query><query name="Cost">
+			<source>
+				
+			<sqlQuery name="SQL2" dataSource="DWMARTP">
+			<sqlText> SELECT   &quot;COSTING_EFFECTIVE_DATE&quot;,
+          &quot;COSTING_END_DATE&quot;,
+          &quot;PRODUCT_SKU_NO&quot;,
+          &quot;PRODUCT_COST&quot;
+        
+     FROM DV_COSTING</sqlText>
+		<mdProjectedItems><mdProjectedItem name="COSTING_EFFECTIVE_DATE"/><mdProjectedItem name="COSTING_END_DATE"/><mdProjectedItem name="PRODUCT_SKU_NO"/><mdProjectedItem name="PRODUCT_COST"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="COSTING_EFFECTIVE_DATE" aggregate="none" rollupAggregate="none"><expression>[SQL2].[COSTING_EFFECTIVE_DATE]</expression></dataItem><dataItem name="COSTING_END_DATE" aggregate="none" rollupAggregate="none"><expression>[SQL2].[COSTING_END_DATE]</expression></dataItem><dataItem name="PRODUCT_SKU_NO" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PRODUCT_SKU_NO]</expression></dataItem><dataItem name="PRODUCT_COST_PER_SELL_UNIT" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PRODUCT_COST]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[SQL2].[COSTING_END_DATE] &gt;= _add_days (current_date, -30)</filterExpression></detailFilter><detailFilter><filterExpression>?p_cutoffdate? between [SQL2].[COSTING_EFFECTIVE_DATE] and [SQL2].[COSTING_END_DATE]</filterExpression></detailFilter></detailFilters></query><query name="Query1">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand><queryRef refQuery="WMS"/></joinOperand>
+				<joinOperand cardinality="0:1"><queryRef refQuery="Product Configuration"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[WMS].[SKU] = [Product Configuration].[PRODUCT_SKU_NO]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[WMS].[Warehouse]</expression></dataItem><dataItem name="PO Number" aggregate="none" rollupAggregate="none"><expression>[WMS].[PO Number]</expression></dataItem><dataItem name="PO Line Number" aggregate="none" rollupAggregate="none"><expression>[WMS].[PO Line Number]</expression></dataItem><dataItem name="Receipt" aggregate="none" rollupAggregate="none"><expression>[WMS].[Receipt]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>[WMS].[SKU]</expression></dataItem><dataItem name="Ordered Quantity (bottles)" aggregate="total" rollupAggregate="total"><expression>[WMS].[Ordered Quantity (bottles)]</expression></dataItem><dataItem name="Quantity Received (bottles)" aggregate="total" rollupAggregate="total"><expression>[WMS].[Quantity Received (bottles)]</expression></dataItem><dataItem name="Ordered Quantity (cases)" aggregate="total" rollupAggregate="total"><expression>[WMS].[Ordered Quantity (cases)]</expression></dataItem><dataItem name="Quantity Received (cases)" aggregate="total" rollupAggregate="total"><expression>[WMS].[Quantity Received (cases)]</expression></dataItem><dataItem name="Quantity to be Received (cases)" aggregate="total" rollupAggregate="total"><expression>[WMS].[Quantity to be Received (cases)]</expression></dataItem><dataItem name="Order Creation Date" aggregate="none" rollupAggregate="none"><expression>[WMS].[Order Creation Date]</expression></dataItem><dataItem name="Receipt Date" aggregate="none" rollupAggregate="none"><expression>[WMS].[Receipt Date]</expression></dataItem><dataItem name="Receipt Closeout Date" aggregate="none" rollupAggregate="none"><expression>[WMS].[Receipt Closeout Date]</expression></dataItem><dataItem name="# of Days Since Received" aggregate="none" rollupAggregate="none"><expression>[WMS].[# of Days Since Received]</expression></dataItem><dataItem name="PRODUCT_INFO_EFFECTIVE_DATE" aggregate="none" rollupAggregate="none"><expression>[Product Configuration].[PRODUCT_INFO_EFFECTIVE_DATE]</expression></dataItem><dataItem name="PRODUCT_INFO_END_DATE" aggregate="none" rollupAggregate="none"><expression>[Product Configuration].[PRODUCT_INFO_END_DATE]</expression></dataItem><dataItem name="PRD_CONTAINER_PER_SELL_UNIT" aggregate="none" rollupAggregate="none"><expression>[Product Configuration].[PRD_CONTAINER_PER_SELL_UNIT]</expression></dataItem><dataItem name="PRD_CONTAINER_PER_SHIP_UNIT" aggregate="none" rollupAggregate="none"><expression>[Product Configuration].[PRD_CONTAINER_PER_SHIP_UNIT]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[WMS].[Order Creation Date] between 
+
+[Product Configuration].[PRODUCT_INFO_EFFECTIVE_DATE]
+
+and 
+
+[Product Configuration].[PRODUCT_INFO_END_DATE]</filterExpression></detailFilter></detailFilters></query><query name="Main">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand><queryRef refQuery="Query1"/></joinOperand>
+				<joinOperand cardinality="0:1"><queryRef refQuery="Cost"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[Query1].[SKU] = [Cost].[PRODUCT_SKU_NO]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[Query1].[Warehouse]</expression></dataItem><dataItem name="PO Number" aggregate="none" rollupAggregate="none"><expression>[Query1].[PO Number]</expression></dataItem><dataItem name="PO Line Number" aggregate="none" rollupAggregate="none"><expression>[Query1].[PO Line Number]</expression></dataItem><dataItem name="Receipt" aggregate="none" rollupAggregate="none"><expression>[Query1].[Receipt]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>[Query1].[SKU]</expression></dataItem><dataItem name="Ordered Quantity (bottles)" aggregate="none" rollupAggregate="none"><expression>[Query1].[Ordered Quantity (bottles)]</expression></dataItem><dataItem name="Quantity Received (bottles)" aggregate="none" rollupAggregate="none" label="Received Quantity (bottles)"><expression>[Query1].[Quantity Received (bottles)]</expression></dataItem><dataItem name="Ordered Quantity (cases)" aggregate="none" rollupAggregate="none"><expression>[Query1].[Ordered Quantity (cases)]</expression></dataItem><dataItem name="Quantity Received (cases)" aggregate="none" rollupAggregate="none" label="Received Quantity (cases)"><expression>[Query1].[Quantity Received (cases)]</expression></dataItem><dataItem name="Quantity to be Received (cases)" aggregate="none" rollupAggregate="none" label="To be Received (cases)"><expression>[Query1].[Quantity to be Received (cases)]</expression></dataItem><dataItem name="Order Creation Date" aggregate="none" rollupAggregate="none"><expression>[Query1].[Order Creation Date]</expression></dataItem><dataItem name="Receipt Date" aggregate="none" rollupAggregate="none"><expression>[Query1].[Receipt Date]</expression></dataItem><dataItem name="Receipt Closeout Date" aggregate="none" rollupAggregate="none"><expression>[Query1].[Receipt Closeout Date]</expression></dataItem><dataItem name="# of Days Since Received" aggregate="none" rollupAggregate="none"><expression>[Query1].[# of Days Since Received]</expression></dataItem><dataItem name="Cost per Case" aggregate="none" rollupAggregate="none"><expression>[Cost].[PRODUCT_COST_PER_SELL_UNIT] / [Query1].[PRD_CONTAINER_PER_SELL_UNIT] * [Query1].[PRD_CONTAINER_PER_SHIP_UNIT]</expression></dataItem><dataItem name="Total Cost - Received" aggregate="total" rollupAggregate="total"><expression>[Quantity Received (cases)] * [Cost per Case]</expression></dataItem><dataItemListSummary refDataItem="Total Cost - Received" aggregateMethod="total" name="Total(Total Cost - Received)"/><dataItemListSummary refDataItem="Ordered Quantity (bottles)" aggregateMethod="total" name="Total(Ordered Quantity (bottles))"/><dataItemListSummary refDataItem="Quantity Received (bottles)" aggregateMethod="total" name="Total(Quantity Received (bottles))"/><dataItemListSummary refDataItem="Ordered Quantity (cases)" aggregateMethod="total" name="Total(Ordered Quantity (cases))"/><dataItemListSummary refDataItem="Quantity Received (cases)" aggregateMethod="total" name="Total(Quantity Received (cases))"/><dataItemListSummary refDataItem="Quantity to be Received (cases)" aggregateMethod="total" name="Total(Quantity to be Received (cases))"/></selection>
+		</query><query name="Warehouse"><source><model/></source><selection><dataItem aggregate="none" name="whse_code"><expression>[Warehouse Management].[Warehouse Options].[Warehouse]</expression></dataItem><dataItem aggregate="none" sort="ascending" name="whse_code1"><expression>[Warehouse Management].[Warehouse Options].[Warehouse]</expression></dataItem></selection></query></queries><reportVariables><reportVariable name="ReportIsInProduction" type="boolean">
+			<reportExpression>1=1</reportExpression>
+			<variableValues>
+				<variableValue value="1"/>
+			</variableValues>
+		</reportVariable><reportVariable name="AlwaysHide" type="boolean">
+			<reportExpression>1 = 2</reportExpression>
+			<variableValues>
+				<variableValue value="1"/>
+			</variableValues>
+		</reportVariable></reportVariables><reportName>PO Receipt Closeout Exception Report</reportName></report>

@@ -1,0 +1,50 @@
+import { mapToMapExpression } from '@angular/compiler/src/render3/util';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Order } from 'src/app/domain/order';
+import { Outcome } from 'src/app/domain/outcome';
+import { OrderService } from 'src/app/service/order.service';
+
+@Component({
+  selector: 'app-order-update',
+  templateUrl: './order-update.component.html',
+  styleUrls: ['./order-update.component.css']
+})
+export class OrderUpdateComponent implements OnInit {
+
+  orderNumber: string;
+  order: Order;
+  message: string;
+  error: string;
+  outcome: Outcome;
+  success: true;
+
+  constructor(private orderService: OrderService,
+              private route: ActivatedRoute,
+              private router: Router) { }
+
+  ngOnInit(): void {
+    this.orderNumber = this.route.snapshot.params.orderNumber;
+    this.order = new Order();
+    this.order.orderNumber = this.orderNumber;
+    this.updateOrder();
+  }
+
+  updateOrder(): void {
+    this.orderService.updateOrder(this.orderNumber, this.order).subscribe(data => {
+      this.success = JSON.parse(data['updated'].toLowerCase());
+      if (this.success){
+        this.message = 'Order update successfully.';        
+      } else{
+        this.message = 'Data-Fix for this senario is not developed yet, please contact SA for manual fix.';        
+        this.error = data['message'];
+      }
+    }, error => console.log(error));
+  }
+
+  goToOrderList(): void{
+    this.router.navigate(['order-list']);
+  }
+
+}

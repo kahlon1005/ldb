@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  
+  <localRepository>${user.home}/.m2/repository</localRepository>
+  <interactiveMode>true</interactiveMode>
+  <usePluginRegistry>false</usePluginRegistry>
+  <offline>false</offline>
+
+  <pluginGroups>
+       <pluginGroup>org.mortbay.jetty</pluginGroup>
+  </pluginGroups>
+    
+  <mirrors>
+    <mirror>
+      <id>nexus</id>
+      <name>BCLDB hosted Nexus</name>
+      <url>http://nexus.bcliquor.com/repository/maven-public/</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+
+  <profiles>
+    <profile>
+      <id>builder</id>
+	  <repositories>
+        <repository>
+          <id>nexus</id>
+          <name>BCLDB Nexus</name>
+          <releases>
+            <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+          <url>http://nexus.bcliquor.com/repository/maven-public/</url>
+          <layout>default</layout>
+        </repository>
+      </repositories>
+	  
+       <pluginRepositories>
+        <pluginRepository>
+          <id>nexus</id>
+          <name>BCLDB Nexus</name>
+          <releases>
+            <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+          <url>http://nexus.bcliquor.com/repository/maven-public/</url>
+          <layout>default</layout>
+        </pluginRepository>
+      </pluginRepositories> 
+	  
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>builder</activeProfile>
+  </activeProfiles>
+
+</settings>

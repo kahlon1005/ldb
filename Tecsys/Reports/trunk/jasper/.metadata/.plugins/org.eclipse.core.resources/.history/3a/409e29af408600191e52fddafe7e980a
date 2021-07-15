@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2019-06-03T13:46:38 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_bol_l" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d3851aae-e6ad-4f72-a8ed-80d1ce52c6f5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="carrier_info" class="java.lang.String"/>
+	<parameter name="pallet_qty" class="java.lang.String"/>
+	<parameter name="type" class="java.lang.String"/>
+	<parameter name="carton_qty" class="java.lang.String"/>
+	<parameter name="wght_2" class="java.lang.String"/>
+	<parameter name="hazmat" class="java.lang.String"/>
+	<parameter name="descr" class="java.lang.String"/>
+	<parameter name="nmfc_num" class="java.lang.String"/>
+	<parameter name="freight_class" class="java.lang.String"/>
+	<parameter name="grand_tot" class="java.lang.String"/>
+	<parameter name="pallets" class="java.lang.String"/>
+	<parameter name="cartons_2" class="java.lang.String"/>
+	<field name="BillOfLading-NumberOfBillOfLadingCustomerPo" class="java.lang.String"/>
+	<field name="BillOfLading-NumberOfBillOfLadingLine" class="java.lang.String"/>
+	<field name="PalletQuantity" class="java.lang.String"/>
+	<field name="FreightClass" class="java.lang.String"/>
+	<field name="SumLiquorCasesLdb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SumLiquorWeightLdb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SumNonLiquorPiecesLdb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SumNonLiquorWeightLdb" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="24">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="0" width="565" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="a820517d-75e8-4671-9a77-e46f5524ff9a">
+					<printWhenExpression><![CDATA[new Integer($F{BillOfLading-NumberOfBillOfLadingLine}) > 7]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{carrier_info}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="1" width="45" height="23" backcolor="#CCCCCC" uuid="baf222e7-cf6e-485f-9df2-9ee3a71abe53">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No. of Containers"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="45" y="1" width="40" height="23" backcolor="#CCCCCC" uuid="85a853ba-624c-48aa-b673-aadb1875e947">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{type}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="85" y="1" width="52" height="23" backcolor="#CCCCCC" uuid="913e5945-be04-40e0-8fa2-124bd6ebcf4d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Liquor Cases"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="245" y="1" width="65" height="23" backcolor="#CCCCCC" uuid="9bc2cd66-0fd6-4bed-ba09-b894f90354f1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Non Liquor Weight (S) (KG)"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="412" y="1" width="98" height="23" backcolor="#CCCCCC" uuid="278c2f4f-b9dc-4b86-afb9-c5799b80b479"/>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Comments"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="510" y="1" width="55" height="23" backcolor="#CCCCCC" uuid="e6edb9f2-afad-464b-bff3-af03a54ee22a">
+					<printWhenExpression><![CDATA[new Integer($F{BillOfLading-NumberOfBillOfLadingLine}) > 7]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{freight_class}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="137" y="1" width="56" height="23" backcolor="#CCCCCC" uuid="a1b957cb-3dda-407f-bb4d-e2f9e10064f9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Liquor Weight (S) (KG)"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="193" y="1" width="52" height="23" backcolor="#CCCCCC" uuid="4630a287-70e7-4efa-a402-e1145d4d6f96"/>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Non Liquor Pieces"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="565" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="040eb09d-91f5-414c-b72f-05ef0cd4c34e">
+					<printWhenExpression><![CDATA[new Integer($F{BillOfLading-NumberOfBillOfLadingLine}) < 8]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{carrier_info}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="510" y="1" width="55" height="23" backcolor="#CCCCCC" uuid="37cfe4e9-4eb8-4386-a945-48d1b9e2fffe">
+					<printWhenExpression><![CDATA[new Integer($F{BillOfLading-NumberOfBillOfLadingLine}) < 8]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Declared Value (CAD)"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="310" y="1" width="32" height="23" backcolor="#CCCCCC" uuid="27a0d5fb-daa7-4dce-a381-e4e83e27577c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RPAL"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="342" y="1" width="35" height="23" backcolor="#CCCCCC" uuid="a72789da-b0d9-4f51-b347-6f9c13550b42">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["WPAL"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="377" y="1" width="35" height="23" backcolor="#CCCCCC" uuid="3dab3f15-a063-430c-afe1-6d4d94603dc7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Other"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="0" width="45" height="12" uuid="eb833cbf-e75b-4131-a5ab-5d6d4c2bb8e7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PalletQuantity}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="45" y="0" width="40" height="12" uuid="928df8ae-3f26-4aa0-b07a-034b0b61336e">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Container"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="85" y="0" width="52" height="12" uuid="3954f4ce-58d7-422a-8a29-7e81c861dc8c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SumLiquorCasesLdb}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="137" y="0" width="56" height="12" uuid="63a6cfd3-5e46-452f-ab31-a7ed37c4f3d1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.parseDouble($F{SumLiquorWeightLdb})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.000">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="193" y="0" width="52" height="12" uuid="f0436eaa-42d8-46e1-a95e-f4e34f759e0c"/>
+				<box topPadding="1" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SumNonLiquorPiecesLdb}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="245" y="0" width="65" height="12" uuid="fd612890-6d2c-48cb-84c3-67c44687e7c9"/>
+				<box topPadding="1" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.parseDouble($F{SumNonLiquorWeightLdb})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="412" y="0" width="98" height="12" uuid="006eeb70-0acc-40c8-960e-479451ec331e"/>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="510" y="0" width="55" height="12" uuid="29cff7b5-313d-4bc9-ab60-55ac1490ddf8">
+					<printWhenExpression><![CDATA[new Integer($F{BillOfLading-NumberOfBillOfLadingLine}) < 8]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="377" y="0" width="35" height="12" uuid="969c44e2-aec4-4354-98dd-c4d17122178d"/>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="342" y="0" width="35" height="12" uuid="93f18f54-611d-475e-870a-80b24b468303"/>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="310" y="0" width="32" height="12" uuid="a98b4f54-d2a7-4f3c-80e0-164347780d3e"/>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="310" y="0" width="255" height="12" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="85968c09-c61f-4820-839b-ecd771e0a653">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="1">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="137" height="12" forecolor="#000000" backcolor="#CCCCCC" uuid="9c082d24-8b41-41e4-acbb-53eac20cc88d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="1" rightPadding="2">
+					<pen lineWidth="1.0" lineColor="#999999"/>
+					<topPen lineWidth="1.0" lineColor="#999999"/>
+					<leftPen lineWidth="1.0" lineColor="#999999"/>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+					<rightPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Grand Total Weight (Scaled) (KG) :"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="137" y="0" width="173" height="12" uuid="13e68424-e6a1-41ca-802c-be53a31adbc7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<topPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.parseDouble($F{SumLiquorWeightLdb}) + Double.parseDouble($F{SumNonLiquorWeightLdb})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

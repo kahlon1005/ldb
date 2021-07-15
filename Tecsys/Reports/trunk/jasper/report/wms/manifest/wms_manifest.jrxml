@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2018-07-23T14:45:37 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_manifest" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5a5af05-986a-41d0-8b70-4e3fb5f57f96">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="30"/>
+	<parameter name="jasper*subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jasper*locale_name" class="java.lang.String"/>
+	<parameter name="jasper*parameter*reprint" class="java.lang.String"/>
+	<parameter name="jasper*images_path" class="java.lang.String"/>
+	<parameter name="carrier_signature" class="java.lang.String"/>
+	<parameter name="date_2" class="java.lang.String"/>
+	<parameter name="page" class="java.lang.String"/>
+	<parameter name="print_date" class="java.lang.String"/>
+	<parameter name="time" class="java.lang.String"/>
+	<parameter name="trailer_manifest" class="java.lang.String"/>
+	<parameter name="reprint_2" class="java.lang.String"/>
+	<parameter name="manifest_4" class="java.lang.String"/>
+	<parameter name="from" class="java.lang.String"/>
+	<parameter name="carrier_code" class="java.lang.String"/>
+	<parameter name="trailer_num" class="java.lang.String"/>
+	<parameter name="trailer_seal" class="java.lang.String"/>
+	<parameter name="probill" class="java.lang.String"/>
+	<parameter name="bill_of_lading_5" class="java.lang.String"/>
+	<parameter name="pallet_qty" class="java.lang.String"/>
+	<parameter name="carton_qty" class="java.lang.String"/>
+	<parameter name="carton_wght" class="java.lang.String"/>
+	<parameter name="skid_wght" class="java.lang.String"/>
+	<parameter name="tot_wght" class="java.lang.String"/>
+	<parameter name="tot" class="java.lang.String"/>
+	<field name="WmsManifestL-Jasper" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<detail>
+		<band height="646">
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="646" uuid="31d09018-a6e6-4b8b-8a4a-90d139b3164b"/>
+				<subreportParameter name="pallet_qty">
+					<subreportParameterExpression><![CDATA[$P{pallet_qty}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="trailer_num">
+					<subreportParameterExpression><![CDATA[$P{trailer_num}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*images_path">
+					<subreportParameterExpression><![CDATA[$P{jasper*images_path}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="bill_of_lading_5">
+					<subreportParameterExpression><![CDATA[$P{bill_of_lading_5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*subreport_dir">
+					<subreportParameterExpression><![CDATA[$P{jasper*subreport_dir}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carton_wght">
+					<subreportParameterExpression><![CDATA[$P{carton_wght}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="trailer_seal">
+					<subreportParameterExpression><![CDATA[$P{trailer_seal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="from">
+					<subreportParameterExpression><![CDATA[$P{from}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tot_wght">
+					<subreportParameterExpression><![CDATA[$P{tot_wght}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="skid_wght">
+					<subreportParameterExpression><![CDATA[$P{skid_wght}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="trailer_manifest">
+					<subreportParameterExpression><![CDATA[$P{trailer_manifest}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carton_qty">
+					<subreportParameterExpression><![CDATA[$P{carton_qty}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reprint_2">
+					<subreportParameterExpression><![CDATA[$P{reprint_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carrier_code">
+					<subreportParameterExpression><![CDATA[$P{carrier_code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carrier_signature">
+					<subreportParameterExpression><![CDATA[$P{carrier_signature}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="time">
+					<subreportParameterExpression><![CDATA[$P{time}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tot">
+					<subreportParameterExpression><![CDATA[$P{tot}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="page">
+					<subreportParameterExpression><![CDATA[$P{page}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*parameter*reprint">
+					<subreportParameterExpression><![CDATA[$P{jasper*parameter*reprint}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*locale_name">
+					<subreportParameterExpression><![CDATA[$P{jasper*locale_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="probill">
+					<subreportParameterExpression><![CDATA[$P{probill}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="manifest_4">
+					<subreportParameterExpression><![CDATA[$P{manifest_4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date_2">
+					<subreportParameterExpression><![CDATA[$P{date_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="print_date">
+					<subreportParameterExpression><![CDATA[$P{print_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{WmsManifestL-Jasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{jasper*subreport_dir} + "wms_manifest_l.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="106">
+			<textField>
+				<reportElement x="229" y="90" width="50" height="14" uuid="30cf6caa-2728-4905-96d0-e43454563eeb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")?$V{PAGE_NUMBER}+" of ":$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="279" y="90" width="50" height="14" uuid="adeee27b-5d5c-4ad4-9488-81546d54c911"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[' '+$V{PAGE_NUMBER}+'']]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="26" width="572" height="1" backcolor="#000000" uuid="21ff27ab-1bb9-40cd-8f5a-27afb1d64630"/>
+			</line>
+			<line>
+				<reportElement x="392" y="66" width="180" height="1" backcolor="#000000" uuid="f7ac270a-7d6f-4b4f-a761-c58eb0ae7c12">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="66" width="180" height="1" backcolor="#000000" uuid="5fa41b5e-2dc8-4828-b8dd-8a0a969db536">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField pattern="MM/dd/yyyy h:mm:ss a">
+				<reportElement x="0" y="90" width="180" height="14" uuid="75797c23-9fc3-47b7-b2f4-3ececf7445fc"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="392" y="31" width="159" height="14" uuid="9d74dac5-8b1f-4ca7-a17d-fdf8a15b457c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Carrier Signature/DateTime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="180" height="14" uuid="cde2b345-c3dd-46fd-aac6-17367f809f00">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[BCLDB Shipper Signature/DateTime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="73" width="564" height="9" uuid="52687a21-b7c4-44df-8e5a-2925c62666f3"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note: The Specified Conditions of Carriage as set out in Part 7, s. 37.39 of the Motor Vehicle Act Regulations are incorporated by reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="5" width="145" height="18" uuid="fc65619f-fece-438a-a8d0-b7227bff7333"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Special instructions:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,692 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-zw"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/8.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2016-6-23. 10:32:47--><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/6.0/" to "http://developer.cognos.com/schemas/report/8.0/" at 2011-11-17. 17:8:54--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2009-2-18. 9:34:26--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/3.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2008-3-17. 15:35:14--><!--RS:8.2-->
+	
+	<queries>
+		
+	<query name="1. Item No FP"><source><sqlQuery name="1. NoFP" dataSource="wms">
+			<sqlText>select iv.whse_code as Warehouse, iv.sku as Item, pm.sku_desc as Description, sum(iv.qty) as 'Quantity (BTL)'
+from iv_f iv, pm_f pm 
+where iv.whse_code = pm.whse_code 
+and iv.sku = pm.sku
+and iv.hold = ''
+-- exclude NSWP items
+and not ( pm.custom_char_2 like 'X%BO'
+-- To be confirmed what to exclude for special order items
+	OR ( pm.custom_char_7 like '%|1098 %' and (pm.sku_desc like 'SO %' or pm.sku_desc like 'OP %' )) )
+--and pm.custom_char_2 != 'C'
+--and pm.custom_char_2 not like 'S%'
+and iv.sku not in ( select lc.sku from lc_f lc where lc.loc_type = 'FP' and iv.whse_code = lc.whse_code ) 
+and not exists (select iv.loc from iv_f iv1 join lc_f lc on iv1.whse_code = lc.whse_code and iv1.loc = lc.loc where iv1.sku = pm.sku and lc.whse_section = 'S-NSWP')
+group by iv.whse_code, iv.sku, pm.sku_desc 
+order by iv.whse_code, iv.sku</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="Quantity (BTL)"/></mdProjectedItems></sqlQuery></source><selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[1. NoFP].[Warehouse]</expression></dataItem><dataItem name="Item" aggregate="none" rollupAggregate="none"><expression>[1. NoFP].[Item]</expression></dataItem><dataItem name="Description" aggregate="none" rollupAggregate="none"><expression>[1. NoFP].[Description]</expression></dataItem><dataItem name="Quantity (BTL)" aggregate="total" rollupAggregate="total"><expression>[1. NoFP].[Quantity (BTL)]</expression></dataItem></selection><detailFilters><detailFilter><filterExpression>[1. NoFP].[Warehouse] = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="2. FP Wrong Empty Flag">
+			<source>
+				
+			<sqlQuery name="2. FP Wrong Empty Flag1" dataSource="wms">
+			<sqlText>select lc.whse_code as Warehouse, lc.loc as Location, lc.sku as Item, iv.qty as 'Quantity (BTL)'
+from iv_f iv, lc_f lc
+where iv.whse_code = lc.whse_code
+and iv.loc = lc.loc
+and iv.qty &gt; 0
+and lc.loc_type = 'FP'
+and lc.empty = 'Y'
+order by lc.whse_code, lc.loc</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Location"/><mdProjectedItem name="Item"/><mdProjectedItem name="Quantity (BTL)"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[2. FP Wrong Empty Flag1].[Warehouse]</expression></dataItem><dataItem name="Location"><expression>[2. FP Wrong Empty Flag1].[Location]</expression></dataItem><dataItem name="Item"><expression>[2. FP Wrong Empty Flag1].[Item]</expression></dataItem><dataItem name="Quantity (BTL)"><expression>[2. FP Wrong Empty Flag1].[Quantity (BTL)]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[2. FP Wrong Empty Flag1].[Warehouse] = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="3. FP Expired Item">
+			<source>
+				
+			<sqlQuery name="3. FP Expired Product" dataSource="wms">
+			<sqlText>select lc.whse_code as Warehouse, lc.loc as Location, iv.sku as Item, pm.sku_desc as Description, CAST(iv.product_exp_date as DATE) as 'Expiry Date'
+from iv_f iv, lc_f lc, pm_f pm
+where iv.whse_code = lc.whse_code
+and iv.loc = lc.loc
+and iv.whse_code = pm.whse_code
+and iv.sku = pm.sku
+-- comment the next line if look into all locations
+and lc.loc_type = 'FP' 
+and iv.product_exp_date - pm.exp_lead_time &lt; CAST(GETDATE() AS DATE) 
+group by lc.whse_code, lc.loc, lc.loc_type, iv.sku, pm.sku_desc, iv.product_exp_date
+order by  lc.whse_code, lc.loc, iv.product_exp_date</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Location"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="Expiry Date"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[3. FP Expired Product].[Warehouse]</expression></dataItem><dataItem name="Location"><expression>[3. FP Expired Product].[Location]</expression></dataItem><dataItem name="Item"><expression>[3. FP Expired Product].[Item]</expression></dataItem><dataItem name="Description"><expression>[3. FP Expired Product].[Description]</expression></dataItem><dataItem name="Expiry Date"><expression>[3. FP Expired Product].[Expiry Date]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[3. FP Expired Product].[Warehouse] = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="4. Item Larger TiHi">
+			<source>
+				
+			<sqlQuery name="4. Item TiHi Exceed FP" dataSource="wms">
+			<sqlText>select pm.whse_code as Warehouse, pm.sku as Item, pm.sku_desc as Description, pm.custom_numeric_1 as Ti, pm.custom_numeric_2 as Hi, lc.loc as Location, lc.max_fp_cap as 'Max Capacity', lc.repl_uom as UOM
+from pm_f pm, lc_f lc
+where pm.whse_code = lc.whse_code
+and pm.sku = lc.sku
+and lc.loc_type = 'FP'
+and lc.area not in (SELECT DISTINCT wsp.custom_char_01
+                FROM   wms_system_properties_ldb AS wsp
+                WHERE  wsp.property_name = 'BOTTLE_PICK_AREA'
+                AND  wsp.whse_code = lc.whse_code)
+and lc.repl_uom like 'CASE%' 
+and pm.custom_numeric_1 * pm.custom_numeric_2 &gt; lc.max_fp_cap 
+and lc.sku != 'OPEN'
+order by pm.whse_code, pm.sku</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="Ti"/><mdProjectedItem name="Hi"/><mdProjectedItem name="Location"/><mdProjectedItem name="Max Capacity"/><mdProjectedItem name="UOM"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[4. Item TiHi Exceed FP].[Warehouse]</expression></dataItem><dataItem name="Item"><expression>[4. Item TiHi Exceed FP].[Item]</expression></dataItem><dataItem name="Description"><expression>[4. Item TiHi Exceed FP].[Description]</expression></dataItem><dataItem name="Ti"><expression>[4. Item TiHi Exceed FP].[Ti]</expression></dataItem><dataItem name="Hi"><expression>[4. Item TiHi Exceed FP].[Hi]</expression></dataItem><dataItem name="Location"><expression>[4. Item TiHi Exceed FP].[Location]</expression></dataItem><dataItem name="Max Capacity"><expression>[4. Item TiHi Exceed FP].[Max Capacity]</expression></dataItem><dataItem name="UOM"><expression>[4. Item TiHi Exceed FP].[UOM]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[4. Item TiHi Exceed FP].[Warehouse]  = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="5. Item Exceed Max Weight">
+			<source>
+				
+			<sqlQuery name="5. Item &gt; Max Weight" dataSource="wms">
+			<sqlText>select pm.whse_code as Warehouse, pm.sku as Item, pm.sku_desc as Description, lc.loc as Location
+from pm_f pm, lc_f lc
+where pm.whse_code = lc.whse_code
+and pm.sku = lc.sku
+and lc.loc_type = 'FP'
+and lc.area not in (SELECT DISTINCT wsp.custom_char_01
+                FROM   wms_system_properties_ldb AS wsp
+                WHERE  wsp.property_name = 'BOTTLE_PICK_AREA'
+                AND  wsp.whse_code = lc.whse_code)
+and (( pm.uom2 = 'PALLET' and pm.wgt2 &gt; lc.wgt )
+    OR ( pm.uom3 = 'PALLET' and pm.wgt3 &gt; lc.wgt ) )   
+order by pm.whse_code, pm.sku</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="Location"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[5. Item &gt; Max Weight].[Warehouse]</expression></dataItem><dataItem name="Item"><expression>[5. Item &gt; Max Weight].[Item]</expression></dataItem><dataItem name="Description"><expression>[5. Item &gt; Max Weight].[Description]</expression></dataItem><dataItem name="Location"><expression>[5. Item &gt; Max Weight].[Location]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[5. Item &gt; Max Weight].[Warehouse]  = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="6. Item No Search Path">
+			<source>
+				
+			<sqlQuery name="6. Item No Search" dataSource="wms">
+			<sqlText>select pm.whse_code as Warehouse, pm.sku as Item, pm.sku_desc as Description, lc.loc as Location
+from pm_f pm, lc_f lc
+where pm.whse_code = lc.whse_code
+and pm.sku = lc.sku
+and lc.loc_type = 'FP'
+and lc.whse_section not in ( select distinct ws.whse_section 
+		from ws_f ws 
+		where ws.whse_code = lc.whse_code )					 
+group by pm.whse_code, pm.sku, pm.sku_desc, lc.loc
+order by pm.whse_code, pm.sku</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="Location"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[6. Item No Search].[Warehouse]</expression></dataItem><dataItem name="Item"><expression>[6. Item No Search].[Item]</expression></dataItem><dataItem name="Description"><expression>[6. Item No Search].[Description]</expression></dataItem><dataItem name="Location"><expression>[6. Item No Search].[Location]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[6. Item No Search].[Warehouse] = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="Warehouse">
+			<source>
+				
+			<sqlQuery name="Warehouses" dataSource="wms">
+			<sqlText>select whse_code as Warehouse from so_f</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse"><expression>[Warehouses].[Warehouse]</expression></dataItem></selection>
+		</query><query name="User"><source><model/></source><selection/></query></queries>
+	<layouts>
+		<layout>
+			<reportPages>
+				<page name="1. Items No FP">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="List1" refQuery="1. Item No FP">
+			
+			
+			
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quantity (BTL)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Quantity (BTL)"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 1 - Items without Forward Pick Location</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse</staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem><textItem><dataSource><staticValue>      </staticValue></dataSource></textItem><selectValue parameter="Warehouse" autoSubmit="true" refQuery="Warehouse"><defaultSelections><defaultSimpleSelection>VDC</defaultSimpleSelection></defaultSelections><useItem refDataItem="Warehouse"/></selectValue><textItem><dataSource><staticValue>     </staticValue></dataSource></textItem><textItem><dataSource><staticValue>       </staticValue></dataSource></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page>
+			<page name="2. FP Wrong Empty Flag" resetPageNumber="1">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="2. FP Wrong Empty Flag" refQuery="2. FP Wrong Empty Flag">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Location"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quantity (BTL)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Quantity (BTL)"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 2 - Forward Pick Location with Inventory but Marked Empty</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><reportExpression>ParamDisplayValue('Warehouse')</reportExpression></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser1" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page><page name="3. FP Expired Item" resetPageNumber="1">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="3. FP Expired Product" refQuery="3. FP Expired Item">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Location"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Expiry Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Expiry Date"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 3 - Pick Location with Expired Product</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><reportExpression>ParamDisplayValue('Warehouse')</reportExpression></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser2" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page><page name="4. Item Larger TiHi" resetPageNumber="1">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="4. Item Larger TiHi" refQuery="4. Item Larger TiHi">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Ti"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Ti"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Hi"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Hi"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Location"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Max Capacity"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Max Capacity"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="UOM"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="UOM"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 4 - Items TiHi Exceed Forward Pick Max Capacity</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><reportExpression>ParamDisplayValue('Warehouse')</reportExpression></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser3" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page><page name="5. Item Larger Weight" resetPageNumber="1">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="5. Item Larger Weight" refQuery="5. Item Exceed Max Weight">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Location"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 5 - Item with Larger Weight Than Forward Pick </staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><reportExpression>ParamDisplayValue('Warehouse')</reportExpression></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser4" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page><page name="6. Item No Search Path" resetPageNumber="1">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="6. Item No Search Path" refQuery="6. Item No Search Path">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Location"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Inventory Audit Report 6 - Items Not In Search Path</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><reportExpression>ParamDisplayValue('Warehouse')</reportExpression></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												<singleton name="SingletonUser5" refQuery="User">
+			<contents/>
+		</singleton></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page></reportPages>
+		<pageSetup orientation="landscape"><namedPaper name="/configuration/pageDefinition[@name='A4']"/></pageSetup></layout>
+	</layouts>
+<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><reportVariables><reportVariable name="select_criteria" type="locale"><reportExpression>ReportLocale()</reportExpression><variableValues><variableValue value="en-zw"/><variableValue value="de"/><variableValue value="en-ca"/><variableValue value="en-gb"/><variableValue value="en-us"/><variableValue value="es"/><variableValue value="fr-ca"/><variableValue value="fr"/><variableValue value="pt"/></variableValues></reportVariable></reportVariables><modelPath>/content/folder[@name='TECSYS EliteSeries']/folder[@name='Models']/package[@name='Report Model - Warehouse Management System']/model[@name='model']</modelPath><reportName>LDB Inventory Audit Report</reportName></report>

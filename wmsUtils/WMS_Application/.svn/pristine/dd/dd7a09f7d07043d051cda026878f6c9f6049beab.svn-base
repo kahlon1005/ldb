@@ -1,0 +1,14 @@
+<div class="container" *ngIf="!displayProgressSpinner">
+    <div *ngIf="success" class="alert alert-success" role="alert">
+        {{message}}
+    </div>
+    
+    <div *ngIf="!success" class="alert alert-warning" role="alert">
+        <strong>Error! </strong>{{error}}
+    </div>    
+    
+    <button (click) = "goToTransactionList()" class="btn btn-secondary">Return</button>    
+
+</div>
+
+<app-progress-spinner [color]="color" [mode]="mode" [value]="value" *ngIf="displayProgressSpinner" class="center-aligned sq-global-backdrop"></app-progress-spinner>

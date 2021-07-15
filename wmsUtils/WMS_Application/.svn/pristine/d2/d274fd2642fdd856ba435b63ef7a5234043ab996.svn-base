@@ -1,0 +1,53 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Outcome } from 'src/app/domain/outcome';
+import { Transaction } from 'src/app/domain/transaction';
+import { TransactionService } from 'src/app/service/transaction.service';
+
+@Component({
+  selector: 'app-transaction-update',
+  templateUrl: './transaction-update.component.html',
+  styleUrls: ['./transaction-update.component.css']
+})
+export class TransactionUpdateComponent implements OnInit {
+
+  name: string;
+  type: string;
+  transaction: Transaction;
+  message: string;
+  error: string;
+  outcome: Outcome;
+  success: true;
+
+  constructor(private transactionService: TransactionService,
+              private route: ActivatedRoute,
+              private router: Router) { }
+
+  ngOnInit(): void {
+    this.name = this.route.snapshot.params.name;
+    this.type = this.route.snapshot.params.type;
+    this.transaction = new Transaction();
+    this.transaction.name = this.name;
+    this.transaction.type = this.type;
+    this.transaction.incidentNumber = this.route.snapshot.params.incidentnumber;
+    this.transaction.username = this.route.snapshot.params.username;
+    this.updateTransaction();
+  }
+
+  updateTransaction(): void {
+    this.transactionService.updateTransaction(this.type, this.name, this.transaction).subscribe(data => {
+      this.success = JSON.parse(data['updated'].toLowerCase());
+      if (this.success){
+        this.message = this.type.charAt(0).toUpperCase() + this.type.slice(1) +': '+ this.name + ' update successfully.';        
+      } else{
+        this.error = data['message'];
+      }
+    }, error => console.log(error));
+  }
+
+  goToTransactionList(): void{
+    this.router.navigate(['transaction-list']);
+  }
+
+}
+

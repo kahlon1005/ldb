@@ -1,0 +1,120 @@
+package com.bcldb.services;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import com.bcldb.dto.TransactionDto;
+import com.bcldb.dto.TransactionReturnType;
+import com.bcldb.ejb.WmsServiceBean;
+import com.bcldb.services.common.EmptyRequestType;
+import com.bcldb.services.common.type.PostServiceResponseType;
+import com.bcldb.services.wmsservice.GetStuckTransactionsResponse;
+import com.bcldb.services.wmsservice.TransactionType;
+import com.bcldb.services.wmsservice.UpdateStuckTransactionsRequest;
+
+import wmsservice.ErrorMessage;
+
+public class WMSServiceImplTest {
+	
+	private static final String TRANSACTION_STUCK_IN_TRUCK_LOCATION = "Inventory Stuck in TRUCK location";
+	private static final String TRANSACTION_UPDATED_SUCCESSFULLY = "Transaction updated successfully";
+
+	private static final String ORDER_1001 = "1001";
+
+	private static final String ERROR_MESSAGE_NO_ORDER_FOUND = "The are no orders found in the request to process.";
+
+	@Mock
+	WmsServiceBean service;
+	
+	WMSServiceImpl soap;
+	
+	@Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+	
+	@Before
+	public void setup(){
+		soap  = new WMSServiceImpl(service);
+		
+		TransactionReturnType result = new TransactionReturnType();
+		TransactionDto dto = new TransactionDto();
+		dto.setOrderNumber(ORDER_1001);
+		dto.setMessage(TRANSACTION_STUCK_IN_TRUCK_LOCATION);
+		result.getTransactionType().add(dto);
+		
+		when(service.getStuckShipments()).thenReturn(result);
+		
+		
+		List<String> orders = new ArrayList<String>();
+		orders.add(ORDER_1001);
+		when(service.updateStuckShipment(orders)).thenReturn(Boolean.TRUE);
+
+	}
+	
+	@Test
+	public void validateGetStuckTransactionsReturnListIsNotEmptyTest() throws ErrorMessage {
+		
+		EmptyRequestType part = new EmptyRequestType();
+		GetStuckTransactionsResponse response = soap.getStuckTransactions(part);
+		List<TransactionType> list = response.getTransaction();		
+		assertTrue(!list.isEmpty());
+	}
+	
+	@Test
+	public void validateGetStuckTransactionsFoundTransactionStuckInTruckLocationTest() throws ErrorMessage {
+		
+		EmptyRequestType part = new EmptyRequestType();
+		GetStuckTransactionsResponse response = soap.getStuckTransactions(part);
+		List<TransactionType> list = response.getTransaction();		
+		for (TransactionType transaction : list) {
+			if(transaction.getOrderNumber().equals(ORDER_1001)) {
+				assertEquals(TRANSACTION_STUCK_IN_TRUCK_LOCATION, transaction.getIssueDescription());
+			}
+		}	
+		
+	}
+	
+	
+	@Test
+	public void validateOrderCountInGetStuckTransactionsTest() throws ErrorMessage {
+		
+		EmptyRequestType part = new EmptyRequestType();
+		GetStuckTransactionsResponse response = soap.getStuckTransactions(part);
+		List<TransactionType> list = response.getTransaction();
+		assertEquals(1, list.size());
+	}
+	
+	@Test
+	public void validateUpdateStuckTransactionsReturnMessageTest() throws ErrorMessage {
+		
+		UpdateStuckTransactionsRequest part = new UpdateStuckTransactionsRequest();
+		part.getOrderNumber().add(ORDER_1001);
+		PostServiceResponseType response = soap.updateStuckTransactions(part);
+	
+		assertEquals(TRANSACTION_UPDATED_SUCCESSFULLY, response.getAuxMessage());
+	}
+
+	@Test
+	public void validateUpdateStuckTransactionsReturnMessageTest2() {
+		
+		UpdateStuckTransactionsRequest part = new UpdateStuckTransactionsRequest();
+		
+		try {
+			soap.updateStuckTransactions(part);
+		
+		}catch (Exception e) {
+			assertEquals(ERROR_MESSAGE_NO_ORDER_FOUND, e.getMessage());			
+		}
+		
+		
+	}
+}

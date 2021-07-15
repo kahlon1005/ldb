@@ -1,0 +1,234 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-zw"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/8.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2016-6-23. 10:32:47--><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/6.0/" to "http://developer.cognos.com/schemas/report/8.0/" at 2011-11-17. 17:8:54--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2009-2-18. 9:34:26--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/3.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2008-3-17. 15:35:14--><!--RS:8.2-->
+	<modelPath>/content/folder[@name='TECSYS EliteSeries']/folder[@name='Models']/package[@name='Report Model - Warehouse Management System']/model[@name='model']</modelPath>
+	
+	<layouts>
+		<layout>
+			<reportPages>
+				<page name="ReportPage">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="List1" refQuery="Query1">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="whse_code"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="whse_code"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="sku"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku_desc"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="sku_desc"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="fp_repl_uom"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="fp_repl_uom"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Forward Pick Location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Forward Pick Location"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="max_fp_cap"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="max_fp_cap"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_uom"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_uom"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="plan_qty_to_plan"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="plan_qty_to_plan"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Build Quantity (Bottles)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Build Quantity (Bottles)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Order Qty Planned Unpicked"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Order Qty Planned Unpicked"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Order Qty Total"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Order Qty Total"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Dynamic_repl_total"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Dynamic_repl_total"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="FP Quantity (Bottles)"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="FP Quantity (Bottles)"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="fifo_iv"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="fifo_iv"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="recv_iv"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="recv_iv"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Planned Replenishments"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Planned Replenishments"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_count_total"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_count_total"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Forecast Replen Bottles Report</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse</staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><textBox parameter="p_whse_code" required="false"><defaultSelections><defaultSimpleSelection>VDC</defaultSimpleSelection></defaultSelections></textBox><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><promptButton type="finish">
+			<contents/>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="bp"/>
+				</defaultStyles>
+			</style>
+		</promptButton></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												</contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page>
+			</reportPages>
+		<pageSetup orientation="landscape"><namedPaper name="/configuration/pageDefinition[@name='A4']"/></pageSetup></layout>
+	</layouts>
+<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="false"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><reportVariables><reportVariable name="select_criteria" type="locale"><reportExpression>ReportLocale()</reportExpression><variableValues><variableValue value="en-zw"/><variableValue value="de"/><variableValue value="en-ca"/><variableValue value="en-gb"/><variableValue value="en-us"/><variableValue value="es"/><variableValue value="fr-ca"/><variableValue value="fr"/><variableValue value="pt"/></variableValues></reportVariable></reportVariables><reportName>LDB Forecast Replen Bottles Report</reportName><queries><query name="Query1">
+			<source>
+				
+			<sqlQuery name="SQL1" dataSource="wms">
+			<sqlText>
+SELECT 
+  a.whse_code,
+  a.sku, 
+  a.sku_desc, 
+  a.fp_repl_uom, 
+  fp_locs as [Forward Pick Location],
+  max_fp_cap,
+  repl_uom,
+  ord_qty_unplanned/fp_repl_uom_qty AS plan_qty_to_plan,
+  bld_qty AS [Build Quantity (Bottles)],
+  (ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty AS [Order Qty Planned Unpicked],
+  (ISNULL(ord_qty_unplanned,0)+ISNULL(ord_qty_planned,0)) as [Order Qty Total],
+  (ISNULL(ord_qty_unplanned,0)+ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0)-ISNULL(qty_picked,0))/fp_repl_uom_qty/repl_dynam_qty_sum AS Dynamic_repl_total, 
+  fpQty.fp_iv as [FP Quantity (Bottles)],
+  isnull(fifo_iv/fp_repl_uom_qty, 0) AS fifo_iv,  --total qty of current RECV inventory of the item, in repl_uom.
+  isnull(recv_iv/fp_repl_uom_qty, 0) AS recv_iv, --total qty of current FIFO inventory of the item, in repl_uom.
+  isnull(Replns.replnCount, 0) as[Planned Replenishments],
+  (ISNULL(ord_qty_unplanned,0)+ISNULL(ord_qty_planned,0)-ISNULL(qty_cm_non_fp,0))/fp_repl_uom_qty/repl_dynam_qty_sum AS repl_count_total 
+FROM 
+  (SELECT pm.whse_code, pm.sku, pm.sku_desc, 
+    repl_dynam_qty_sum, -- total of dynamic repl qty of all FP locations of the item
+	recv_iv, 
+	fifo_iv, -- current inventory qty of the locations of RECV and FIFO.
+    CASE WHEN uom2=repl_uom THEN uom2 WHEN uom1=repl_uom THEN uom1 ELSE uom3 END AS fp_repl_uom, --replenishment UOM
+    CASE WHEN uom2=repl_uom THEN qty1in2 WHEN uom1=repl_uom THEN 1 ELSE qty1in2*qty2in3 END AS fp_repl_uom_qty --qty of repl_uom in UOM1
+    FROM pm_f pm 
+		INNER JOIN (SELECT MAX(pm_rid) AS pm_rid 
+			FROM pm_f GROUP BY whse_code, sku) pm2 ON pm2.pm_rid=pm.pm_rid
+		INNER JOIN (SELECT whse_code, sku, MAX(repl_uom) AS repl_uom, SUM(repl_dynam_qty) AS repl_dynam_qty_sum 
+			FROM lc_f 
+			WHERE loc_type='FP' AND area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T') GROUP BY whse_code, sku) lc ON pm.whse_code=lc.whse_code AND pm.sku=lc.sku 
+		LEFT JOIN (
+			SELECT iv.whse_code, 
+				iv.sku, 
+				sum(IIF(lc.loc_type='RECV', qty, 0)) as recv_iv,
+				sum(IIF(lc.loc_type='FIFO', qty, 0)) as fifo_iv
+			FROM iv_f iv 
+				INNER JOIN lc_f lc ON iv.loc=lc.loc 
+			WHERE lc.loc_type='RECV' AND area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+			GROUP BY iv.whse_code, iv.sku) iv1 ON pm.whse_code=iv1.whse_code AND pm.sku=iv1.sku
+  ) a
+  LEFT JOIN --unplanned qty in UOM1 
+    (SELECT od.whse_code, 
+		od.sku, 
+		sum(IIF(od.ob_lno_stt IN ('HOLD','IHLD','IPLN','SPLN','SSPL','SSRL'), od.plan_qty, 0)) as ord_qty_unplanned,
+		sum(IIF(od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP'), od.plan_qty, 0)) as ord_qty_planned,
+		sum(IIF(od.ob_lno_stt IN ('BLD'), od.plan_qty, 0)) as bld_qty
+	FROM od_f od 
+	GROUP BY od.whse_code, od.sku
+	) c ON c.whse_code=a.whse_code AND c.sku=a.sku
+  LEFT JOIN --non-FP cm qty in UOM1 
+    (SELECT 
+		cm.whse_code, 
+		cm.sku, 
+		SUM(cm.qty) AS qty_cm_non_fp 
+	FROM cm_f cm
+	  INNER JOIN lc_f lc ON lc.whse_code=cm.whse_code AND lc.loc=cm.loc 
+	  INNER JOIN od_f od ON od.whse_code=cm.whse_code AND od.od_rid=cm.od_rid 
+	WHERE lc.loc_type!='FP' AND cm.task_code='PICK' AND cm.to_cont IS NOT NULL AND LEN(cm.to_cont)&gt;0 AND od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP') AND lc.area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+	GROUP BY cm.whse_code, cm.sku
+	) e ON e.whse_code=a.whse_code AND e.sku=a.sku
+
+  LEFT JOIN 
+	(SELECT it.whse_code, it.sku, SUM(it.act_qty) AS qty_picked 
+	FROM it_f it 
+	  INNER JOIN lc_f lc ON lc.whse_code=it.whse_code AND lc.loc=it.from_loc
+	  INNER JOIN od_f od ON od.whse_code=it.whse_code AND od.ob_oid=it.ob_oid AND od.ob_lno=it.ob_lno
+	  WHERE it.transact='RPCK' AND lc.loc_type IN ('FP','FIFO') AND od.ob_lno_stt IN ('PLN','RDY','IRLS','SRLS','SUSP','HOLD','BLD','IHLD','IPLN','SPLN','SSPL','SSRL') AND area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+	  GROUP BY it.whse_code, it.sku
+	) f ON f.whse_code=a.whse_code AND f.sku=a.sku
+  
+  LEFT JOIN ( 
+	select cm_f.whse_code, cm_f.sku, count(0) as replnCount 
+	from cm_f 
+	inner join lc_F on lc_f.whse_code = cm_f.whse_code and lc_f.loc = cm_f.loc
+	where task_code = 'REPL' AND lc_f.area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+	group by cm_f.whse_code, cm_f.sku
+  ) Replns on Replns.whse_code=a.whse_code AND Replns.sku=a.sku
+  LEFT JOIN (
+  select 
+		iv.whse_code,
+		iv.sku,
+		sum(IIF(lc.loc_type='fp', qty, 0)) as fp_iv
+	from iv_f iv
+		INNER JOIN lc_f lc ON iv.loc=lc.loc 
+	where lc.loc_type = 'FP' AND area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+	group by iv.sku, iv.whse_code
+  ) fpQty on fpQty.whse_code=a.whse_code AND fpQty.sku=a.sku
+  LEFT JOIN (
+  select 
+		whse_code,
+		sku,
+		cast(STUFF((	SELECT N'; ' + loc 
+				FROM lc_f AS p2
+				WHERE lc_f.sku = p2.sku and lc_f.whse_code = p2.whse_code and p2.area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+				FOR XML PATH(N'')), 1, 2, N'')as nvarchar(1000)) as fp_locs,
+		max(max_fp_cap) as max_fp_cap,
+		max(repl_uom) as repl_uom
+	from 
+		lc_F 
+	where 
+		area IN ('AB1R', 'AB2R', 'AB3L', 'AB3P', 'AB3T')
+		and sku != ''
+	group by 
+		sku, whse_code
+	) fp_loc on fp_loc.whse_code=a.whse_code AND fp_loc.sku=a.sku
+	WHERE 
+		(ISNULL(ord_qty_unplanned,0)&gt;0 OR ISNULL(ord_qty_planned,0)&gt;0) 
+		--and a.whse_code = 'VDC'
+
+
+
+</sqlText>
+		<mdProjectedItems><mdProjectedItem name="whse_code"/><mdProjectedItem name="sku"/><mdProjectedItem name="sku_desc"/><mdProjectedItem name="fp_repl_uom"/><mdProjectedItem name="Forward Pick Location"/><mdProjectedItem name="max_fp_cap"/><mdProjectedItem name="repl_uom"/><mdProjectedItem name="plan_qty_to_plan"/><mdProjectedItem name="Build Quantity (Bottles)"/><mdProjectedItem name="Order Qty Planned Unpicked"/><mdProjectedItem name="Order Qty Total"/><mdProjectedItem name="Dynamic_repl_total"/><mdProjectedItem name="FP Quantity (Bottles)"/><mdProjectedItem name="fifo_iv"/><mdProjectedItem name="recv_iv"/><mdProjectedItem name="Planned Replenishments"/><mdProjectedItem name="repl_count_total"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="whse_code"><expression>[SQL1].[whse_code]</expression></dataItem><dataItem name="sku"><expression>[SQL1].[sku]</expression></dataItem><dataItem name="sku_desc"><expression>[SQL1].[sku_desc]</expression></dataItem><dataItem name="fp_repl_uom"><expression>[SQL1].[fp_repl_uom]</expression></dataItem><dataItem name="Forward Pick Location"><expression>[SQL1].[Forward Pick Location]</expression></dataItem><dataItem name="max_fp_cap"><expression>[SQL1].[max_fp_cap]</expression></dataItem><dataItem name="repl_uom"><expression>[SQL1].[repl_uom]</expression></dataItem><dataItem name="plan_qty_to_plan"><expression>[SQL1].[plan_qty_to_plan]</expression></dataItem><dataItem name="Build Quantity (Bottles)"><expression>[SQL1].[Build Quantity (Bottles)]</expression></dataItem><dataItem name="Order Qty Planned Unpicked"><expression>[SQL1].[Order Qty Planned Unpicked]</expression></dataItem><dataItem name="Order Qty Total"><expression>[SQL1].[Order Qty Total]</expression></dataItem><dataItem name="Dynamic_repl_total"><expression>[SQL1].[Dynamic_repl_total]</expression></dataItem><dataItem name="FP Quantity (Bottles)"><expression>[SQL1].[FP Quantity (Bottles)]</expression></dataItem><dataItem name="fifo_iv"><expression>[SQL1].[fifo_iv]</expression></dataItem><dataItem name="recv_iv"><expression>[SQL1].[recv_iv]</expression></dataItem><dataItem name="Planned Replenishments"><expression>[SQL1].[Planned Replenishments]</expression></dataItem><dataItem name="repl_count_total"><expression>[SQL1].[repl_count_total]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[whse_code]=?p_whse_code?</filterExpression></detailFilter></detailFilters></query></queries></report>

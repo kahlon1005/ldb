@@ -1,0 +1,32 @@
+<div class="container page-header">Stuck Transaction List</div>
+
+<div *ngIf="transactionExists" class="container"> 
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td scope="col" class="column">Transaction Number</td>
+                <td scope="col" class="column">Transaction Type</td>
+                <td scope="col" class="column">Issue Description</td>
+                <td scope="col" class="column">Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let transaction of transactions">
+                <td>{{transaction.name}}</td>
+                <td>{{transaction.type}}</td>
+                <td>{{transaction.message}}</td>        
+                <td>
+                    <button (click) = "updateTransaction(transaction.name, transaction.type)" class="btn btn-primary" style="font-weight: 600">Apply Fix</button>                    
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+</div>
+<div *ngIf="!transactionExists" class="container">    
+    <div class="alert alert-primary" role="alert">
+        <p>There are no transaction available to fix.</p>
+    </div>    
+</div>
+<div class="container">
+    <button (click) = "refreshPage()" class="btn btn-secondary">Refresh</button>    
+</div>

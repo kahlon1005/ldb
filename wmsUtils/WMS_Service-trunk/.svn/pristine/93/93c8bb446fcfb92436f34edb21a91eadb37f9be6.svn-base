@@ -1,0 +1,152 @@
+package com.bcldb.ejb;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.jboss.ejb3.annotation.Clustered;
+import org.jboss.logging.Logger;
+
+import com.bcldb.dto.TransactionDto;
+import com.bcldb.dto.TransactionReturnType;
+import com.bcldb.helper.DTOConverter;
+import com.bcldb.model.InventoryEntity;
+import com.bcldb.model.ShippingActivityEntity;
+import com.bcldb.model.TaskCompletionEntity;
+import com.bcldb.util.WMSUtilServiceException;
+
+@Stateless
+@Clustered
+public class WmsServiceBean {
+
+	private static final Logger log = Logger.getLogger(WmsServiceBean.class);
+
+	private static final String SHIPPING_ACTIVITY_RECORD_NOT_FOUND = "Shipping activity record not found in view (shipunit_f) for container : ";
+	private static final String INVENTORY_RECORD_NOT_FOUND = "Inventory Stuck in Truck location not found for order : ";
+
+	
+	
+	@PersistenceContext
+	private EntityManager em;
+
+	DTOConverter converter = new DTOConverter();
+
+	public TransactionReturnType getStuckShipments() {
+
+		TransactionReturnType ret = new TransactionReturnType();
+
+		
+		// 1. Inventory Stuck in truck location
+		List<TransactionDto> taskCompletionEntities = getInventoryStuckInTruckLocation();
+		ret.getTransactionType().addAll(taskCompletionEntities);
+		
+		//2. Stuck Waves
+		List<TransactionDto>  stuckWaves = getStuckWave();
+		ret.getTransactionType().addAll(stuckWaves);
+
+		return ret;
+	}
+	
+
+	public boolean updateStuckShipment(String orderNumber, String incidentNumber, String username) throws WMSUtilServiceException {
+		Boolean success = Boolean.FALSE;
+		try {
+			
+				List<InventoryEntity> inventories = getInventoryStuckInTruckLocation(orderNumber);
+				if (inventories == null || inventories.isEmpty()) {
+					throw new WMSUtilServiceException(INVENTORY_RECORD_NOT_FOUND + orderNumber);
+				}
+				for (InventoryEntity inventory : inventories) {
+					List<TaskCompletionEntity> tasks = inventory.getTasks();
+					for(TaskCompletionEntity task : tasks) {
+						ShippingActivityEntity shippingActivity = getShippingActivity(task.getContainer());
+						if (shippingActivity == null || shippingActivity.getId() == 0) {
+							//TO DO Senario#3 fix 
+							throw new WMSUtilServiceException(SHIPPING_ACTIVITY_RECORD_NOT_FOUND + task.getContainer());							
+						}
+						
+						updateInventory(task.getContainer(), shippingActivity.getId(), inventory.getId());
+						updateOrderDetails(task.getOrderDetailId(), task.getQuantity());		
+						updateWarehouseTask();						
+					}					
+				}
+			
+			success  = Boolean.TRUE;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw e;
+		}
+
+		return success;
+	}
+
+	private ShippingActivityEntity getShippingActivity(String container) {
+		ShippingActivityEntity entity = null;
+		try {
+			Query query = em.createNamedQuery(ShippingActivityEntity.FIND_BY_CONTAINER);
+			query.setParameter("container", container);
+			entity = (ShippingActivityEntity) query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+		return entity;
+	}
+
+	// get stuck inventory in truck location
+	@SuppressWarnings("unchecked")
+	private List<InventoryEntity> getInventoryStuckInTruckLocation(String orderNumber) {
+		Query query = em.createNamedQuery(InventoryEntity.INVENTORY_STUCK_IN_TRUCK_LOCATION);
+		query.setParameter("orderNumber", orderNumber);
+		return query.getResultList();
+	}
+
+	private void updateInventory(String container, int shipunitId, int inventoryId) {
+		String sql = "update iv_f set alloc_qty = alloc_qty - qty, loc = '', cont = :container, shipunit_rid =  :shipunitId where iv_rid = :inventoryId and loc = 'TRUCK'";
+		Query query = em.createNativeQuery(sql);
+		query.setParameter("container", container);
+		query.setParameter("shipunitId", shipunitId);
+		query.setParameter("inventoryId", inventoryId);
+		query.executeUpdate();		
+	}
+
+	private void updateOrderDetails(int orderDetailId, int quantity) {
+		String sql = "update od_f set cmp_qty = cmp_qty + :quantity, sched_qty = sched_qty - :quantity where od_rid = :orderDetailId";
+		Query query = em.createNativeQuery(sql);
+		query.setParameter("orderDetailId", orderDetailId);
+		query.setParameter("quantity", quantity);
+		query.executeUpdate();		
+	}
+
+	private void updateWarehouseTask() {
+		String sql = "update mq_warehouse_task set is_error = 0 where queue_name = 'wms_shipment_completion'";
+		Query query = em.createNativeQuery(sql);
+		query.executeUpdate();		
+	}
+	
+	
+	/**
+	 * get stuck waves
+	 *  
+	 * @return list
+	 */
+	private List<TransactionDto> getStuckWave() {
+		List<TransactionDto> ret = new ArrayList<TransactionDto>();
+		TransactionDto dto = new TransactionDto();
+		dto.setOrderNumber("W1234");		
+		dto.setMessage("Commands exists, wave can not be processed.");
+		ret.add(dto);		
+		return converter.convertWaveTransactions(ret);
+	}	
+
+	@SuppressWarnings("unchecked")
+	private List<TransactionDto> getInventoryStuckInTruckLocation() {
+		Query query = em.createNamedQuery(InventoryEntity.FIND_ALL_INVENTORY_STUCK_IN_TRUCK_LOCATION);
+		List<InventoryEntity> entities = query.getResultList();
+		return converter.convertInventoryEntityToTransactionDto(entities);
+	}
+
+}

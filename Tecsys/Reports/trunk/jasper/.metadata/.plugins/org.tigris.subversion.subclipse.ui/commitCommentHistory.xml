@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommitComments>	<CommitComment>CHG-451296- B/L wording changes from &quot;Container Quantity&quot; to be renamed &quot;No. of Containers&quot;</CommitComment>
+	<CommitComment>Group cpack by container in mpack </CommitComment>
+</CommitComments>

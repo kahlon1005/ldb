@@ -1,0 +1,27 @@
+docker
+jenkins
+
+nexus
+github
+bitbucket
+
+openshift
+
+maven
+
+jboss
+
+hibernate
+postgresql
+mysql
+oracle
+
+javaEE
+java
+
+Testing tools
+-----------------
+mockito
+junit
+arquillian
+soapui

@@ -1,0 +1,6 @@
+export class Order {
+    orderNumber: string;
+    issueDescription: string;
+    message: string;
+    success: boolean;
+}

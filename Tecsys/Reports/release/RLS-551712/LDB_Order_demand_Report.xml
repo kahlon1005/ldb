@@ -1,0 +1,188 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en">
+				<modelPath>/content/folder[@name=&apos;TECSYS EliteSeries&apos;]/folder[@name=&apos;Models&apos;]/package[@name=&apos;Report Model - Warehouse Management System&apos;]/model[@name=&apos;model&apos;]</modelPath>
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="ReportPage">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									</style>
+									<contents><list showColumnTitles="hide" name="List2" refQuery="DataQuery">
+			<listColumns>
+				<listColumn>
+					<listColumnTitle>
+						<contents/>
+					</listColumnTitle>
+					<listColumnBody>
+						<contents><list horizontalPagination="true" name="List1" refQuery="DataQuery">
+			
+			
+			
+			
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:75px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="sku"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:250px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="sku_desc"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="text-align:left"/></style><contents><textItem><dataSource><dataItemValue refDataItem="sku_desc"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:70px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="orders_qty"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><numberFormat decimalSize="2"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="orders_qty"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:70px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="unavailable"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><numberFormat decimalSize="2"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="unavailable"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:80px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="replen_required"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="text-align:center"/></style><contents><textItem><dataSource><dataItemValue refDataItem="replen_required"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/><conditionalStyleRefs><conditionalStyleRef refConditionalStyle="Replen Required - Yes/No"/></conditionalStyleRefs></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:70px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="new_fp_required"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="text-align:center"/></style><contents><textItem><dataSource><dataItemValue refDataItem="new_fp_required"/></dataSource></textItem></contents><listColumnRowSpan refDataItem="sku"/><conditionalStyleRefs><conditionalStyleRef refConditionalStyle="New FP Required - Yes/No"/></conditionalStyleRefs></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:80px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="loc"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="loc"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:70px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="available_location"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><numberFormat decimalSize="2"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="available_location"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:100px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="trig_batch_cases"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="trig_batch_cases"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:100px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="generate_batch_replen"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="text-align:center"/></style><contents><textItem><dataSource><dataItemValue refDataItem="generate_batch_replen"/></dataSource></textItem></contents><conditionalStyleRefs><conditionalStyleRef refConditionalStyle="Generate Batch - Yes/No"/></conditionalStyleRefs></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:100px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="repl_batch_cases"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="repl_batch_cases"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="width:75px"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="max_fp_cap"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="max_fp_cap"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns><listGroups><listGroup refDataItem="sku"><listFooter><listRows><listRow><rowCells><rowCell colSpan="7"><contents><textItem><dataSource><dataItemValue refDataItem="sku"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="of"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(available_location)"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="of"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="2"/></dataFormat></style></rowCell><rowCell><contents/><style><defaultStyles><defaultStyle refStyle="of"/></defaultStyles></style></rowCell><rowCell colSpan="2"><contents/><style><defaultStyles><defaultStyle refStyle="of"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(max_fp_cap)"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="of"/></defaultStyles><CSS value="text-align:right"/></style></rowCell></rowCells></listRow></listRows></listFooter></listGroup></listGroups><listOverallGroup><listFooter><listRows><listRow><rowCells><rowCell colSpan="7"><contents><textItem><dataSource><staticValue>Overall</staticValue></dataSource></textItem><textItem><dataSource><staticValue> - </staticValue></dataSource></textItem><textItem><dataSource><staticValue>Total</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="if"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(available_location)"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><CSS value="text-align:right"/><dataFormat><numberFormat decimalSize="2"/></dataFormat></style></rowCell><rowCell><contents/><style><defaultStyles><defaultStyle refStyle="if"/></defaultStyles></style></rowCell><rowCell colSpan="2"><contents/><style><defaultStyles><defaultStyle refStyle="if"/></defaultStyles></style></rowCell><rowCell><contents><textItem><dataSource><dataItemValue refDataItem="Total(max_fp_cap)"/></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="is"/></defaultStyles><CSS value="text-align:right"/></style></rowCell></rowCells></listRow></listRows></listFooter></listOverallGroup><noDataHandler><contents><block><contents><textItem><dataSource><staticValue>No Data Available</staticValue></dataSource></textItem></contents></block></contents></noDataHandler></list></contents>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="sb"/>
+							</defaultStyles>
+						</style>
+					</listColumnBody>
+				</listColumn>
+			</listColumns>
+			
+			
+			
+			<style>
+				<CSS value="border-collapse:collapse; width:100%"/>
+				<defaultStyles>
+					<defaultStyle refStyle="sc"/>
+				</defaultStyles>
+			</style>
+		<sectionsFrame sectionedEdge="columns" refFrame="List1"/><noDataHandler><contents><block><contents><textItem><dataSource><staticValue>No Data Available</staticValue></dataSource><style><CSS value="font-size:18pt;vertical-align:middle"/></style></textItem></contents></block></contents></noDataHandler><XMLAttributes><XMLAttribute output="no" name="nodataHandlerAdvanced" value="true"/></XMLAttributes></list></contents>
+								</pageBody>
+							<pageHeader><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Order Demand Report</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="2"><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="2"><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse </staticValue></dataSource><style><CSS value="font-weight:bold;padding-left:20px"/></style></textItem><selectValue refQuery="Warehouse" autoSubmit="true" parameter="Warehouse" rowsPerPage="10" required="false"><useItem refDataItem="Warehouse"><displayItem refDataItem="Warehouse"/></useItem><headerText><defaultText>Warehouse Code</defaultText></headerText><style><CSS value="width:100px"/></style><defaultSelections><defaultSimpleSelection>KDC</defaultSimpleSelection></defaultSelections></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;Warehouse&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Sku </staticValue></dataSource><style><CSS value="font-weight:bold;padding-left:20px"/></style></textItem><textBox parameter="SkuParameter" required="false"><style><CSS value="width:162px"/></style></textBox><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;SkuParameter&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender><style><CSS value="font-weight:normal"/></style></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="width:250px"/></style></tableCell><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Replenishment Required </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectValue parameter="Replenishment Required" autoSubmit="true" name="ReplenRequiredFilter" rowsPerPage="5" required="false" cascadeOn=""><style><CSS value="width:170px"/></style><selectOptions><selectOption useValue="Yes"><displayValue>Yes</displayValue></selectOption><selectOption useValue="No"><displayValue>No</displayValue></selectOption></selectOptions></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;Replenishment Required&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>New FP Required </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectValue parameter="NewFpRequiredParameter" required="false" autoSubmit="true" rowsPerPage="5" prePopulateIfParentOptional="true"><headerText><defaultText>New FP Required</defaultText></headerText><style><CSS value="width:130px"/></style><selectOptions><selectOption useValue="Yes"><displayValue>Yes</displayValue></selectOption><selectOption useValue="No"><displayValue>No</displayValue></selectOption></selectOptions></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;NewFpRequiredParameter&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender><style><CSS value="font-weight:normal"/></style></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="width:450px"/></style></tableCell><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>From </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="width:50px"/></style></tableCell><tableCell><contents><selectDate selectDateUI="editBox" parameter="ShipDateFrom" required="false"/><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;ShipDateFrom&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>To </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectDate selectDateUI="editBox" parameter="ShipDateTo" required="false"/><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;ShipDateTo&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="font-weight:bold;width:300px"/></style></tableCell><tableCell><contents><promptButton type="finish">
+			<contents/>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="bp"/>
+				</defaultStyles>
+			</style>
+		</promptButton></contents><style><CSS value="text-align:left"/></style></tableCell></tableCells></tableRow></tableRows></table></contents></tableCell></tableCells></tableRow></tableRows></table></contents></pageHeader><pageFooter><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			<style>
+				<dataFormat>
+					<timeFormat/>
+				</dataFormat>
+			</style>
+		</time></contents><style><CSS value="width:25%;text-align:left;vertical-align:top"/></style></tableCell><tableCell><contents><pageNumber verticalType="range" verticalRangeSeparator=" of "/></contents><style><CSS value="width:50%;text-align:center;vertical-align:top"/></style></tableCell><tableCell><contents><singleton name="Singleton" refQuery="User">
+			<contents><textItem><dataSource><dataItemValue refDataItem="user"/></dataSource></textItem></contents>
+		</singleton></contents><style><CSS value="width:25%;text-align:right;vertical-align:top"/></style></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="text-align:right;padding-top:10px"/></style></pageFooter></page>
+						</reportPages>
+					<pageSetup orientation="landscape"><namedPaper name="/configuration/pageDefinition[@name=&apos;Legal&apos;]"/></pageSetup><promptPages><page name="Prompt Page">
+			<pageHeader>
+				<contents>
+					
+				<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Order Demand Report</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="2"><contents/></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="2"><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse </staticValue></dataSource><style><CSS value="font-weight:bold;padding-left:20px"/></style></textItem><selectValue refQuery="Warehouse" autoSubmit="true" parameter="Warehouse" rowsPerPage="10" required="false"><useItem refDataItem="Warehouse"><displayItem refDataItem="Warehouse"/></useItem><headerText><defaultText>Warehouse Code</defaultText></headerText><style><CSS value="width:100px"/></style><defaultSelections><defaultSimpleSelection>KDC</defaultSimpleSelection></defaultSelections></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;Warehouse&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Sku </staticValue></dataSource><style><CSS value="font-weight:bold;padding-left:20px"/></style></textItem><textBox parameter="SkuParameter" required="false"><style><CSS value="width:162px"/></style></textBox><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;SkuParameter&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender><style><CSS value="font-weight:normal"/></style></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="width:250px"/></style></tableCell><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Replenishment Required </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectValue parameter="Replenishment Required" autoSubmit="true" name="ReplenRequiredFilter1" rowsPerPage="5" required="false" cascadeOn=""><style><CSS value="width:170px"/></style><selectOptions><selectOption useValue="Yes"><displayValue>Yes</displayValue></selectOption><selectOption useValue="No"><displayValue>No</displayValue></selectOption></selectOptions></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;Replenishment Required&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>New FP Required </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectValue parameter="NewFpRequiredParameter" required="false" autoSubmit="true" rowsPerPage="5" prePopulateIfParentOptional="true"><headerText><defaultText>New FP Required</defaultText></headerText><style><CSS value="width:130px"/></style><selectOptions><selectOption useValue="Yes"><displayValue>Yes</displayValue></selectOption><selectOption useValue="No"><displayValue>No</displayValue></selectOption></selectOptions></selectValue><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;NewFpRequiredParameter&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender><style><CSS value="font-weight:normal"/></style></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="width:450px"/></style></tableCell><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>From </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents><style><CSS value="width:50px"/></style></tableCell><tableCell><contents><selectDate selectDateUI="editBox" parameter="ShipDateFrom" required="false"/><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;ShipDateFrom&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>To </staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem></contents></tableCell><tableCell><contents><selectDate selectDateUI="editBox" parameter="ShipDateTo" required="false"/><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;ShipDateTo&apos;)</reportExpression></dataSource><conditionalRender refVariable="Output"><renderFor refVariableValue="PDF"/></conditionalRender></textItem></contents></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="font-weight:bold;width:300px"/></style></tableCell><tableCell><contents><promptButton type="finish">
+			<contents/>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="bp"/>
+				</defaultStyles>
+			</style>
+		</promptButton></contents><style><CSS value="text-align:left"/></style></tableCell></tableCells></tableRow></tableRows></table></contents></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="hp"/>
+					</defaultStyles>
+				</style>
+			</pageHeader>
+			<pageBody>
+				<contents/>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="py"/>
+					</defaultStyles>
+				</style>
+			</pageBody>
+			<pageFooter>
+				<contents>
+					
+					
+					
+					
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="fp"/>
+					</defaultStyles>
+				</style>
+			</pageFooter>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pp"/>
+				</defaultStyles>
+			</style>
+		</page></promptPages></layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute output="no" name="RS_CreateExtendedDataItems" value="false"/><XMLAttribute output="no" name="listSeparator" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><reportName>LDB Order Demand Report</reportName><queries><query name="Warehouse">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem name="Warehouse" label="Warehouse"><expression>[wms].[so_f].[whse_code]</expression></dataItem></selection>
+		</query><query name="DataQuery">
+			<source>
+				
+			<sqlQuery name="SQL" dataSource="wms">
+			<sqlText>SELECT q.whse_code, 
+q.sku, q.sku_desc, /*q.ship_date,*/ q.orders_qty, q.available, 
+iif(q.available - q.orders_qty &lt; 0, q.available - q.orders_qty,0) unavailable, 
+iif(q.available - q.orders_qty &lt; 0, &apos;Yes&apos;,&apos;No&apos;) replen_required, 
+iif((q.available - q.orders_qty) *-1 &gt; total_max_tp_cap, &apos;Yes&apos;,&apos;No&apos;) new_fp_required, 
+q.total_max_tp_cap, 
+q.loc, (q.available_location/q.btl_per_case) as available_location, (trig_batch_qty* q.trig_uom_qty/q.btl_per_case) trig_batch_cases, 
+iif((q.available_location) &gt; q.trig_batch_btl, &apos;No&apos;, &apos;Yes&apos;) generate_batch_replen,
+(repl_batch_qty* q.rep_uom_qty/q.btl_per_case) repl_batch_cases, q.max_fp_cap
+
+FROM (
+	SELECT om_f.whse_code, pm_f.sku, pm_f.sku_desc, /*om_f.ship_date, */pm_f.custom_numeric_3 btl_per_case,
+		sum(plan_qty - od_f.sched_qty - od_f.cmp_qty)/pm_f.custom_numeric_3 orders_qty, 
+
+		COALESCE((SELECT sum(iv_f.qty + iv_f.intran_qty - iv_f.alloc_qty) 
+			FROM iv_f 
+			JOIN lc_f ON lc_f.whse_code = iv_f.whse_code and lc_f.loc = iv_f.loc and lc_f.loc_type = &apos;FP&apos;
+			WHERE iv_f.whse_code = om_f.whse_code and iv_f.sku = pm_f.sku)/pm_f.custom_numeric_3,0) available, 
+
+		(SELECT sum(lc_f.max_fp_cap) FROM lc_f WHERE lc_f.whse_code = om_f.whse_code and lc_f.sku = pm_f.sku) total_max_tp_cap,
+
+               COALESCE((SELECT sum(iv_f.qty + iv_f.intran_qty - iv_f.alloc_qty) FROM iv_f WHERE iv_f.whse_code = om_f.whse_code AND iv_f.sku = pm_f.sku and iv_f.loc = lc_f.loc),0) available_location, 
+
+		lc_f.loc, lc_f.trig_batch_qty, lc_f.repl_batch_qty, lc_f.max_fp_cap,
+		(lc_f.trig_batch_qty * triguom.qty_uom_in) trig_batch_btl, triguom.qty_uom_in trig_uom_qty, repluom.qty_uom_in rep_uom_qty
+	FROM om_f
+	JOIN od_f ON od_f.whse_code = om_f.whse_code AND od_f.ob_oid = om_f.ob_oid
+	JOIN pm_f ON pm_f.whse_code = om_f.whse_code AND pm_f.sku = od_f.sku
+	JOIN lc_f ON lc_f.whse_code = om_f.whse_code AND lc_f.sku = od_f.sku
+	JOIN v_u_pm_f_uom triguom ON triguom.whse_code = pm_f.whse_code and triguom.sku = pm_f.sku and triguom.pkg = pm_f.pkg and triguom.uom = lc_f.trig_uom
+	JOIN v_u_pm_f_uom repluom ON repluom.whse_code = pm_f.whse_code and repluom.sku = pm_f.sku and repluom.pkg = pm_f.pkg and repluom.uom = lc_f.repl_uom
+	WHERE lc_f.loc_type = &apos;FP&apos;
+        AND om_f.ship_date BETWEEN  #prompt(&apos;ShipDateFrom&apos;)# AND  #prompt(&apos;ShipDateTo&apos;)#
+	GROUP BY om_f.whse_code, pm_f.sku, pm_f.sku_desc, /*om_f.ship_date,*/ lc_f.loc, lc_f.trig_batch_qty, lc_f.trig_uom, lc_f.repl_batch_qty, lc_f.repl_uom,
+	 lc_f.max_fp_cap ,pm_f.custom_numeric_3,triguom.qty_uom_in, repluom.qty_uom_in
+) q</sqlText>
+		<mdProjectedItems><mdProjectedItem name="whse_code"/><mdProjectedItem name="sku"/><mdProjectedItem name="sku_desc"/><mdProjectedItem name="orders_qty"/><mdProjectedItem name="available"/><mdProjectedItem name="unavailable"/><mdProjectedItem name="replen_required"/><mdProjectedItem name="new_fp_required"/><mdProjectedItem name="total_max_tp_cap"/><mdProjectedItem name="loc"/><mdProjectedItem name="available_location"/><mdProjectedItem name="trig_batch_cases"/><mdProjectedItem name="generate_batch_replen"/><mdProjectedItem name="repl_batch_cases"/><mdProjectedItem name="max_fp_cap"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="whse_code" label="Warehouse"><expression>[SQL].[whse_code]</expression></dataItem><dataItem name="sku" label="Sku"><expression>[SQL].[sku]</expression></dataItem><dataItem name="sku_desc" label="Item Description"><expression>[SQL].[sku_desc]</expression></dataItem><dataItem name="orders_qty" label="Cases Remaining on Orders"><expression>[SQL].[orders_qty]</expression></dataItem><dataItem name="available" label="Available"><expression>[SQL].[available]</expression></dataItem><dataItem name="unavailable" label="Unavailable"><expression>[SQL].[unavailable]</expression></dataItem><dataItem name="replen_required" label="Replenishment Required"><expression>[SQL].[replen_required]</expression></dataItem><dataItem name="new_fp_required" label="New FP Required"><expression>[SQL].[new_fp_required]</expression></dataItem><dataItem name="total_max_tp_cap"><expression>[SQL].[total_max_tp_cap]</expression></dataItem><dataItem name="loc" label="Forward Pick Location"><expression>[SQL].[loc]</expression></dataItem><dataItem name="available_location" label="Cases Available"><expression>[SQL].[available_location]</expression></dataItem><dataItem name="trig_batch_cases" label="Batch Replenishment Trigger Cases"><expression>[SQL].[trig_batch_cases]</expression></dataItem><dataItem name="generate_batch_replen" label="Will Generate Batch Replenishment"><expression>[SQL].[generate_batch_replen]</expression></dataItem><dataItem name="repl_batch_cases" label="Batch Replenishment Cases"><expression>[SQL].[repl_batch_cases]</expression></dataItem><dataItem name="max_fp_cap" label="Maximum FP Location Capacity"><expression>[SQL].[max_fp_cap]</expression></dataItem><dataItemListSummary refDataItem="available_location" aggregateMethod="total" name="Total(available_location)"/><dataItemListSummary refDataItem="max_fp_cap" aggregateMethod="total" name="Total(max_fp_cap)"/></selection>
+		<detailFilters><detailFilter use="optional"><filterExpression>[whse_code] = ?Warehouse?</filterExpression></detailFilter><detailFilter use="prohibited"><filterExpression>[ship_date] = (current_date + 1)</filterExpression></detailFilter><detailFilter use="optional"><filterExpression>[sku] = ?SkuParameter?</filterExpression></detailFilter><detailFilter use="optional"><filterExpression>[replen_required] = ?Replenishment Required?</filterExpression></detailFilter><detailFilter use="optional" postAutoAggregation="true"><filterExpression>[new_fp_required] = ?NewFpRequiredParameter?</filterExpression></detailFilter></detailFilters></query><query name="User">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem name="user"><expression>#sq($account.defaultName)#</expression></dataItem></selection>
+		</query></queries><namedConditionalStyles><stringsConditionalStyle name="Generate Batch - Yes/No"><conditionalDataItem refDataItem="generate_batch_replen" refQuery="DataQuery"/><stringConditions><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_4"/></defaultStyles></style><styleValues><styleValue>No</styleValue></styleValues></stringValueList><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_1"/></defaultStyles></style><styleValues><styleValue>Yes</styleValue></styleValues></stringValueList></stringConditions><styleDefault/></stringsConditionalStyle><stringsConditionalStyle name="New FP Required - Yes/No"><conditionalDataItem refDataItem="new_fp_required" refQuery="DataQuery"/><stringConditions><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_2"/></defaultStyles></style><styleValues><styleValue>No</styleValue></styleValues></stringValueList><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_5"/></defaultStyles></style><styleValues><styleValue>Yes</styleValue></styleValues></stringValueList></stringConditions><styleDefault/></stringsConditionalStyle><stringsConditionalStyle name="Replen Required - Yes/No"><conditionalDataItem refDataItem="replen_required" refQuery="DataQuery"/><stringConditions><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_2"/></defaultStyles></style><styleValues><styleValue>No</styleValue></styleValues></stringValueList><stringValueList selectedValues="false"><style><defaultStyles><defaultStyle refStyle="pd_5"/></defaultStyles></style><styleValues><styleValue>Yes</styleValue></styleValues></stringValueList></stringConditions><styleDefault/></stringsConditionalStyle></namedConditionalStyles><reportVariables><reportVariable type="string" name="Output">
+			<reportExpression>ReportOutput ()</reportExpression>
+		<variableValues><variableValue value="PDF"/></variableValues></reportVariable></reportVariables></report>

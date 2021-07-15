@@ -1,0 +1,55 @@
+package com.bcldb.web.wms.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bcldb.web.wms.dto.TransactionReturnType;
+import com.bcldb.web.wms.model.Order;
+import com.bcldb.web.wms.repository.WMSServiceEndpoint;
+
+@RestController
+@RequestMapping("/api/v1")
+public class OrderController {
+	
+	
+	@Autowired
+	private WMSServiceEndpoint  service;
+	
+	@GetMapping("/version")
+	private String version() {
+		String version = service.getVersion();			
+		return version;
+	}
+
+	
+	@GetMapping("/orders")
+	public List<Order> getStuckOrders(){	
+		return service.getStuckTransactions();
+	}
+	
+	
+	//update order rest api
+	@PutMapping("/orders/{orderNumber}")
+	public ResponseEntity<Map<String,String>>  updateStuckOrders(@PathVariable Long orderNumber, @RequestBody Order orderDetails) {
+		List<String> orderNumbers = new ArrayList<String>();
+		orderNumbers.add(orderDetails.getOrderNumber());
+		TransactionReturnType ret = service.updateStuckTransaction(orderNumbers);
+		
+		Map<String, String> response = new HashMap<>();
+		response.put("updated", Boolean.toString(ret.isSuccess()));
+		response.put("message", ret.getMessage());
+		return ResponseEntity.ok(response);
+	}
+		
+}

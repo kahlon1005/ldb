@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2018-11-27T11:26:02 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_mpack_order" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9a39f14-52cc-4bbf-b955-c0f4204cc6ac">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="jasper*subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jasper*locale_name" class="java.lang.String"/>
+	<parameter name="jasper*parameter*reprint" class="java.lang.String"/>
+	<parameter name="jasper*images_path" class="java.lang.String"/>
+	<parameter name="master_pack_list_3" class="java.lang.String"/>
+	<parameter name="master_pack_list_reprint" class="java.lang.String"/>
+	<parameter name="bill_to_3" class="java.lang.String"/>
+	<parameter name="buyer" class="java.lang.String"/>
+	<parameter name="ship_to_4" class="java.lang.String"/>
+	<parameter name="ship_from" class="java.lang.String"/>
+	<parameter name="seller" class="java.lang.String"/>
+	<parameter name="container_num" class="java.lang.String"/>
+	<parameter name="phone_3" class="java.lang.String"/>
+	<parameter name="probill" class="java.lang.String"/>
+	<parameter name="ship_3" class="java.lang.String"/>
+	<parameter name="ship_date" class="java.lang.String"/>
+	<parameter name="tot_wght" class="java.lang.String"/>
+	<parameter name="carrier_2" class="java.lang.String"/>
+	<parameter name="ord" class="java.lang.String"/>
+	<parameter name="cust_po" class="java.lang.String"/>
+	<parameter name="inner_container" class="java.lang.String"/>
+	<parameter name="item" class="java.lang.String"/>
+	<parameter name="descr" class="java.lang.String"/>
+	<parameter name="qty" class="java.lang.String"/>
+	<parameter name="ord_2" class="java.lang.String"/>
+	<parameter name="uom" class="java.lang.String"/>
+	<parameter name="ship" class="java.lang.String"/>
+	<parameter name="packed_by" class="java.lang.String"/>
+	<parameter name="pack_num_2" class="java.lang.String"/>
+	<parameter name="date_2" class="java.lang.String"/>
+	<parameter name="page" class="java.lang.String"/>
+	<parameter name="time" class="java.lang.String"/>
+	<parameter name="summ" class="java.lang.String"/>
+	<parameter name="lot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tot_containers" class="java.lang.String"/>
+	<parameter name="pallets" class="java.lang.String"/>
+	<parameter name="pieces" class="java.lang.String"/>
+	<parameter name="num_cartons_2" class="java.lang.String"/>
+	<parameter name="weight" class="java.lang.String"/>
+	<parameter name="serial_3" class="java.lang.String"/>
+	<parameter name="trans_statement" class="java.lang.String"/>
+	<parameter name="parameter1" class="java.lang.String"/>
+	<parameter name="trans_hist" class="java.lang.String"/>
+	<parameter name="qty_ship" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-Shipment" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OutboundOrderDetailsCurrentAndHistory-Order" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShipDate" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoName" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoAddress1" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoAddress2" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoAddress3" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoCity" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoZipOrPostalCode" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoCountry" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoPhoneNumber" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoName" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoCity" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoZipOrPostalCode" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoCountry" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoPhoneNumber" class="java.lang.String"/>
+	<field name="WarehouseOptions-ShipFromName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WarehouseOptions-WarehouseGln" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address1" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address2" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address3" class="java.lang.String"/>
+	<field name="WarehouseOptions-City" class="java.lang.String"/>
+	<field name="WarehouseOptions-StateOrProvince" class="java.lang.String"/>
+	<field name="WarehouseOptions-ZipOrPostalCode" class="java.lang.String"/>
+	<field name="WarehouseOptions-Country" class="java.lang.String"/>
+	<field name="WarehouseOptions-PhoneNumber" class="java.lang.String"/>
+	<field name="SellerName" class="java.lang.String"/>
+	<field name="SellerGln" class="java.lang.String"/>
+	<field name="SellerAddress1" class="java.lang.String"/>
+	<field name="SellerAddress2" class="java.lang.String"/>
+	<field name="SellerCity" class="java.lang.String"/>
+	<field name="SellerStateOrProvince" class="java.lang.String"/>
+	<field name="SellerZipOrPostalCode" class="java.lang.String"/>
+	<field name="SellerCountry" class="java.lang.String"/>
+	<field name="SellerDscsaStatement" class="java.lang.String"/>
+	<field name="ProBill" class="java.lang.String"/>
+	<field name="Shipment" class="java.lang.String"/>
+	<field name="ContainerPackList-IsMultCarriers" class="java.lang.String"/>
+	<field name="MasterPackList-TotWeight" class="java.lang.String"/>
+	<field name="Item" class="java.lang.String"/>
+	<field name="Description1" class="java.lang.String"/>
+	<field name="Description2" class="java.lang.String"/>
+	<field name="OrderQuantity" class="java.lang.String"/>
+	<field name="Uom" class="java.lang.String"/>
+	<field name="QuantityShipped" class="java.lang.String"/>
+	<field name="WmsMpackOrderLine-Jasper" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-Order" class="java.lang.String"/>
+	<field name="MasterPackList-TotalNumberOfPieces" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoPo" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-BilltoPo" class="java.lang.String"/>
+	<field name="MasterPackList-MasterPackingList" class="java.lang.String"/>
+	<field name="CarrierServiceMaster-CarrierServiceName" class="java.lang.String"/>
+	<field name="OutboundOrderHeaderCurrentAndHistory-ShiptoCustomer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WmsMpackOrderCustLdb-Jasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WmsMpackOrderContLdb-Jasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LocationsLdb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OmRid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WmsFloorCreditOrderLineLdb-Jasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ReportName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="billtoCityStateAndZip" class="java.lang.String" resetType="Column">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{OutboundOrderHeaderCurrentAndHistory-BilltoCity}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCity} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoCity}:"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince} != "" &&
+ $F{OutboundOrderHeaderCurrentAndHistory-BilltoCity} !=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCity} != ""?", "+$F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince}:$F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince})+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoZipOrPostalCode}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoZipOrPostalCode} != "" &&
+ (($F{OutboundOrderHeaderCurrentAndHistory-BilltoCity} !=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCity} != "") ||
+ ($F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince} != null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoStateOrProvince} != ""))?", "+$F{OutboundOrderHeaderCurrentAndHistory-BilltoZipOrPostalCode}:$F{OutboundOrderHeaderCurrentAndHistory-BilltoZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="billToAddressString" class="java.lang.String" resetType="Column">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3}+"\n":"")+
+($V{billtoCityStateAndZip}!=null && $V{billtoCityStateAndZip} != ""?$V{billtoCityStateAndZip}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry}+"\n":"")+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-BilltoPhoneNumber}]]></initialValueExpression>
+	</variable>
+	<variable name="shiptoCityStateAndZip" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity}:"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince}!= "" &&
+ $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity} !=null &&
+ $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity} != ""?", "+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince}:$F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince})+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoZipOrPostalCode}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoZipOrPostalCode} != "" &&
+ (($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity} !=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCity} != "") ||
+ ($F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince} != null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoStateOrProvince} != ""))?", "+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoZipOrPostalCode}:$F{OutboundOrderHeaderCurrentAndHistory-ShiptoZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="shipToAddressString" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}+"\n":"")+
+($V{shiptoCityStateAndZip}!=null && $V{shiptoCityStateAndZip} != ""?$V{shiptoCityStateAndZip}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}+"\n":"")+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoPhoneNumber}]]></initialValueExpression>
+	</variable>
+	<variable name="cityStateAndZip" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{WarehouseOptions-City}!=null && $F{WarehouseOptions-City} != ""?$F{WarehouseOptions-City}:"")+
+($F{WarehouseOptions-StateOrProvince}!=null && $F{WarehouseOptions-StateOrProvince} != "" &&
+ $F{WarehouseOptions-City} !=null && $F{WarehouseOptions-City} != ""?", "+$F{WarehouseOptions-StateOrProvince}:$F{WarehouseOptions-StateOrProvince})+
+($F{WarehouseOptions-ZipOrPostalCode}!=null && $F{WarehouseOptions-ZipOrPostalCode} != "" &&
+ (($F{WarehouseOptions-City} !=null && $F{WarehouseOptions-City} != "") ||
+ ($F{WarehouseOptions-StateOrProvince} != null && $F{WarehouseOptions-StateOrProvince} != ""))?", "+$F{WarehouseOptions-ZipOrPostalCode}:$F{WarehouseOptions-ZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="addressString" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{WarehouseOptions-WarehouseGln}!=null && $F{WarehouseOptions-WarehouseGln} != ""?$F{WarehouseOptions-WarehouseGln}+"\n":"")+
+($F{WarehouseOptions-Address1}!=null && $F{WarehouseOptions-Address1} != ""?$F{WarehouseOptions-Address1}+"\n":"")+
+($F{WarehouseOptions-Address2}!=null && $F{WarehouseOptions-Address2} != ""?$F{WarehouseOptions-Address2}+"\n":"")+
+($F{WarehouseOptions-Address3}!=null && $F{WarehouseOptions-Address3} != ""?$F{WarehouseOptions-Address3}+"\n":"")+
+($V{cityStateAndZip}!=null && $V{cityStateAndZip} != ""?$V{cityStateAndZip}+"\n":"")+
+($F{WarehouseOptions-Country}!=null && $F{WarehouseOptions-Country} != ""?$F{WarehouseOptions-Country}+"\n":"")+
+"\n"+
+($P{phone_3}+": "+$F{WarehouseOptions-PhoneNumber})]]></initialValueExpression>
+	</variable>
+	<variable name="TotalContainersPalletsPieces" class="java.lang.String">
+		<variableExpression><![CDATA[$P{tot_containers}+"/"+$P{pallets}+"/"+$P{pieces}]]></variableExpression>
+	</variable>
+	<variable name="sellerCityStateAndZip" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{SellerCity}!=null && $F{SellerCity} != ""?$F{SellerCity}:"")+
+($F{SellerStateOrProvince}!=null && $F{SellerStateOrProvince} != "" &&
+ $F{SellerCity} !=null && $F{SellerCity} != ""?", "+$F{SellerStateOrProvince}:$F{SellerStateOrProvince})+
+($F{SellerZipOrPostalCode}!=null && $F{SellerZipOrPostalCode} != "" &&
+ (($F{SellerCity} !=null && $F{SellerCity} != "") ||
+ ($F{SellerStateOrProvince} != null && $F{SellerStateOrProvince} != ""))?", "+$F{SellerZipOrPostalCode}:$F{SellerZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="sellerAddressString" class="java.lang.String" resetType="Column">
+		<initialValueExpression><![CDATA[($F{SellerGln}!=null && $F{SellerGln} != ""?$F{SellerGln}+"\n":"")+
+($F{SellerAddress1}!=null && $F{SellerAddress1} != ""?$F{SellerAddress1}+"\n":"")+
+($F{SellerAddress2}!=null && $F{SellerAddress2} != ""?$F{SellerAddress2}+"\n":"")+
+($V{sellerCityStateAndZip}!=null && $V{sellerCityStateAndZip} != ""?$V{sellerCityStateAndZip}+"\n":"")+
+($F{SellerCountry}!=null && $F{SellerCountry} != ""?$F{SellerCountry}+"\n":"")+
+"\n"]]></initialValueExpression>
+	</variable>
+	<variable name="billToShipToAndBuyerFullAddress" class="java.lang.String">
+		<initialValueExpression><![CDATA[($F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoCustomerGln}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress1}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress2}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoAddress3}+"\n":"")+
+($V{billtoCityStateAndZip}!=null && $V{billtoCityStateAndZip} != ""?$V{billtoCityStateAndZip}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry}!=null && $F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry} != ""?$F{OutboundOrderHeaderCurrentAndHistory-BilltoCountry}+"\n":"")+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-BilltoPhoneNumber}+"\n"+
+$P{buyer}.trim()+":"+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoName}+"\n"+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}+"\n":"")+
+($V{shiptoCityStateAndZip}!=null && $V{shiptoCityStateAndZip} != ""?$V{shiptoCityStateAndZip}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}+"\n":"")+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoPhoneNumber}+"\n"+
+$P{ship_to_4}.trim()+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoName}+"\n"+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomerGln}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress1}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress2}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoAddress3}+"\n":"")+
+($V{shiptoCityStateAndZip}!=null && $V{shiptoCityStateAndZip} != ""?$V{shiptoCityStateAndZip}+"\n":"")+
+($F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}!=null && $F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry} != ""?$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCountry}+"\n":"")+"\n"+
+$F{OutboundOrderHeaderCurrentAndHistory-ShiptoPhoneNumber}+"\n"]]></initialValueExpression>
+	</variable>
+	<group name="Group1" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{OmRid}]]></groupExpression>
+		<groupHeader>
+			<band height="170">
+				<frame>
+					<reportElement x="0" y="0" width="565" height="146" uuid="a2bdbf13-6508-494d-af66-e5f3d87e77d0"/>
+					<image scaleImage="RetainShape" isLazy="true">
+						<reportElement x="1" y="0" width="179" height="40" uuid="8ccf35bc-c764-49dd-ae8f-128edebf4e05">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<imageExpression><![CDATA[$P{jasper*images_path}+"tecsys.gif"]]></imageExpression>
+					</image>
+					<textField>
+						<reportElement x="0" y="0" width="565" height="20" uuid="8f7bf4de-6357-4430-aecf-428c2d064d92"/>
+						<textElement textAlignment="Center">
+							<font fontName="Arial" size="13" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{jasper*parameter*reprint}.equals("1")? "Floor Credit Report Reprint":"Floor Credit Report"]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="5" y="83" width="304" height="63" uuid="56b95da8-d3a4-494f-ab11-849c04649b4d"/>
+						<textElement>
+							<font fontName="Arial" size="10"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{shipToAddressString}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="0" y="51" width="150" height="14" uuid="055b6c3b-87ea-4538-9184-41cd56c3012d"/>
+						<textElement>
+							<font fontName="Arial" size="10" isBold="true" isItalic="true" isPdfEmbedded="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{ship_to_4}.trim()+':']]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="5" y="67" width="304" height="14" uuid="57953d9b-864a-43f1-a1d2-447af0d634f6"/>
+						<textElement>
+							<font size="10"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{OutboundOrderHeaderCurrentAndHistory-ShiptoCustomer} +" "+ $F{OutboundOrderHeaderCurrentAndHistory-ShiptoName}]]></textFieldExpression>
+					</textField>
+					<frame>
+						<reportElement x="315" y="40" width="250" height="40" uuid="9df984f2-d21b-4ded-883a-b7ddcfa26586">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<staticText>
+							<reportElement x="42" y="5" width="64" height="14" uuid="0d973ad7-9c8d-4e5b-a30b-076065d9b65a">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2" rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font isItalic="true"/>
+							</textElement>
+							<text><![CDATA[Delivery ID:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="2" y="19" width="104" height="14" uuid="987ce677-a669-4bb0-9a87-7a95bcf12045">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2" rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font isItalic="true"/>
+							</textElement>
+							<text><![CDATA[Carrier Service:]]></text>
+						</staticText>
+						<textField>
+							<reportElement x="106" y="5" width="140" height="14" uuid="7e96c786-77e7-4438-b35b-d37b2d4ecf14"/>
+							<box leftPadding="2" rightPadding="2"/>
+							<textElement>
+								<font size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{OutboundOrderHeaderCurrentAndHistory-Order}]]></textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy">
+							<reportElement mode="Transparent" x="106" y="19" width="106" height="14" uuid="15159fd6-d56d-4431-b29f-a78ad64b1714"/>
+							<box leftPadding="2" rightPadding="2"/>
+							<textElement>
+								<font size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{CarrierServiceMaster-CarrierServiceName}]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="315" y="87" width="250" height="50" uuid="143ca69b-d734-445f-91e2-e512441582e2">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<staticText>
+							<reportElement x="6" y="0" width="100" height="14" uuid="9bbed89e-d685-47ab-a256-2b076d3a0f82">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font isItalic="true"/>
+							</textElement>
+							<text><![CDATA[Master Packing List:]]></text>
+						</staticText>
+						<textField>
+							<reportElement x="106" y="0" width="138" height="14" uuid="5e8b468d-3cde-4260-86bd-c257003fa127">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2"/>
+							<textFieldExpression><![CDATA[$F{MasterPackList-MasterPackingList}]]></textFieldExpression>
+						</textField>
+						<staticText>
+							<reportElement x="6" y="15" width="100" height="14" uuid="87e4947c-67c3-411c-a5ba-630e289b121f">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font isItalic="true"/>
+							</textElement>
+							<text><![CDATA[Shipment#:]]></text>
+						</staticText>
+						<textField>
+							<reportElement x="106" y="15" width="138" height="14" uuid="c59726ec-708f-44f5-a8ee-a252f8c3f6b7">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2"/>
+							<textFieldExpression><![CDATA[$F{OutboundOrderHeaderCurrentAndHistory-Shipment}]]></textFieldExpression>
+						</textField>
+						<staticText>
+							<reportElement x="6" y="31" width="100" height="14" uuid="8275ce8e-804b-4de8-ab50-a589054a641f">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font isItalic="true"/>
+							</textElement>
+							<text><![CDATA[Ship Date:]]></text>
+						</staticText>
+						<textField>
+							<reportElement x="106" y="31" width="138" height="14" uuid="01c93be2-1c69-47f9-9345-24200cf7427a">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2"/>
+							<textFieldExpression><![CDATA[$F{OutboundOrderHeaderCurrentAndHistory-ShipDate}]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement positionType="Float" x="0" y="0" width="572" height="10" uuid="693c448c-ac40-49cb-a9ba-9f2423f3e8b0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="0" width="572" height="10" uuid="5ff5c279-7fa9-4822-8783-f813872f252f">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<subreportParameter name="container_num">
+						<subreportParameterExpression><![CDATA[$P{container_num}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="packed_by">
+						<subreportParameterExpression><![CDATA[$P{packed_by}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="master_pack_list_reprint">
+						<subreportParameterExpression><![CDATA[$P{master_pack_list_reprint}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="weight">
+						<subreportParameterExpression><![CDATA[$P{weight}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ship">
+						<subreportParameterExpression><![CDATA[$P{ship}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="tot_containers">
+						<subreportParameterExpression><![CDATA[$P{tot_containers}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ord">
+						<subreportParameterExpression><![CDATA[$P{ord}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ship_3">
+						<subreportParameterExpression><![CDATA[$P{ship_3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="num_cartons_2">
+						<subreportParameterExpression><![CDATA[$P{num_cartons_2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="bill_to_3">
+						<subreportParameterExpression><![CDATA[$P{bill_to_3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="tot_wght">
+						<subreportParameterExpression><![CDATA[$P{tot_wght}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="trans_hist">
+						<subreportParameterExpression><![CDATA[$P{trans_hist}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="time">
+						<subreportParameterExpression><![CDATA[$P{time}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="page">
+						<subreportParameterExpression><![CDATA[$P{page}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="uom">
+						<subreportParameterExpression><![CDATA[$P{uom}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ship_to_4">
+						<subreportParameterExpression><![CDATA[$P{ship_to_4}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="buyer">
+						<subreportParameterExpression><![CDATA[$P{buyer}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="jasper*locale_name">
+						<subreportParameterExpression><![CDATA[$P{jasper*locale_name}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="probill">
+						<subreportParameterExpression><![CDATA[$P{probill}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="cust_po">
+						<subreportParameterExpression><![CDATA[$P{cust_po}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ord_2">
+						<subreportParameterExpression><![CDATA[$P{ord_2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="date_2">
+						<subreportParameterExpression><![CDATA[$P{date_2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="master_pack_list_3">
+						<subreportParameterExpression><![CDATA[$P{master_pack_list_3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="jasper*images_path">
+						<subreportParameterExpression><![CDATA[$P{jasper*images_path}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="inner_container">
+						<subreportParameterExpression><![CDATA[$P{inner_container}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="serial_3">
+						<subreportParameterExpression><![CDATA[$P{serial_3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="jasper*subreport_dir">
+						<subreportParameterExpression><![CDATA[$P{jasper*subreport_dir}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="trans_statement">
+						<subreportParameterExpression><![CDATA[$P{trans_statement}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="carrier_2">
+						<subreportParameterExpression><![CDATA[$P{carrier_2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="qty">
+						<subreportParameterExpression><![CDATA[$P{qty}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="pallets">
+						<subreportParameterExpression><![CDATA[$P{pallets}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ship_from">
+						<subreportParameterExpression><![CDATA[$P{ship_from}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="seller">
+						<subreportParameterExpression><![CDATA[$P{seller}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="pieces">
+						<subreportParameterExpression><![CDATA[$P{pieces}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="ship_date">
+						<subreportParameterExpression><![CDATA[$P{ship_date}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="pack_num_2">
+						<subreportParameterExpression><![CDATA[$P{pack_num_2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="item">
+						<subreportParameterExpression><![CDATA[$P{item}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="phone_3">
+						<subreportParameterExpression><![CDATA[$P{phone_3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="jasper*parameter*reprint">
+						<subreportParameterExpression><![CDATA[$P{jasper*parameter*reprint}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="lot">
+						<subreportParameterExpression><![CDATA[$P{lot}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="qty_ship">
+						<subreportParameterExpression><![CDATA[$P{qty_ship}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="descr">
+						<subreportParameterExpression><![CDATA[$P{descr}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="summ">
+						<subreportParameterExpression><![CDATA[$P{summ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[$F{WmsFloorCreditOrderLineLdb-Jasper}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{jasper*subreport_dir} + "wms_fcredit_order_line_ldb.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

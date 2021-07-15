@@ -1,0 +1,32 @@
+SELECT  TOP 100
+	CASE
+		WHEN d.plan_qty < ord_qty THEN 'Short by Wave Planner'
+		WHEN (d.plan_qty > 0 AND EXISTS (SELECT 1 FROM it_f WHERE it_f.whse_code = d.whse_code AND it_f.ob_oid = d.ob_oid AND it_f.sku = d.sku AND it_f.ob_lno = d.ob_lno AND it_f.transact = 'PICK' and rsn_code = 'INVENTORY NOT REQUIRED')) THEN 'Short by Picker - INVENTORY NOT REQUIRED'
+	ELSE	
+		(select TOP 1 rsn_code from it_f 
+		where it_f.whse_code = d.whse_code and it_f.ob_oid = d.ob_oid and it_f.sku = d.sku and transact = 'MOVE' and rsn_code = 'DISASSOCIATE_ORDER')
+	END AS short_rsn_code,
+	CONVERT(varchar,CONVERT(DATE,h.ship_date)) +' '+ ISNULL(h.appoint_time, '00:00:00') AS "Expected Ship Date",
+	h.ship_custnum +' '+ h.ship_name AS "Customer Name", 
+	IIF(cust_oid = cust_lno, '',cust_oid)  AS "Store #",  
+	d.sku AS SKU, p.sku_desc AS "Description", p.custom_char_2 AS "Listing Type", 
+	FLOOR(ISNULL(p.custom_numeric_3,1)) pkg_size, 
+	FLOOR(d.ord_qty) ord_qty, 
+	d.plan_qty,
+	d.cmp_qty,
+	d.ship_qty,
+	FLOOR(d.ord_qty - (d.sched_qty + d.cmp_qty)) short_qty, 
+	ord_uom AS UOM,	
+	cust_lno AS "Order Number",
+	d.ob_lno AS "Tecsys Order Line", 
+	h.shipment,
+	--d.host_order_lno,
+	h.whse_code AS "Warehouse",
+	h.ob_oid AS "Tecsys Outbound Order"	
+FROM v_u_od_f d	
+INNER JOIN  v_u_om_f h ON h.whse_code = d.whse_code AND d.ob_oid = h.ob_oid	
+INNER JOIN  pm_f p ON  p.whse_code = d.whse_code AND p.sku = d.sku AND p.pkg = REPLACE(d.pkg, '*', '')	
+WHERE --ob_ord_stt = 'SHIP'	AND
+  d.ord_qty > d.cmp_qty AND
+  h.ship_date >= Convert(datetime, '2019-08-01' );
+--AND  h.ob_oid = '1091756' and d.sku = '764894';

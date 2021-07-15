@@ -1,0 +1,145 @@
+iStore DEV3 server -- KDCDEBS113
+--------------------------------
+userid: bikahlon
+password: Newpass01
+
+
+
+
+EBIZ iStore Deployment
+
+Copy java file from below svn location to the EBIZ istore server:
+http://subversion.bcliquor.com/svn/eBiz/01-PROD/IStore/trunk/IStore/WebStore/src/oracle/apps/ibe/catalog/WOM_ibeProductAvailabilityWS.java
+
+cp WOM_ibeProductAvailabilityWS.java $JAVA_TOP/oracle/apps/ibe/catalog/
+
+cd $JAVA_TOP/oracle/apps/ibe/catalog
+javac WOM_ibeProductAvailabilityWS.java
+
+run adadmin
+to regenerate custom jar file
+
+restart oacore managed servers for istore.
+admanagedsrvctl.sh <oacore managed server>
+
+cp $JAVA_TOP/oracle/apps/ibe/catalog/WOM_ibeProductAvailabilityWS.* $PATCH_BASE/EBSapps/comn/java/classes/oracle/apps/ibe/catalog/
+
+
+iStore DEV3
+--------------
+
+
+Step1 - Go to "https://webstore.dev3.bcldb.com/OA_HTML/AppsLocalLogin.jsp"
+login with: "53E5939E95ED48978395FC2F2F85A7C4_000001"/Oracle345
+
+AFter login, paste "https://webstore.dev3.bcldb.com/OA_HTML/ibeCZzpHome.jsp" into the same browser session
+
+
+
+Step2 user ids 
+EA8B3462-055E-4914-9F4F-B542B1AD716B_195175
+Password = oracle01
+
+Step3 replace the link with this https://webstore.dev3.bcldb.com/OA_HTML/ibeCZzdMinisites.jsp
+
+Step 4 Click LDB STORE
+
+
+sku>854711
+
+
+perl $FND_TOP/patch/115/bin/ojspCompile.pl --compile -s 'WOM_ibeCCtdSctBrwsBin.jsp' --flush -p 20
+
+
+iStore INT1/INt3 Userid 
+------------------------------
+
+GROUP	BCeID	LICENSE NUMBER	CUSTOMER			CUSTOMER TYPE	ENVIRONMENT
+Inttest090	900810	West Coast Duty Free			DFS (VDC)	INT1/INT3
+Inttest092	900737	Tobacco Plaines Duty Free		DFS (DDC)	INT1/INT3
+Inttest097	716	Scotch Creek 				RAS – KDC (DDC) INT1/INT3
+Inttest099	863	Forest Grove				RAS – KDC (VDC)	INT1/INT3
+Inttest100	191677	Sidney Cold Beer and Wine		LRS – VDC (DDC) INT1/INT3
+Inttest102	195443	Liquor on 5th LRS			LRS – KDC (VDC)	INT1/INT3
+Inttest090	570	Everything Wine at Morgan Crossing	WIN (DDC)	INT1/INT3
+Inttest103	572	Dundarave Wine Cellar			WIN (VDC)	INT1/INT3
+
+
+password:  oracle01
+
+
+iStore INT5
+---------------------------------
+
+userid/password: inttest005/oracle01
+
+
+
+
+dev3 server deployment
+----------------------------------------
+login using putty bikahlon/Kiran_prod123 
+sudo -u applmgr -i
+copy file from local to /tmp using ftp
+
+
+logs folder /opt/u01/EBIZD11/fs1/inst/apps/EBIZD11_kdcdebs113/logs/ora/FMW/oacore
+
+tail -f <filename>.log | grep --line-buffered "isUPDATEQUANT"
+
+
+weblogic server
+-----------------------------------------
+http://kdcdebs111.bcliquor.com:7001/console/login/LoginForm.jsp
+userid/password: bikahlon/Weblogic123
+
+restart : oacore_server3
+
+
+metalink
+----------------------------------------
+email: bikram.kahlon@bcldb.com
+password: Password1
+
+
+EBiz - DEV3/INT1/INT3
+----------------------------------------
+http://ebs.dev3.bcldb.com:8000/OA_HTML/AppsLocalLogin.jsp
+http://ebs.int1.bcldb.com/OA_HTML/AppsLocalLogin.jsp
+http://ebs.int3.bcldb.com/OA_HTML/AppsLocalLogin.jsp
+
+username: BIKAHLON/oracle01
+
+https://ebs.int1.bcldb.com
+username:ebqone/Monday15
+
+
+EBiz - Database INT1/INT3
+----------------------------------------
+username: BIKAHLON/Oracle01
+
+TNS: 
+INT1: EBIZI1=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=kdci1ebsdb01.bcliquor.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=EBIZI1)))
+INT3: womk1=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=kebs12test)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=womk1)))
+
+DEV3 - iStore
+------------
+username: apps/bucket1  
+TNS: DEV3=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=kebs12test)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=EBIZD11)))
+
+
+
+
+jre1.8.0_121
+
+
+
+iStore 
+
+-------------
+
+
+ebiz tables for webstore
+--------------------------
+apps.oe_order_headers_all
+apps.oe_order_lines_all

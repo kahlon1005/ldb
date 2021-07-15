@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http'
+import { Observable } from 'rxjs';
+import { Order } from '../domain/order';
+import {environment} from 'src/environments/environment'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class OrderService {
+
+  baseUrl: string;  
+  
+  constructor(private httpClient: HttpClient) {
+    this.setBaseUrl();    
+    console.log(this.baseUrl);
+  }
+
+  getOrderList():Observable<Order[]>{    
+    return this.httpClient.get<Order[]>(`${this.baseUrl}`);
+  }
+
+  updateOrder(orderType: string, orderNumber:string, order:Order):Observable<Object>{
+    console.log('param  :' + orderNumber + '     ' + orderType)
+    return  this.httpClient.put<Object>(`${this.baseUrl}/${orderNumber}`,order);
+  }
+
+  setBaseUrl() {
+    if (environment.production){
+      const parsedUrl = new URL(window.location.href);    
+      this.baseUrl =   parsedUrl.origin + environment.apiUrl;
+    }  else{
+      this.baseUrl =   environment.apiUrl;
+    }
+  }
+}

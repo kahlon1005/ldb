@@ -1,0 +1,41 @@
+<!--nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class="navbar-nav">
+      <li class="nav-item">
+          <a routerLink="" routerLinkActive="active" class="nav-link logo">{{title}}</a>        
+      </li>      
+    
+
+  </ul>
+</nav-->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand logo pr-5" href="#">{{title}}</a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      
+      <li class="nav-item">
+        <a routerLink="transaction-list"  routerLinkActive="active" class="nav-link">Transactions</a>                
+      </li>
+
+      <li class="nav-item">
+        <a routerLink="reprint-documents" routerLinkActive="active" class="nav-link">Document</a>
+      </li>      
+      
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="padding: 20px;"></div>
+
+<div class="container">    
+    <router-outlet></router-outlet>
+</div>
+<footer class="footer">
+  <div class="container" style="padding-top: 5px;">
+    <span>All Right Reserverd {{year}} @bcldb</span>
+  </div>
+</footer>

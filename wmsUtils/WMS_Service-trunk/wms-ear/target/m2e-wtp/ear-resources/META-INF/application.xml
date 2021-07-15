@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" version="6">
+  <description>The corporate POM for all BCLDB Maven projects, 
+  				mainly for corporate level information, rules and releasing standard.
+  				All Maven projects have to inherit from this.</description>
+  <display-name>wms-ear</display-name>
+  <module>
+    <web>
+      <web-uri>wms-war-1.2.13-SNAPSHOT.war</web-uri>
+      <context-root>/WMSService</context-root>
+    </web>
+  </module>
+  <library-directory>lib</library-directory>
+</application>

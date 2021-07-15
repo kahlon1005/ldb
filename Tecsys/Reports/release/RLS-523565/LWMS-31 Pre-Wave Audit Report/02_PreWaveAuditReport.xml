@@ -1,0 +1,310 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-zw"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/8.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2016-6-23. 10:32:47--><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/6.0/" to "http://developer.cognos.com/schemas/report/8.0/" at 2011-11-17. 17:8:54--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2009-2-18. 9:34:26--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/3.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/4.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2008-3-17. 15:35:14--><!--RS:8.2-->
+	
+	<queries>
+		
+	<query name="PreWave Report"><source><sqlQuery name="PreWave Audit" dataSource="wms">
+			<sqlText>/*
+PRE-WAVE report
+
+A Report to capture any conditions that will prevent an order been waved correctly
+1. Items with stock in the warehouse that do not have a forward pick location assigned
+2. Foward Pick Locations with inventory in the location but that have the "Empty" flag set to yes
+3. All Pick locations that have Expired product in it
+4. Items that have a larger TiHi than the Location
+5. Items whose pallet weight (or case weight bottle pick tower) that exceeds the Pick Locations max weight
+6. Items whose pick location that does appear in the search path
+*/
+
+-- Find all skus in the order well waiting to be planned.
+With ob_sku
+As
+( SELECT od.whse_code, od.sku, pm.sku_desc
+  FROM od_f od
+  INNER JOIN om_f om
+  ON od.whse_code = om.whse_code
+  and od.ob_oid = om.ob_oid
+  and od.ob_type = om.ob_type
+  and om.ob_ord_stt = 'HOLD'
+  INNER JOIN pm_f pm
+  ON od.whse_code = pm.whse_code
+  and od.sku = pm.sku
+  group by od.whse_code, od.sku, pm.sku_desc
+),
+
+-- 1. Items with stock in the warehouse that do not have a forward pick location assigned
+item_noFP
+As
+( select distinct iv.whse_code 
+  , iv.sku 
+  , 'N' as FPAssigned
+, pm.custom_char_4 as 'Container Type'
+, (select  sum(floor(od1.ord_qty/pm1.qty1in2)) 'CASES'
+from od_f od1,pm_f pm1
+where od1.sku = pm1.sku
+and od1.whse_code = pm1.whse_code
+and pm1.sku = pm.sku
+and pm1.whse_code = pm.whse_code
+group by od1.sku) 'CASES'
+,(select  floor(sum(od1.ord_qty%pm1.qty1in2)) 'BOTTLES'
+from od_f od1,pm_f pm1
+where od1.sku = pm1.sku
+and od1.whse_code = pm1.whse_code
+and pm1.sku = pm.sku
+and pm1.whse_code = pm.whse_code
+group by od1.sku) 'BOTTLES'
+from iv_f iv, pm_f pm
+where iv.whse_code = pm.whse_code
+and iv.sku = pm.sku
+and not ( pm.custom_char_2 like 'X%BO' --Removes NSWP
+OR ( pm.custom_char_7 like '%|1098 %' and (pm.sku_desc like 'SO %' or pm.sku_desc like 'OP %' )) ) --Removes Spec Order
+and iv.sku not in ( select lc.sku from lc_f lc where lc.loc_type = 'FP' and iv.whse_code = lc.whse_code )
+and exists (select sku from ob_sku where ob_sku.sku = iv.sku and ob_sku.whse_code = iv.whse_code)			--Only Items that have an Order in the well
+and not exists (select iv.loc from iv_f iv1 join lc_f lc on iv1.whse_code = lc.whse_code and iv1.loc = lc.loc where iv1.sku = pm.sku and lc.whse_section = 'S-NSWP')
+),
+
+-- 2. Foward Pick Locations with inventory in the location but that have the "Empty" flag set to yes
+Item_emptyFP
+As
+( select lc.whse_code, lc.sku, lc.loc as FalseEmptyPickLoc
+from iv_f iv, lc_f lc
+where iv.whse_code = lc.whse_code
+and iv.loc = lc.loc
+and iv.qty &gt; 0
+and lc.loc_type = 'FP'
+and lc.empty = 'Y'
+and iv.sku in ( select sku from ob_sku where ob_sku.whse_code = iv.whse_code )
+),
+
+-- 3. All Pick locations that have Expired product in it
+item_expired
+As
+( select lc.whse_code, lc.loc as ExpiredLocation, iv.sku, iv.product_exp_date as ExpiredDate
+from iv_f iv, lc_f lc, pm_f pm
+where iv.whse_code = lc.whse_code
+and iv.loc = lc.loc
+and iv.whse_code = pm.whse_code
+and iv.sku = pm.sku
+and lc.loc_type = 'FP' 
+and iv.product_exp_date - pm.exp_lead_time &lt; CAST(GETDATE() AS DATE) 
+and iv.sku in ( select sku from ob_sku where ob_sku.whse_code = iv.whse_code )
+group by lc.whse_code, lc.loc, lc.loc_type, iv.sku, iv.product_exp_date
+),
+
+
+-- 4. Items that have a larger TiHi than the Location
+item_TiHiEx
+As
+( select pm.whse_code, pm.sku, pm.custom_numeric_1 as TI, pm.custom_numeric_2 as HI, lc.loc as ExTiHiLocation, lc.max_fp_cap as MaxFPCapacity, lc.repl_uom as UOM
+from pm_f pm, lc_f lc
+where pm.whse_code = lc.whse_code
+and pm.sku = lc.sku
+and lc.loc_type = 'FP'
+and lc.area not in (SELECT DISTINCT wsp.custom_char_01
+                FROM   wms_system_properties_ldb AS wsp
+                WHERE  wsp.property_name = 'BOTTLE_PICK_AREA'
+                AND  wsp.whse_code = lc.whse_code)
+and lc.repl_uom like 'CASE%' 
+and pm.custom_numeric_1 * pm.custom_numeric_2 &gt; lc.max_fp_cap 
+and lc.sku in ( select sku from ob_sku where ob_sku.whse_code = lc.whse_code )
+),
+
+
+-- 5. Items whose pallet weight (or case weight bottle pick tower) that exceeds the Pick Locations max weight
+-- Removed bottle pick tower compare, since only pallet weight for pick location is required as by Craig 
+item_weighEx
+As
+( select lc.whse_code, lc.sku, lc.loc as ExWeighLocation
+from pm_f pm, lc_f lc
+where pm.whse_code = lc.whse_code
+and pm.sku = lc.sku
+and lc.loc_type = 'FP'
+and lc.area not in (SELECT DISTINCT wsp.custom_char_01
+                FROM   wms_system_properties_ldb AS wsp
+                WHERE  wsp.property_name = 'BOTTLE_PICK_AREA'
+                AND  wsp.whse_code = lc.whse_code)
+and (( pm.uom2 = 'PALLET' and pm.wgt2 &gt; lc.wgt )
+    OR ( pm.uom3 = 'PALLET' and pm.wgt3 &gt; lc.wgt ) )   
+and lc.sku in ( select sku from ob_sku where ob_sku.whse_code = lc.whse_code )
+),
+
+
+-- 6. Items whose pick location that does not appear in the search path
+item_notInSearchPath
+As
+( select lc.whse_code, lc.sku, lc.loc as NotInSearchPathLocation
+from lc_f lc
+where lc.loc_type = 'FP'
+and lc.whse_section not in ( select distinct ws.whse_section 
+							 from ws_f ws 
+							 where ws.whse_code = lc.whse_code )	
+and lc.sku in ( select sku from ob_sku where ob_sku.whse_code = lc.whse_code )
+group by lc.whse_code, lc.sku, lc.loc
+),
+
+-- Construct the Pre-Wave report
+PreWave_rpt
+As 
+( select ob.whse_code as Warehouse, 
+  ob.sku as Item,
+  ob.sku_desc as Description,
+  FPLocationAssigned = ISNULL(noFP.FPAssigned, ''), 
+  OrderQuantity = ISNULL( CAST(noFP.CASES as nvarchar(10)) + ' CASES' + ' / '+ CAST(noFP.BOTTLES as NVARCHAR(10)) + ' BOTTLES', ''),
+  FalseEmptyFPLocation = ISNULL(CAST (STUFF(
+			(SELECT DISTINCT '; ' + emFP.FalseEmptyPickLoc FROM item_emptyFP emFP
+			 WHERE emFP.whse_code = ob.whse_code
+			  AND emFP.sku = ob.sku
+			FOR XML PATH('')), 1, 1, '') as NVARCHAR(512)), ''),
+  ExpiredLocationExpDate = ISNULL(CAST (STUFF(
+			(SELECT DISTINCT '; ' + expd.ExpiredLocation + '/' + CONVERT(VARCHAR(10), expd.ExpiredDate, 120) 
+			 FROM item_expired expd 
+			 WHERE expd.whse_code = ob.whse_code
+			  AND expd.sku = ob.sku
+			FOR XML PATH('')), 1, 1, '') as NVARCHAR(512)), ''),
+  WeighExceedLocation = ISNULL(CAST( STUFF(
+			(SELECT DISTINCT '; ' + wEx.ExWeighLocation FROM item_weighEx wEx
+			 WHERE wEx.whse_code = ob.whse_code
+			  AND wEx.sku = ob.sku
+			FOR XML PATH('')), 1, 1, '') as NVARCHAR(512)), ''), 
+  TiHiExceedLocation = ISNULL(CAST (STUFF(
+			(SELECT DISTINCT '; ' + THEx.ExTiHiLocation + '/' + THEx.UOM + '/Max:' + CAST(THEx.MaxFPCapacity AS NVARCHAR(20)) + '(Ti:'+ CAST(THEx.Ti AS NVARCHAR(20)) + ', Hi:' + CAST(THEx.Hi AS NVARCHAR(20)) + ') ' 
+			 FROM item_TiHiEx THEx
+			 WHERE THEx.whse_code = ob.whse_code
+			  AND THEx.sku = ob.sku
+			FOR XML PATH('')), 1, 1, '') as NVARCHAR(512)), ''),
+  NotInSearchPathLocation = ISNULL(CAST (STUFF(
+			(SELECT DISTINCT '; ' + noSearch.NotInSearchPathLocation 
+			 FROM item_notInSearchPath as noSearch
+			 WHERE noSearch.whse_code = ob.whse_code
+			  AND noSearch.sku = ob.sku
+			FOR XML PATH('')), 1, 1, '') as NVARCHAR(512)), '')
+from ob_sku ob
+LEFT JOIN item_noFP noFP on ob.whse_code = noFP.whse_code and ob.sku = noFP.sku
+LEFT JOIN item_emptyFP emFP on ob.whse_code = emFP.whse_code and ob.sku = emFP.sku
+LEFT JOIN item_expired expd on ob.whse_code = expd.whse_code and ob.sku = expd.sku
+LEFT JOIN item_weighEx wEx on ob.whse_code = wEx.whse_code and ob.sku = wEx.sku
+LEFT JOIN item_TiHiEx THEx on ob.whse_code = THEx.whse_code and ob.sku = THEx.sku
+LEFT JOIN item_notInSearchPath as noSearch on ob.whse_code = noSearch.whse_code and ob.sku = noSearch.sku
+where 
+NOT
+(FPAssigned is NULL
+ and  FalseEmptyPickLoc is NULL
+ and ExpiredLocation is NULL
+ and ExWeighLocation is NULL
+ and ExTiHiLocation is NULL
+ and NotInSearchPathLocation is NULL)
+group by ob.whse_code, ob.sku, ob.sku_desc, noFP.FPAssigned, noFP.CASES, noFP.BOTTLES
+)
+
+select *
+from PreWave_rpt
+order by Warehouse, Item;</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="Item"/><mdProjectedItem name="Description"/><mdProjectedItem name="FPLocationAssigned"/><mdProjectedItem name="OrderQuantity"/><mdProjectedItem name="FalseEmptyFPLocation"/><mdProjectedItem name="ExpiredLocationExpDate"/><mdProjectedItem name="WeighExceedLocation"/><mdProjectedItem name="TiHiExceedLocation"/><mdProjectedItem name="NotInSearchPathLocation"/></mdProjectedItems></sqlQuery></source><selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[Warehouse]</expression></dataItem><dataItem name="Item" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[Item]</expression></dataItem><dataItem name="Description" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[Description]</expression></dataItem><dataItem name="FPLocationAssigned" label="FP Assigned" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[FPLocationAssigned]</expression></dataItem><dataItem name="OrderQuantity" label="Order Quantity" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[OrderQuantity]</expression></dataItem><dataItem name="FalseEmptyFPLocation" label="False Empty FP Location" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[FalseEmptyFPLocation]</expression></dataItem><dataItem name="ExpiredLocationExpDate" label="Expired Item Location" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[ExpiredLocationExpDate]</expression></dataItem><dataItem name="WeighExceedLocation" label="Exceed Weight Location" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[WeighExceedLocation]</expression></dataItem><dataItem name="TiHiExceedLocation" label="Exceed Capacity Location" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[TiHiExceedLocation]</expression></dataItem><dataItem name="NotInSearchPathLocation" label="Not In Search Path Location" aggregate="none" rollupAggregate="none"><expression>[PreWave Audit].[NotInSearchPathLocation]</expression></dataItem></selection><detailFilters><detailFilter><filterExpression>[PreWave Audit].[Warehouse] = ?Warehouse?</filterExpression></detailFilter></detailFilters></query><query name="Warehouse">
+			<source>
+				
+			<model/></source>
+			<selection><dataItem name="Warehouse"><expression>[wms].[so_f].[whse_code]</expression></dataItem></selection>
+		</query></queries>
+	<layouts>
+		<layout>
+			<reportPages>
+				<page name="PreWave Audit">
+					<pageBody>
+						<contents>
+							
+						<list horizontalPagination="true" name="PreWave Audit" refQuery="PreWave Report">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Item"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Item"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="FPLocationAssigned"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="FPLocationAssigned"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="FalseEmptyFPLocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="FalseEmptyFPLocation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="ExpiredLocationExpDate"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="ExpiredLocationExpDate"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="WeighExceedLocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="WeighExceedLocation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="TiHiExceedLocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="TiHiExceedLocation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles><CSS value="font-weight:bold;font-size:10pt"/></style><contents><textItem><dataSource><dataItemLabel refDataItem="NotInSearchPathLocation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><CSS value="font-size:10pt"/></style><contents><textItem><dataSource><dataItemValue refDataItem="NotInSearchPathLocation"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+					<style><CSS value="vertical-align:top;text-align:left"/><defaultStyles><defaultStyle refStyle="pb"/></defaultStyles></style></pageBody>
+					<pageHeader>
+						<contents>
+							
+						<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>LDB Pre-Wave Audit Report</staticValue></dataSource></textItem></contents><style><defaultStyles><defaultStyle refStyle="ta"/></defaultStyles><CSS value="text-align:left"/></style></tableCell><tableCell><contents><image>
+			<dataSource>
+				<staticValue>../tecsys/image/company_logo.jpg</staticValue>
+			</dataSource>
+		<style><CSS value="height:45px"/></style></image></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Warehouse</staticValue></dataSource><style><CSS value="font-weight:bold"/></style></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><selectValue multiSelect="false" autoSubmit="true" parameter="Warehouse" refQuery="Warehouse"><defaultSelections><defaultSimpleSelection>VDC</defaultSimpleSelection></defaultSelections><useItem refDataItem="Warehouse"><displayItem refDataItem="Warehouse"/></useItem></selectValue><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><textItem><dataSource><staticValue>  </staticValue></dataSource></textItem><textItem><dataSource><staticValue> </staticValue></dataSource></textItem></contents><style><CSS value="text-align:left;padding-left:20px"/></style></tableCell><tableCell><contents/></tableCell></tableCells></tableRow></tableRows></table></contents>
+						<style>
+							<CSS value="padding-bottom:10px"/>
+						<defaultStyles><defaultStyle refStyle="ph"/></defaultStyles></style>
+					</pageHeader>
+					<pageFooter>
+						<contents>
+							<table>
+								<tableRows>
+									<tableRow>
+										<tableCells>
+											<tableCell>
+												<contents>
+													
+												<date>
+			<style>
+				<dataFormat>
+					<dateFormat/>
+				</dataFormat>
+			</style>
+		</date><textItem><dataSource><staticValue> </staticValue></dataSource></textItem><time>
+			
+		<style><dataFormat><timeFormat showTimeZone="true"/></dataFormat></style></time></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:left;width:25%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+													
+													
+												<pageNumber verticalRangeSeparator=" of " verticalType="range"/></contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:center;width:50%"/>
+												</style>
+											</tableCell>
+											<tableCell>
+												<contents>
+													
+												</contents>
+												<style>
+													<CSS value="vertical-align:top;text-align:right;width:25%"/>
+												</style>
+											</tableCell>
+										</tableCells>
+									</tableRow>
+								</tableRows>
+								<style>
+									<CSS value="border-collapse:collapse;width:100%"/>
+								<defaultStyles><defaultStyle refStyle="tb"/></defaultStyles></style>
+							</table>
+						</contents>
+						<style>
+							<CSS value="padding-top:10px"/>
+						<defaultStyles><defaultStyle refStyle="pf"/></defaultStyles></style>
+					</pageFooter>
+				<style><defaultStyles><defaultStyle refStyle="pg"/></defaultStyles></style></page>
+			</reportPages>
+		<pageSetup orientation="landscape"><namedPaper name="/configuration/pageDefinition[@name='A4']"/></pageSetup></layout>
+	</layouts>
+<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2019-11-18T19:53:25.830Z"/></XMLAttributes><reportVariables><reportVariable name="select_criteria" type="locale"><reportExpression>ReportLocale()</reportExpression><variableValues><variableValue value="en-zw"/><variableValue value="de"/><variableValue value="en-ca"/><variableValue value="en-gb"/><variableValue value="en-us"/><variableValue value="es"/><variableValue value="fr-ca"/><variableValue value="fr"/><variableValue value="pt"/></variableValues></reportVariable></reportVariables><modelPath>/content/folder[@name='TECSYS EliteSeries']/folder[@name='Models']/package[@name='Report Model - Warehouse Management System']/model[@name='model']</modelPath><reportName>LDB Pre-Wave Audit Report</reportName></report>

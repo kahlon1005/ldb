@@ -1,0 +1,73 @@
+--go to md_app_server and get the valid instance name and replace {server.instance} in the below sql
+--shut down portal
+
+
+delete from md_task_param_join;
+delete from md_task_param;
+delete from md_task_log;
+delete from md_task;
+delete from md_gtranslog_event;
+delete from md_gtranslog_att;
+delete from md_gtranslog;
+delete from md_lock;
+delete from md_session_app_att;
+delete from md_session_app_cleanup_att;
+delete from md_session_app_cleanup;
+delete from md_session_app;
+delete from md_session_att;
+delete from md_session;
+
+
+
+
+delete from md_criteriaset_value_join where exists
+(select * from md_criteriaset b where instance_name not in ('tecsys_default','{server.instance}')
+and b.view_name = md_criteriaset_value_join.view_name
+and b.criteriaset_name = md_criteriaset_value_join.criteriaset_name
+and b.user_name = md_criteriaset_value_join.user_name);
+
+delete from md_criteriaset_value where exists
+(select * from md_criteriaset b where instance_name not in ('tecsys_default','{server.instance}')
+and b.view_name = md_criteriaset_value.view_name
+and b.criteriaset_name = md_criteriaset_value.criteriaset_name
+and b.user_name = md_criteriaset_value.user_name);
+
+
+delete from md_criteriaset where instance_name not in ('tecsys_default','{server.instance}');
+
+
+
+
+
+delete from md_job_execution where instance_name not in ('tecsys_default','{server.instance}');
+
+
+------- md_export/md_import ------ 
+
+--manually delete duplicates for export name, possible constraint violation with timer otherwise delete
+update md_export set instance_name = '{server.instance}' where instance_name != 'tecsys_default';
+
+--manually delete duplicates for import name, possible constraint violation with timer otherwise delete
+update md_import set instance_name = '{server.instance}' where instance_name != 'tecsys_default';
+
+
+------- md_timer
+delete from md_timer where instance_name not in ('tecsys_default','{server.instance}');
+
+update md_timer set run_as_user_name = 'system' where run_as_user_name != 'system'
+and instance_name != 'tecsys_default';
+
+update md_timer set is_active = 0 where instance_name = 'tecsys_default' and is_active = 1;
+
+
+
+------ md_mq_generic 
+delete from md_mq_generic where instance_name not in ('{server.instance}');
+
+--manually delete duplicates for notification name
+update md_notification set instance_name = '{server.instance}' where instance_name != 'tecsys_default';
+
+--build the correct list of instances for the cluster
+delete from md_app_cluster_server where instance_name not in ('tecsys_default','{cluster.instances}');
+
+delete from md_app_server where instance_name not in ('tecsys_default','{server.instance}');

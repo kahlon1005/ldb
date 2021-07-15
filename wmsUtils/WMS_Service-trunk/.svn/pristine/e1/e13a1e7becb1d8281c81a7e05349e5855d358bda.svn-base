@@ -1,0 +1,94 @@
+package com.bcldb.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="mq_warehouse_task")
+@NamedQueries({
+	@NamedQuery(name = "TaskMessageQueue.FindALL", query = "select q from TaskMessageQueue q where q.queueName = 'wms_wave_releasing'"),
+	@NamedQuery(name = "TaskMessageQueue.FindStuckWaveById", query = "select q from TaskMessageQueue q where q.queueName = 'wms_wave_releasing'  and q.body like :wave_tag")
+})
+
+public class TaskMessageQueue implements Serializable{
+
+	private static final long serialVersionUID = 1518013807277435804L;
+	
+	public final static String FIND_ALL = "TaskMessageQueue.FindALL";
+	public final static String FIND_STUCK_WAVE_BY_ID = "TaskMessageQueue.FindStuckWaveById";
+	
+	
+	@Id
+	@Column(name = "queue_msg_id")
+	private long id;
+	
+	
+	@Column(name = "msg_group")
+	private String warehouse;
+	
+	@Column(name = "queue_name")
+	private String queueName;
+	
+	@Column(name = "is_error")
+	private boolean error;
+	
+	@Column(name= "msg_body")
+	private String body;
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public String getQueueName() {
+		return queueName;
+	}
+
+	public void setQueueName(String queueName) {
+		this.queueName = queueName;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public String getBody() {
+		return body;		
+	}
+
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "TaskMessageQueue [id=" + id + ", warehouse=" + warehouse + ", queueName=" + queueName + ", error="
+				+ error + ", body=" + body + "]";
+	}
+	
+
+}

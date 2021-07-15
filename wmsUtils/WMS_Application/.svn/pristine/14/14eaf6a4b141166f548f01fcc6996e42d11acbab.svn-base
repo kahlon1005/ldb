@@ -1,0 +1,4 @@
+## Soap service wsdl
+wms.service.endpoint=http://esb.dev.bcldb.com:25011/LDB_Wholesale/WMSService/1.0
+wms.service.endpoint.username=wms_user
+wms.service.endpoint.password=wms_User01

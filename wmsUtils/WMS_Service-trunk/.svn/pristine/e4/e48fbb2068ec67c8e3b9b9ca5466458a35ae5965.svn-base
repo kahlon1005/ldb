@@ -1,0 +1,23 @@
+package com.bcldb.util;
+
+import com.bcldb.exception.ValidationException;
+import com.bcldb.services.wmsservice.UpdateStuckTransactionsRequest;
+
+public final class ParamValidator {
+
+	public ParamValidator() {
+		super();
+	}
+
+	public void validateRequest(UpdateStuckTransactionsRequest part) {
+		if (part == null) {
+			throw new ValidationException("The request is not valid.");
+		}
+		
+		if(part.getTransactions() == null || part.getTransactions().getTransaction() == null || part.getTransactions().getTransaction().isEmpty()) {
+			throw new ValidationException("The are no orders found in the request to process.");
+		}
+	}
+
+
+}

@@ -1,0 +1,35 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Transaction } from '../domain/transaction';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TransactionService {
+
+  baseUrl: string;  
+  
+  constructor(private httpClient: HttpClient) {
+    this.setBaseUrl();    
+    console.log('from transaction service ' + this.baseUrl);
+  }
+
+  getTransactionList():Observable<Transaction[]>{    
+    return this.httpClient.get<Transaction[]>(`${this.baseUrl}`);
+  }
+
+  updateTransaction(transaction:Transaction):Observable<Object>{    
+    return  this.httpClient.put<Object>(`${this.baseUrl}/${transaction.name}`,transaction);
+  }
+
+  setBaseUrl() {
+    if (environment.production){
+      const parsedUrl = new URL(window.location.href);    
+      this.baseUrl =   parsedUrl.origin + environment.apiUrl;
+    }  else{
+      this.baseUrl =   environment.apiUrl;
+    }
+  }
+}

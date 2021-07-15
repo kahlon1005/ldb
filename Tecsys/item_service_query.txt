@@ -1,0 +1,17 @@
+select i.hierarchy_id, 
+	   i.sku, 
+	   i.catalog_name product_name, 
+	   i.derived_unit_description case_config,
+       i.origin_country_code country, 
+	   i.pricing_vendor_id, 
+	   i.alcohol_percentage, 
+	   h.description product_class, 
+	   i.domestic_import_code,
+	   ARRAY(SELECT concat_ws('-',c.characteristic_name, c.characteristic_value)
+	         FROM LDBItem.product_characteristics c		
+			 WHERE c.sku = i.sku ) prod_char,
+	   ARRAY(SELECT upc FROM LDBItem.item_retail r WHERE r.sku = i.sku) upc	   
+from LDBItem.item i 
+inner join LDBItem.product_hierarchy h ON h.hierarchy_id = i.hierarchy_id
+where i.sku = 1669
+  --and i.hierarchy_id = 1133;

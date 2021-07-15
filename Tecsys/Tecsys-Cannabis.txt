@@ -1,0 +1,22 @@
+INT5- Server
+----------
+BI - cbwmsbi.int5.bcldb.com
+DB - cbwmsdb.int5.bcldb.com
+WM - cbwms.int5.bcldb.com
+
+Tecsys Cannabis
+---------------
+INT5-WMS 
+https://cbwms.int5.bcldb.com/cbwms/ums/authenticator?emulation=desktop
+system/i5@y@t3m
+
+
+INT5-BI
+https://cbwmsbi.int5.bcldb.com/cbwms_bi
+Window-userid/password
+
+INT5-CP
+https://cbwms.int5.bcldb.com/TecsysCP2/do
+tecsys/tecsys
+
+

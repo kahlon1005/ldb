@@ -1,0 +1,53 @@
+package com.bcldb.web.wms.controller;
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.bcldb.web.wms.model.Order;
+import com.bcldb.web.wms.repository.WMSServiceEndpoint;
+
+@RunWith(SpringRunner.class)
+public class WMSServiceEndpointTest {
+	
+	
+	private static final String WMS_SERVCE_VERSION = "1.0.0";
+	
+	
+	@MockBean
+	private WMSServiceEndpoint endpoint;
+	
+	@Before
+	public void setup() {
+		List<Order> orders = new ArrayList<Order>();
+		for (int i = 0; i < 10; i++) {
+			Order order = new Order(i, "1000" + i);
+			orders.add(order);
+		}
+		
+		
+		Mockito.when(endpoint.getVersion()).thenReturn(WMS_SERVCE_VERSION);
+		Mockito.when(endpoint.getStuckTransactions()).thenReturn(orders);
+	}
+	
+	@Test
+	public void validateWMSServiceVersionIsNotEmpty() {
+		assertThat(endpoint.getVersion()).isNotEmpty();
+		assertThat(endpoint.getVersion()).isEqualTo(WMS_SERVCE_VERSION);
+	}
+
+	@Test
+	public void validateWMSServiceGetStuckTransactionListIsNotEmpty() {
+		assertThat(endpoint.getStuckTransactions()).isNotEmpty();
+		assertThat(endpoint.getStuckTransactions()).hasSize(10);
+	}
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+                                
+    
+    
+    
+    
+    
+    
+    <wb-module deploy-name="wms-app-ear-1.2.5-SNAPSHOT">
+                                                                
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+                                                                
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="wms-app-war-1.2.13-SNAPSHOT.war" deploy-path="/" handle="module:/resource/wms-app-war/wms-app-war">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+                                                            
+    
+    
+    
+    
+    
+    
+    </wb-module>
+                            
+
+
+
+
+
+
+</project-modules>

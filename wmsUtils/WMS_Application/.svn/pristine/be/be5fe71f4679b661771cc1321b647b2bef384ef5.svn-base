@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.bcldb.web</groupId>
+		<artifactId>wms-app</artifactId>
+		<version>1.2.10-SNAPSHOT</version>
+		<relativePath>../wms-app/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>wms-app-ear</artifactId>
+		<packaging>ear</packaging>
+	<name>WMS Util Application - EAR</name>
+
+	<scm>
+        <connection>scm:svn:http://subversion.bcliquor.com/svn/web/WMSApplication/trunk/wms-app-ear</connection>
+    </scm>
+    
+	<dependencies>
+		<dependency>
+			<groupId>com.bcldb.web</groupId>
+			<artifactId>wms-app-war</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10.1</version><!--$NO-MVN-MAN-VER$-->
+				<configuration>
+					<modules>
+						<webModule>
+			              <groupId>com.bcldb.web</groupId>
+			              <artifactId>wms-app-war</artifactId>
+			              <contextRoot>/wmsapp</contextRoot>
+						</webModule>
+					</modules>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<skinnyWars>true</skinnyWars>
+					<finalName>wms-app-ear-${project.version}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

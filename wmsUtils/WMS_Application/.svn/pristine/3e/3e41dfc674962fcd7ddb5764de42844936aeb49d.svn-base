@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class="navbar-nav">
+      <li class="nav-item">
+          <a routerLink="" routerLinkActive="active" class="nav-link logo">{{title}}</a>        
+      </li>      
+  </ul>
+</nav>
+<div class="container" style="padding: 20px;"></div>
+
+<div class="container">    
+    <router-outlet></router-outlet>
+</div>
+<footer class="footer">
+  <div class="container" style="padding-top: 5px;">
+    <span>All Right Reserverd 2020 @bcldb</span>
+  </div>
+</footer>

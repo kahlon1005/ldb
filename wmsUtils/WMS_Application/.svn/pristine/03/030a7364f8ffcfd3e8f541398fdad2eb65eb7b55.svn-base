@@ -1,0 +1,27 @@
+<div class="container page-header">Order List</div>
+
+<div *ngIf="orderexists" class="container"> 
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td scope="col" class="column">Order Number</td>
+                <td scope="col" class="column">Issue Description</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let order of orders">
+                <td>{{order.orderNumber}}</td>
+                <td>{{order.issueDescription}}</td>        
+                <td>
+                    <button (click) = "updateOrder(order.orderNumber)" class="btn btn-primary" style="font-weight: 600">Apply Fix</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+</div>
+<div *ngIf="!orderexists" class="container">    
+    <div class="alert alert-primary" role="alert">
+        <p>There are no orders available to fix.</p>
+    </div>    
+    <button (click) = "refreshPage()" class="btn btn-secondary">Refresh</button>    
+</div>

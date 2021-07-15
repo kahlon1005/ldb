@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2019-04-29T09:52:38 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_bol" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="0" uuid="39bb9d3a-3a0f-467a-8e52-61f2bbec61b1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="jasper*subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jasper*locale_name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jasper*parameter*reprint" class="java.lang.String"/>
+	<parameter name="bill_of_lading_5" class="java.lang.String"/>
+	<parameter name="bill_lading_reprint_2" class="java.lang.String"/>
+	<parameter name="supplement_bill_lading" class="java.lang.String"/>
+	<parameter name="reprint_2" class="java.lang.String"/>
+	<parameter name="ship_from" class="java.lang.String"/>
+	<parameter name="ship_to_4" class="java.lang.String"/>
+	<parameter name="third_party_freight_charges_bill" class="java.lang.String"/>
+	<parameter name="special_instr" class="java.lang.String"/>
+	<parameter name="carrier_name" class="java.lang.String"/>
+	<parameter name="trailer_num" class="java.lang.String"/>
+	<parameter name="seal_num" class="java.lang.String"/>
+	<parameter name="scac" class="java.lang.String"/>
+	<parameter name="probill" class="java.lang.String"/>
+	<parameter name="freight_charge_terms" class="java.lang.String"/>
+	<parameter name="freight_charges_ppd_unless_otherwise" class="java.lang.String"/>
+	<parameter name="ppd" class="java.lang.String"/>
+	<parameter name="collect" class="java.lang.String"/>
+	<parameter name="third_party" class="java.lang.String"/>
+	<parameter name="cust_ord_info" class="java.lang.String"/>
+	<parameter name="ship_to_po" class="java.lang.String"/>
+	<parameter name="num_of_packages" class="java.lang.String"/>
+	<parameter name="wght_2" class="java.lang.String"/>
+	<parameter name="pallet_2" class="java.lang.String"/>
+	<parameter name="slip" class="java.lang.String"/>
+	<parameter name="shipper_info" class="java.lang.String"/>
+	<parameter name="see_attached_supplemental_page" class="java.lang.String"/>
+	<parameter name="grand_tot" class="java.lang.String"/>
+	<parameter name="carrier_info" class="java.lang.String"/>
+	<parameter name="pallet_qty" class="java.lang.String"/>
+	<parameter name="type" class="java.lang.String"/>
+	<parameter name="carton_qty" class="java.lang.String"/>
+	<parameter name="hazmat" class="java.lang.String"/>
+	<parameter name="descr" class="java.lang.String"/>
+	<parameter name="nmfc_num" class="java.lang.String"/>
+	<parameter name="freight_class" class="java.lang.String"/>
+	<parameter name="cod_amt" class="java.lang.String"/>
+	<parameter name="fee_terms" class="java.lang.String"/>
+	<parameter name="cust_check_acceptable" class="java.lang.String"/>
+	<parameter name="shipper_signature" class="java.lang.String"/>
+	<parameter name="date_2" class="java.lang.String"/>
+	<parameter name="trailer_loaded" class="java.lang.String"/>
+	<parameter name="by_shipper" class="java.lang.String"/>
+	<parameter name="by_driver" class="java.lang.String"/>
+	<parameter name="freight_counted" class="java.lang.String"/>
+	<parameter name="driver_pallets_said_contain" class="java.lang.String"/>
+	<parameter name="by_driver_pieces" class="java.lang.String"/>
+	<parameter name="carrier_signature" class="java.lang.String"/>
+	<parameter name="pickup_date" class="java.lang.String"/>
+	<parameter name="pallets" class="java.lang.String"/>
+	<parameter name="cartons_2" class="java.lang.String"/>
+	<parameter name="state_declared_value_in_writing" class="java.lang.String"/>
+	<parameter name="per" class="java.lang.String"/>
+	<parameter name="received_subject_to_rates_or_contracts" class="java.lang.String"/>
+	<parameter name="certified_materials_classified_per_dot" class="java.lang.String"/>
+	<parameter name="no_delivery_without_payment_charges" class="java.lang.String"/>
+	<parameter name="carrier_ack_rcpt_packages_placards_dot" class="java.lang.String"/>
+	<parameter name="property_described_rcvd_good_ord_noted" class="java.lang.String"/>
+	<parameter name="jasper*images_path" class="java.lang.String"/>
+	<field name="WmsBolPo-Jasper" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="WmsBolL-Jasper" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="NumberOfBillOfLadingCustomerPo" class="java.lang.String"/>
+	<field name="NumberOfBillOfLadingLine" class="java.lang.String"/>
+	<field name="WarehouseOptions-ShipFromName" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address1" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address2" class="java.lang.String"/>
+	<field name="WarehouseOptions-Address3" class="java.lang.String"/>
+	<field name="WarehouseOptions-City" class="java.lang.String"/>
+	<field name="WarehouseOptions-StateOrProvince" class="java.lang.String"/>
+	<field name="WarehouseOptions-ZipOrPostalCode" class="java.lang.String"/>
+	<field name="WarehouseOptions-Country" class="java.lang.String"/>
+	<field name="ShipToCustomer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ShipToName" class="java.lang.String"/>
+	<field name="ShipToAddress1" class="java.lang.String"/>
+	<field name="ShipToAddress2" class="java.lang.String"/>
+	<field name="ShipToAddress3" class="java.lang.String"/>
+	<field name="ShipToCity" class="java.lang.String"/>
+	<field name="ShipToStateOrProvince" class="java.lang.String"/>
+	<field name="ShipToZipOrPostalCode" class="java.lang.String"/>
+	<field name="ShipToCountry" class="java.lang.String"/>
+	<field name="BillOfLading" class="java.lang.String"/>
+	<field name="CarrierService" class="java.lang.String"/>
+	<field name="TrailerId" class="java.lang.String"/>
+	<field name="TrailerSeal" class="java.lang.String"/>
+	<field name="Carrier" class="java.lang.String"/>
+	<field name="ProBill" class="java.lang.String"/>
+	<field name="FreightPaymentTermType" class="java.lang.String"/>
+	<field name="ShipToPo" class="java.lang.String"/>
+	<field name="CarrierServiceMaster-CarrierServiceName" class="java.lang.String"/>
+	<field name="BolCarrierTrlr" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shipment" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="supplementPageTitleReprint" class="java.lang.String">
+		<variableExpression><![CDATA[$P{supplement_bill_lading}+" "+$P{reprint_2}]]></variableExpression>
+	</variable>
+	<variable name="supplementPageTitle" class="java.lang.String">
+		<variableExpression><![CDATA[$P{supplement_bill_lading}]]></variableExpression>
+	</variable>
+	<variable name="shipFromCityStateAndZip" class="java.lang.String">
+		<initialValueExpression><![CDATA[($F{WarehouseOptions-City}!=null &&
+ $F{WarehouseOptions-City} != ""?$F{WarehouseOptions-City}:"")+ ($F{WarehouseOptions-StateOrProvince}!=null &&
+ $F{WarehouseOptions-StateOrProvince} != "" &&  $F{WarehouseOptions-City} !=null && $F{WarehouseOptions-City} != ""?", "+
+ $F{WarehouseOptions-StateOrProvince}:$F{WarehouseOptions-StateOrProvince})+ ($F{WarehouseOptions-ZipOrPostalCode}!=null &&
+ $F{WarehouseOptions-ZipOrPostalCode} != "" &&
+ (($F{WarehouseOptions-City} !=null && $F{WarehouseOptions-City} != "") ||  ($F{WarehouseOptions-StateOrProvince} != null &&
+   $F{WarehouseOptions-StateOrProvince} != ""))?", "+$F{WarehouseOptions-ZipOrPostalCode}:$F{WarehouseOptions-ZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="shipFromAddress" class="java.lang.String">
+		<initialValueExpression><![CDATA[($F{WarehouseOptions-Address1}!=null &&
+ $F{WarehouseOptions-Address1} != ""?$F{WarehouseOptions-Address1}+"\n":"")+ ($F{WarehouseOptions-Address2}!=null &&
+ $F{WarehouseOptions-Address2} != ""?$F{WarehouseOptions-Address2}+"\n":"")+
+($F{WarehouseOptions-Address3}!=null && $F{WarehouseOptions-Address3} != ""?$F{WarehouseOptions-Address3}+"\n":"")+
+($V{shipFromCityStateAndZip}!=null && $V{shipFromCityStateAndZip} != ""?$V{shipFromCityStateAndZip}+"\n":"")+
+($F{WarehouseOptions-Country}!=null && $F{WarehouseOptions-Country} != ""?$F{WarehouseOptions-Country}+"\n":"")]]></initialValueExpression>
+	</variable>
+	<variable name="shipToCityStateAndZip" class="java.lang.String">
+		<initialValueExpression><![CDATA[($F{ShipToCity}!=null && $F{ShipToCity} != ""?$F{ShipToCity}:"")+ ($F{ShipToStateOrProvince}!=null &&
+ $F{ShipToStateOrProvince} != "" &&  $F{ShipToCity} !=null && $F{ShipToCity} != ""?", "+$F{ShipToStateOrProvince}:$F{ShipToStateOrProvince})+
+($F{ShipToZipOrPostalCode}!=null && $F{ShipToZipOrPostalCode} != "" &&  (($F{ShipToCity} !=null &&
+ $F{ShipToCity} != "") ||  ($F{ShipToStateOrProvince} != null && $F{ShipToStateOrProvince} != ""))?", "+$F{ShipToZipOrPostalCode}:$F{ShipToZipOrPostalCode})]]></initialValueExpression>
+	</variable>
+	<variable name="shipToAddress" class="java.lang.String">
+		<initialValueExpression><![CDATA[($F{ShipToAddress1}!=null &&
+ $F{ShipToAddress1} != ""?$F{ShipToAddress1}+"\n":"")+ ($F{ShipToAddress2}!=null &&
+ $F{ShipToAddress2} != ""?$F{ShipToAddress2}+"\n":"")+
+($F{ShipToAddress3}!=null && $F{ShipToAddress3} != ""?$F{ShipToAddress3}+"\n":"")+
+($V{shipToCityStateAndZip}!=null && $V{shipToCityStateAndZip} != ""?$V{shipToCityStateAndZip}+"\n":"")+
+($F{ShipToCountry}!=null && $F{ShipToCountry} != ""?$F{ShipToCountry}+"\n":"")]]></initialValueExpression>
+	</variable>
+	<variable name="palletShip" class="java.lang.String">
+		<initialValueExpression><![CDATA[$P{pallet_2}+" / "+$P{slip}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="23" width="555" height="0" uuid="15b14021-83aa-4339-8931-60c427124d1d">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jasper*parameter*reprint}.equals("1")?$P{bill_lading_reprint_2}:$P{bill_of_lading_5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="23" width="555" height="0" uuid="46228092-7b19-47cc-9eee-1ee26542f75b">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jasper*parameter*reprint}.equals("1")?$V{supplementPageTitleReprint}:$V{supplementPageTitle}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="3" y="5" width="100" height="0" uuid="6a2ce726-4a13-421d-9be8-d3e15090c685">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bill_of_lading_5}.trim()+":"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="69" y="5" width="90" height="0" uuid="892aa3a1-1804-431f-a838-8ad1378c27d7">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1 && $P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BillOfLading}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="76" y="5" width="90" height="0" uuid="bc22e7fa-000d-4a26-971e-0c8e5327a6a0">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1 && $P{jasper*locale_name}.substring(0, 2).equals("fr")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BillOfLading}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="10" width="179" height="40" uuid="9c995187-714d-4a7b-8f60-8c4afed36cc8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{jasper*images_path}+"tecsys.gif"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="294" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<rectangle radius="0">
+				<reportElement x="275" y="0" width="290" height="63" forecolor="#CCCCCC" uuid="ae2b734c-015f-4f16-b45b-0eb7489fc925">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="275" height="105" forecolor="#CCCCCC" uuid="0b0f2e4f-4f4d-4cb6-a2af-652760ca78e1"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="0" width="275" height="10" forecolor="#FFFFFF" backcolor="#000000" uuid="92e67477-9554-4925-9d30-5ffc42d660fc">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ship_from}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="10" width="275" height="10" uuid="ff4b82c2-8729-42f5-944e-89a722a7d7d9"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WarehouseOptions-ShipFromName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="20" width="275" height="85" uuid="8febefe6-9a2a-41a6-b368-5c410bd87ad1"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{shipFromAddress}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="105" width="275" height="105" forecolor="#CCCCCC" uuid="701cf1f9-f2b5-4502-b477-613b1a3cada1"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="105" width="275" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="9eab84c7-7491-4044-9e08-d398828f4e5e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ship_to_4}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="115" width="275" height="10" uuid="2f8f3f45-80f8-456f-a9f2-3fd6ee33cc34"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ShipToCustomer} +" "+ $F{ShipToName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="125" width="275" height="85" uuid="675309b5-379d-46a3-bd7a-480ed8b0cc3d"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{shipToAddress}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="210" width="275" height="52" forecolor="#CCCCCC" uuid="f67a7782-6aa7-4ee5-af12-cb42d521790f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="262" width="275" height="32" forecolor="#CCCCCC" uuid="d622178a-452e-4fce-a7f9-18f20fcd52b8"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement mode="Opaque" x="0" y="210" width="275" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="661a4f69-2fe8-4910-ab75-97efab63baef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{third_party_freight_charges_bill}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="275" y="0" width="290" height="10" forecolor="#FFFFFF" backcolor="#000000" uuid="3f17001f-198a-48f7-81ca-7af96dd7bfde">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Shipment Information"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="13" width="100" height="12" uuid="1cda8138-9707-4f8e-9b3b-1844ddcf19f6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bill_of_lading_5}.trim()+": "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="339" y="13" width="74" height="12" uuid="7765ae95-c605-4739-b404-3b61966ad66b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BillOfLading}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="294" y="29" width="119" height="30" uuid="26c5e18e-73e4-4400-9b1f-4ac74f55e88d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39 (Extended)" drawText="false" checksumRequired="false" barWidth="0">
+					<jr:codeExpression><![CDATA[$F{BillOfLading}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<rectangle>
+				<reportElement x="275" y="63" width="290" height="42" forecolor="#CCCCCC" uuid="ae4b3536-3eea-405d-a060-f0bacb3db0de">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="66" width="150" height="12" uuid="60a8d5d3-e4d4-4171-8cb1-fff9806d1cf6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Carrier Service: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="344" y="66" width="210" height="12" uuid="9021043e-8878-4b29-9e22-9c3a9be0b22a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CarrierServiceMaster-CarrierServiceName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="78" width="100" height="12" uuid="8eca442d-c20c-4665-bae7-dff6042a31b9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{trailer_num}.trim()+": "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="308" y="78" width="100" height="12" uuid="0a01be20-3cb5-4457-ad30-fb38b44848d7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TrailerId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="89" width="100" height="12" uuid="5b9933e7-3f5a-471f-8675-f55ba52d7743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{seal_num}.trim()+": "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="340" y="89" width="222" height="12" uuid="945cc789-8e94-4bc4-8112-7e686690bdf3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TrailerSeal}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="275" y="149" width="290" height="90" forecolor="#CCCCCC" uuid="af1334ef-fee2-41d7-9d66-697b662e983a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="275" y="239" width="290" height="55" forecolor="#CCCCCC" uuid="e207b851-d1d5-44ae-ab20-1dd109a38356"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="153" width="100" height="12" uuid="54803268-f9af-4d14-8597-e02f65ed5eb5"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Carrier: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="310" y="153" width="100" height="12" uuid="a6ed2272-139b-4622-ab0e-4566829cb8f0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Carrier}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="166" width="100" height="12" uuid="52f03ca6-ee38-4f14-9dee-e234a85b3b6b"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{probill}.trim()+": "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="246" width="150" height="0" uuid="a9834857-8aed-4689-9498-c72086417e3e"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{freight_charge_terms}.trim()+": "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="259" width="275" height="0" uuid="8e0d8676-6ebb-4d6e-8393-78bb08323759"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["("+$P{freight_charges_ppd_unless_otherwise}.trim()+")"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="288" y="276" width="50" height="12" uuid="e5893513-5dce-4f58-a744-62096704187b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ppd}.trim()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="322" y="274" width="15" height="15" uuid="bc6fd611-f628-4b34-b7c4-9f4dda09d2db">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="379" y="276" width="50" height="12" uuid="22d9b021-708f-4006-9d2e-6b2f48b63511">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{collect}.trim()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="410" y="274" width="15" height="15" uuid="ac6af4f3-1769-4140-b469-3270c8b3921b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="326" y="275" width="12" height="12" uuid="4c049de3-5892-499f-ae8a-2302baeac74b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{FreightPaymentTermType}.equals("3") && $P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="275" width="12" height="12" uuid="f8e890af-4599-4033-bb77-7d5499730f74">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{FreightPaymentTermType}.equals("1")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="294" width="565" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="df0c9377-bce5-4a1a-b89e-3e685724b35f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cust_ord_info}.trim()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="328" y="274" width="15" height="15" uuid="48f5e993-d1fc-4fea-b3ab-a2167f4f0b40">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("fr")]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="332" y="275" width="12" height="12" uuid="057dc81b-ec4f-4e30-972c-2e2ae1b4cec5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{FreightPaymentTermType}.equals("3") && $P{jasper*locale_name}.substring(0, 2).equals("fr")]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="264" width="100" height="12" uuid="19f4f3bb-1875-4e20-8340-819745567fbf">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Others:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="222" width="100" height="12" uuid="12bd00cf-2bf3-4049-81e3-f21009d5980e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Special Agreement:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="241" width="80" height="12" uuid="f213ea3b-5f6a-4157-b553-7cd672db3e20">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Standard Heat]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="67" y="239" width="15" height="15" uuid="5d9f6dca-172e-4707-a4b6-aa9d0c5d0be9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="275" y="105" width="290" height="44" forecolor="#CCCCCC" uuid="703328d1-041a-498d-b5b4-de7c5a914497"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="277" y="108" width="100" height="12" uuid="ab6cfe8e-b8f1-4d80-88cf-48d819de2b43">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Connecting Carrier (s):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="413" y="13" width="61" height="12" uuid="20805e2e-a65c-44b5-b156-c65d813f7c39"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Shipment#:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="474" y="13" width="88" height="12" uuid="06c25eb7-b08b-4b13-ac56-328539d243ba"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Shipment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Integer($F{NumberOfBillOfLadingCustomerPo}) < 8 &&
+new Integer($F{NumberOfBillOfLadingLine}) < 8]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="3" width="565" height="0" forecolor="#FFFFFF" backcolor="#000000" uuid="af68897a-74b0-4f6e-a153-bf49dca0b2db">
+					<printWhenExpression><![CDATA[new Integer($F{NumberOfBillOfLadingLine}) > 7]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{carrier_info}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="555" height="0" uuid="a043cc97-a8a7-4412-87fc-856cc3d04b13">
+					<printWhenExpression><![CDATA[new Integer($F{NumberOfBillOfLadingCustomerPo}) < 8]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="pallet_2">
+					<subreportParameterExpression><![CDATA[$P{pallet_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ship_to_po">
+					<subreportParameterExpression><![CDATA[$P{ship_to_po}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cust_ord_info">
+					<subreportParameterExpression><![CDATA[$P{cust_ord_info}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="shipper_info">
+					<subreportParameterExpression><![CDATA[$P{shipper_info}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="slip">
+					<subreportParameterExpression><![CDATA[$P{slip}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="wght_2">
+					<subreportParameterExpression><![CDATA[$P{wght_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*subreport_dir">
+					<subreportParameterExpression><![CDATA[$P{jasper*subreport_dir}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="bill of lading_5">
+					<subreportParameterExpression><![CDATA[$P{bill_of_lading_5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*locale_name">
+					<subreportParameterExpression><![CDATA[$P{jasper*locale_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="num_of_packages">
+					<subreportParameterExpression><![CDATA[$P{num_of_packages}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="grand_tot">
+					<subreportParameterExpression><![CDATA[$P{grand_tot}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{WmsBolPo-Jasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{jasper*subreport_dir} + "wms_bol_po.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1" width="550" height="0" uuid="403fe24e-ae25-4b94-908c-9ed7f392e4f1">
+					<printWhenExpression><![CDATA[new Integer($F{NumberOfBillOfLadingLine}) < 8 && new Integer($F{NumberOfBillOfLadingCustomerPo}) < 8]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="pallet_qty">
+					<subreportParameterExpression><![CDATA[$P{pallet_qty}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nmfc_num">
+					<subreportParameterExpression><![CDATA[$P{nmfc_num}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*subreport_dir">
+					<subreportParameterExpression><![CDATA[$P{jasper*subreport_dir}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="grand_tot">
+					<subreportParameterExpression><![CDATA[$P{grand_tot}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pallets">
+					<subreportParameterExpression><![CDATA[$P{pallets}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cartons_2">
+					<subreportParameterExpression><![CDATA[$P{cartons_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="type">
+					<subreportParameterExpression><![CDATA[$P{type}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carton_qty">
+					<subreportParameterExpression><![CDATA[$P{carton_qty}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="hazmat">
+					<subreportParameterExpression><![CDATA[$P{hazmat}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="wght_2">
+					<subreportParameterExpression><![CDATA[$P{wght_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carrier_info">
+					<subreportParameterExpression><![CDATA[$P{carrier_info}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="descr">
+					<subreportParameterExpression><![CDATA[$P{descr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="freight_class">
+					<subreportParameterExpression><![CDATA[$P{freight_class}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{WmsBolL-Jasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{jasper*subreport_dir} + "wms_bol_l.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="6" width="100" height="12" uuid="762978c2-9ac5-4660-adec-c60758ff011c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[As Noted:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="175" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy h:mm:ss a">
+				<reportElement x="1" y="143" width="170" height="14" uuid="82ef730d-aca8-4aec-9559-7fabadb7e491">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="143" width="42" height="14" uuid="535f32d0-1378-4b80-9935-5bae0c387aa8">
+					<printWhenExpression><![CDATA[$P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="143" width="50" height="14" uuid="788ad9f2-1403-4f72-b4a6-9e9049be4fc4"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[' '+$V{PAGE_NUMBER}+'']]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="118" width="565" height="21" forecolor="#CCCCCC" uuid="2e0d5d60-81f8-45a2-8ce5-16eda0b03a68">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="565" height="48" forecolor="#CCCCCC" uuid="8d4caf92-2584-4678-8eee-ec8d713261f6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="48" width="210" height="70" forecolor="#CCCCCC" uuid="088b1f15-4b3f-4b68-be13-0b2d49aa10a9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="365" y="48" width="200" height="70" forecolor="#CCCCCC" uuid="2b806766-475f-4351-bd75-15dba48c265e">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="210" y="48" width="155" height="70" forecolor="#CCCCCC" uuid="b3b6bbb4-d078-44c6-9da2-a89747e4e999">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<line>
+				<reportElement x="365" y="83" width="200" height="1" uuid="5d77b6c5-5688-4fe1-9d6a-bf4b16b992c7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="222" y="48" width="100" height="8" uuid="12ba537e-9fa5-4bee-8b78-aa66f33be243">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{freight_counted}.trim()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="222" y="62" width="12" height="10" uuid="8db66cd6-57fd-4de2-8513-23b36c2fa99c">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="222" y="77" width="12" height="10" uuid="f212f350-7fc3-440c-8768-8b16c3d50a53">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="222" y="92" width="12" height="10" uuid="52b1f7ca-bb24-48e5-b218-cec11f69bf52">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="238" y="63" width="100" height="8" uuid="10d7eddd-b037-492f-993a-ece2fae6858d">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{by_shipper}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="238" y="78" width="124" height="8" uuid="d641c238-4df4-4646-a7eb-d650b35d8785">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1 && $P{jasper*locale_name}.substring(0, 2).equals("en")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{driver_pallets_said_contain}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="238" y="93" width="100" height="8" uuid="4d786925-7fc4-41fc-9a61-2d9336462985">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{by_driver_pieces}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="238" y="76" width="124" height="8" uuid="8cd7479d-7b75-4dbc-8d78-2b30b18a0143">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1 && $P{jasper*locale_name}.substring(0, 2).equals("fr")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{driver_pallets_said_contain}.trim()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="48" width="164" height="12" uuid="28b0ef96-36f1-4968-8c2c-fea3ed554dda">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrier Signature/Pickup Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="48" width="200" height="12" uuid="f7b00106-af9a-44d5-8a67-0a6dfeaf3fa3"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Signature/Receive Date]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="83" width="210" height="1" uuid="f78faa00-5114-4137-b7a6-2b7b1ba743e4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="88" width="200" height="18" uuid="8c22ca31-0375-4011-8854-b9f4c7c4b389"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Carrier's liability is limited by a term in the General Service Agreement with the consignor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="88" width="200" height="13" uuid="c0b90566-6376-4de8-8775-d59f086af6f4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Goods listed above are received in good order, except as noted]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="430" y="104" width="12" height="10" uuid="7d977e6c-5a78-4a42-b081-6e737afd428d">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="497" y="104" width="12" height="10" uuid="1ff2c2d1-fab3-412e-af83-25dcd58065ee">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<line>
+				<reportElement x="120" y="41" width="195" height="1" uuid="26eed7a6-03bd-411c-8ee1-2aa86ffcbf30">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="30" width="118" height="12" uuid="fd51d47c-6f93-44fa-80c2-f07a3a9fbbfc">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B.C.L.D.B Shipper Signature  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="104" width="20" height="10" uuid="f7335ef2-b2d2-44e8-bd4c-3234db1baeb0"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Yes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="104" width="20" height="10" uuid="5a5876a4-4472-47be-aee3-55bf02630f44"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="16" width="564" height="10" uuid="d842e63b-0a1d-4844-bb7f-58b8f15c4524"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note: The Specified Conditions of Carriage as set out in Part 7, s. 37.39 of the Motor Vehicle Act Regulations are incorporated by reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="121" width="564" height="18" uuid="435b2e97-e3ab-4745-804b-d666832d8e5e"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="4" isBold="true"/>
+				</textElement>
+				<text><![CDATA[The carrier is not liable for loss, damage or delay to any of the goods transported under this bill of lading unless notice of the loss, damage or delay, setting out particulars of the origin, destination and date of shipment of the goods and the estimated amount claimed in respect of such loss, damage or delay, is given in writing to the originating carrier (or the delivering carrier) within 60 days after the delivery of the goods, or, in the case of failure to make delivery, within 9 months after the date of shipment of the goods.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="564" height="14" uuid="f942f4e8-faff-43d4-aa22-cb726b2890de"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Please note:  The number of containers may not be the same as the number of pallets received.  Proof of Delivery will be the signature provided against the case count above.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

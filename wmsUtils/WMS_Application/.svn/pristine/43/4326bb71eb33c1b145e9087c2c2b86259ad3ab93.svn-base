@@ -1,0 +1,47 @@
+package com.bcldb.web.wms.repository;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import wmsservice.WMSService;
+
+public class WMSServiceAdapter {
+	private static final Logger log = LoggerFactory.getLogger(WMSServiceAdapter.class);
+	
+	private static final long WSDL_CONNECTION_TIMEOUT = 1000;
+	private static final long WSDL_RECEIVE_TIMEOUT = 1000;
+	
+	
+	public static WMSService createSecureService(String url, 
+			 String username, String password) {
+		log.info("Create secure connenction for wsdl " + url);
+		JaxWsProxyFactoryBean jaxWsFactory = new JaxWsProxyFactoryBean();
+		jaxWsFactory.setServiceClass(WMSService.class);
+		jaxWsFactory.setAddress(url);
+		WMSService service = (WMSService) jaxWsFactory.create();
+//		Client client = ClientProxy.getClient(service);
+//		Endpoint cxfEndpoint = client.getEndpoint();
+//		Map<String, Object> outProps = new HashMap<String, Object>();
+//		outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+//		outProps.put(WSHandlerConstants.USER, username);
+//		outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+//		outProps.put(WSHandlerConstants.PW_CALLBACK_REF, new CallbackHandler() {
+//			@Override
+//			public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+//				Arrays.stream(callbacks).filter(WSPasswordCallback.class::isInstance)
+//						.map(WSPasswordCallback.class::cast).forEach(callback -> callback.setPassword(password));
+//			}
+//		});
+//		WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+//		cxfEndpoint.getOutInterceptors().add(wssOut);
+//		
+//		HTTPConduit http = (HTTPConduit) client.getConduit();
+//		HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
+//		httpClientPolicy.setConnectionTimeout(WSDL_CONNECTION_TIMEOUT);
+//		httpClientPolicy.setReceiveTimeout(WSDL_RECEIVE_TIMEOUT);
+//		http.setClient(httpClientPolicy);
+		return service;
+	}
+	
+}

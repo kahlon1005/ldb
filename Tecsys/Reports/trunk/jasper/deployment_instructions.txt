@@ -1,0 +1,14 @@
+
+## The purpose of this document is to provide the deployment steps for Jasper reports on Tecsys Application server 
+
+#### The jasper_deploy batch file finds the Tecsys deployment path and deploy jasper files to the %TECSYS_HOME%\WEB-INF\classes\jasper
+
+1.	Checkout Jasper reports from SVN repo http://subversion.bcliquor.com/svn/WMS/Reports/trunk/jasper
+
+
+2.	Open command prompt as administrator (Run as Administrator)
+
+3. run below commands on command prompt
+
+cd D:\TEMP\Jasper
+jasper_deploy.bat

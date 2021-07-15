@@ -1,0 +1,317 @@
+<report xmlns="http://developer.cognos.com/schemas/report/12.0/" expressionLocale="en-ca"><!--RSU-SPC-0093 The report specification was upgraded from "http://developer.cognos.com/schemas/report/11.0/" to "http://developer.cognos.com/schemas/report/12.0/" at 2018-8-15. 16:20:17--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/8.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/11.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2016-4-12. 14:40:17--><!--RSU-SPC-0093 The report specification was upgraded from &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/6.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; to &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot;http://developer.cognos.com/schemas/report/8.0/&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;quot; at 2015-4-21. 14:22:15-->
+				<modelPath>/content/folder[@name=&apos;TECSYS EliteSeries&apos;]/folder[@name=&apos;Models&apos;]/package[@name=&apos;Report Model - Warehouse Management System&apos;]/model[@name=&apos;model&apos;]</modelPath>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="Page1">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									<CSS value="text-align:center"/></style>
+									<contents><list horizontalPagination="true" name="List1" refQuery="Main">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Warehouse"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS PO Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><numberFormat useGrouping="false"/></dataFormat><CSS value="text-align:left"/></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS PO Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS PO Line Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><numberFormat useGrouping="false"/></dataFormat><CSS value="text-align:left"/></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS PO Line Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Receipt"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Receipt"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="SKU"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><numberFormat useGrouping="false"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="SKU"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Quantity"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><numberFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Quantity"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Bottles per Case"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><numberFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Bottles per Case"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Case Quantity"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><numberFormat useGrouping="true"/></dataFormat></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Case Quantity"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Cost per Shipping Unit"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><currencyFormat useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Cost per Shipping Unit"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Total Cost"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles><dataFormat><currencyFormat useGrouping="true"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="Total Cost"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Transaction ID"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Transaction ID"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Order Line Status"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Order Line Status"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Extracted"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Extracted"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Creation Date/Time"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><dateTimeFormat dateStyle="short"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Creation Date/Time"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="WMS Last Update Date/Time"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><dateTimeFormat dateStyle="short"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="WMS Last Update Date/Time"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="eBiz Order Line Status"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="eBiz Order Line Status"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="eBiz Creation Date/Time"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><dateTimeFormat dateStyle="short"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="eBiz Creation Date/Time"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="eBiz Last Update Date/Time"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles><dataFormat><dateTimeFormat dateStyle="short"/></dataFormat><CSS value="text-align:right"/></style><contents><textItem><dataSource><dataItemValue refDataItem="eBiz Last Update Date/Time"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+								</pageBody>
+							<pageHeader>
+									<contents>
+										
+									<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><style><defaultStyles><defaultStyle refStyle="tt"/></defaultStyles><CSS value="color:black;text-decoration:underline;font-size:14pt;font-weight:bold"/></style>
+													<dataSource>
+														<staticValue>PO Receipt Interface Exception Report</staticValue>
+													</dataSource>
+												</textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>Report Run: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem><date>
+																	
+																<style><CSS value="font-weight:normal;font-family:Arial;font-size:10pt;font-style:normal"/><dataFormat><dateFormat dateStyle="medium"/></dataFormat></style></date><textItem><dataSource><staticValue>  </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem><time>
+																	<style>
+																		
+																	<CSS value="font-weight:normal;font-family:Arial;font-size:10pt;font-style:normal"/><dataFormat><timeFormat timeStyle="short"/></dataFormat></style>
+																</time></contents><style><CSS value="text-align:right"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>WMS Creation Date/Time: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>if (ParamDisplayValue(&apos;WMS Creation Date&apos;) is null)
+then (&apos;All Data&apos;)
+else (ParamDisplayValue(&apos;WMS Creation Date&apos;))</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>PO Number(s): </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>if (ParamDisplayValue(&apos;PO Number&apos;) is null)
+then (&apos;Not Specified&apos;)
+else (ParamDisplayValue(&apos;PO Number&apos;))</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>WMS Received Quantity: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>ParamDisplayValue(&apos;zero_qty&apos;)</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>WMS Order Line Status: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>if (ParamDisplayValue(&apos;WMS Order Line Status&apos;) is null)
+then (&apos;All&apos;)
+else (ParamDisplayValue(&apos;WMS Order Line Status&apos;))</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><dataSource><staticValue>eBiz Order Line Status: </staticValue></dataSource><style><CSS value="font-family:Arial;font-size:11pt;font-weight:normal;font-style:normal"/></style></textItem><textItem><dataSource><reportExpression>if (ParamDisplayValue(&apos;eBiz Order Line Status&apos;) is null)
+then (&apos;All&apos;)
+else (ParamDisplayValue(&apos;eBiz Order Line Status&apos;))</reportExpression></dataSource><style><CSS value="font-size:11pt"/></style></textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="ph"/>
+										</defaultStyles>
+										<CSS value="padding-bottom:10px"/>
+									</style>
+								</pageHeader></page>
+						</reportPages>
+					<promptPages><page name="Prompt Page1">
+			<pageHeader>
+				<contents>
+					
+				<table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell colSpan="4"><contents><textItem><style><defaultStyles><defaultStyle refStyle="tt"/></defaultStyles><CSS value="color:black;text-decoration:underline;font-size:14pt;font-weight:bold"/></style>
+													<dataSource>
+														<staticValue>PO Receipt Interface Exception Report</staticValue>
+													</dataSource>
+												</textItem></contents><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell colSpan="4"><contents/><style><CSS value="text-align:center"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="hp"/>
+					</defaultStyles>
+				</style>
+			</pageHeader>
+			<pageBody>
+				<contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:80%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>WMS Record Creation Date/Time (Optional)</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;width:50%;border:0.25pt solid silver"/></style></tableCell><tableCell><contents><textItem><dataSource><staticValue>PO Numbers (Optional)</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectDateTime parameter="WMS Creation Date" required="false" range="true"/></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;vertical-align:top;border:0.25pt solid silver"/></style></tableCell><tableCell><contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textBox multiLine="true" multiSelect="true" parameter="PO Number" required="false"/></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>WMS Order Line Status (Optional)</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectValue parameter="WMS Order Line Status" required="false" multiSelect="true" selectValueUI="checkboxGroup"><style><CSS value="width:350px"/></style><selectOptions><selectOption useValue="Not Received"><displayValue>Not Received (Not planned on a receipt)</displayValue></selectOption><selectOption useValue="Order Line Interfaced"><displayValue>Order Line Interfaced (non-zero qty recved and receipt closed)</displayValue></selectOption><selectOption useValue="Order Line Not Closed"><displayValue>Order Line Not Closed (Receipt planned, but not closed)</displayValue></selectOption><selectOption useValue="Order Line Not Interfaced"><displayValue>Order Line Not Interfaced</displayValue></selectOption><selectOption useValue="Order Line Not Interfaced - Zero Quantity"><displayValue>Order Line Not Interfaced - Zero Quantity</displayValue></selectOption></selectOptions></selectValue></contents><style><CSS value="text-align:center;padding-top:10px;padding-bottom:10px;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>eBiz Order Line Status (Optional)</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="padding-top:30px;padding-bottom:10px;text-align:center;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectValue parameter="eBiz Order Line Status" required="false" multiSelect="true" selectValueUI="checkboxGroup"><style><CSS value="width:350px"/></style><selectOptions><selectOption useValue="C"><displayValue>Complete</displayValue></selectOption><selectOption useValue="N"><displayValue>Not Complete</displayValue></selectOption></selectOptions></selectValue></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>WMS Received Quantity</staticValue></dataSource><style><CSS value="font-family:Arial;font-size:10pt;font-weight:normal;font-style:normal"/></style></textItem></contents><style><CSS value="text-align:center;padding-top:30px;padding-bottom:10px;border-bottom:0.25pt solid silver"/></style></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><selectValue parameter="zero_qty" selectValueUI="radioGroup"><defaultSelections><defaultSimpleSelection>1</defaultSimpleSelection></defaultSelections><style><CSS value="width:350px"/></style><selectOptions><selectOption useValue="0"><displayValue>Include zero quantity</displayValue></selectOption><selectOption useValue="1"><displayValue>Exclude zero quantity</displayValue></selectOption></selectOptions></selectValue></contents><style><CSS value="text-align:center;padding-top:10px;padding-bottom:10px"/></style></tableCell></tableCells></tableRow></tableRows></table></contents><style><CSS value="padding-top:10px;padding-bottom:10px;text-align:center;vertical-align:top;border:0.25pt solid silver"/></style></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="py"/>
+					</defaultStyles>
+				<CSS value="text-align:center;padding-top:40px;padding-bottom:50px"/></style>
+			</pageBody>
+			<pageFooter>
+				<contents>
+					<promptButton type="cancel">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					
+					
+					<promptButton type="finish">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="fp"/>
+					</defaultStyles>
+				<CSS value="text-align:center"/></style>
+			</pageFooter>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pp"/>
+				</defaultStyles>
+			</style>
+		</page></promptPages></layout>
+				</layouts>
+				<classStyles>
+					<classStyle name="pd_1">
+						<CSS value="background-color:#009933; color:#FFFFFF;"/>
+					</classStyle>
+					<classStyle name="pd_2">
+						<CSS value="background-color:#FFFFFF; color:#009933;"/>
+					</classStyle>
+					<classStyle name="pd_3">
+						<CSS value="background-color:#FFFFFF; color:#CC9900;"/>
+					</classStyle>
+					<classStyle name="pd_4">
+						<CSS value="background-color:#FFFFFF; color:#990000;"/>
+					</classStyle>
+					<classStyle name="pd_5">
+						<CSS value="background-color:#990000; color:#FFFFFF;"/>
+					</classStyle>
+				</classStyles>
+			<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute name="listSeparator" output="no" value=","/><XMLAttribute name="RS_modelModificationTime" output="no" value="2016-09-13T16:06:47.157Z"/></XMLAttributes><queries><query name="Main">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand><queryRef refQuery="WMS"/></joinOperand>
+				<joinOperand><queryRef refQuery="eBiz with Cost"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[WMS].[Warehouse] = [eBiz with Cost].[Warehouse] and
+[WMS].[PO Line Number] = [eBiz with Cost].[Legacy PO Line ID] and
+[WMS].[Transaction ID] = [eBiz with Cost].[Transaction ID]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem name="Warehouse" label="Warehouse" aggregate="none" rollupAggregate="none"><expression>[WMS].[Warehouse]</expression></dataItem><dataItem name="WMS PO Number" label="WMS PO Number" aggregate="none" rollupAggregate="none"><expression>[WMS].[PO Number]</expression></dataItem><dataItem name="WMS PO Line Number" label="WMS PO Line Number" aggregate="none" rollupAggregate="none"><expression>[WMS].[PO Line Number]</expression></dataItem><dataItem name="WMS Receipt" label="WMS Receipt" aggregate="none" rollupAggregate="none"><expression>[WMS].[Receipt]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>[WMS].[SKU]</expression></dataItem><dataItem name="WMS Quantity" label="WMS Quantity" aggregate="total" rollupAggregate="total"><expression>[WMS].[Quantity]</expression></dataItem><dataItem name="WMS Bottles per Case" label="WMS Bottles per Case" aggregate="none" rollupAggregate="none"><expression>[WMS].[Bottles per Case]</expression></dataItem><dataItem name="WMS Case Quantity" label="WMS Case Quantity" aggregate="total" rollupAggregate="total"><expression>[WMS].[Case Quantity]</expression></dataItem><dataItem name="WMS Transaction ID" label="WMS Transaction ID" aggregate="none" rollupAggregate="none"><expression>[WMS].[Transaction ID]</expression></dataItem><dataItem name="WMS Order Line Status" label="WMS Order Line Status" aggregate="none" rollupAggregate="none"><expression>[WMS].[Order Line Status]</expression></dataItem><dataItem name="WMS Extracted" label="WMS Extracted" aggregate="none" rollupAggregate="none"><expression>[WMS].[Extracted]</expression></dataItem><dataItem name="WMS Creation Date/Time" label="WMS Creation Date/Time" aggregate="none" rollupAggregate="none"><expression>[WMS].[Creation Date/Time]</expression></dataItem><dataItem name="WMS Last Update Date/Time" label="WMS Last Update Date/Time" aggregate="none" rollupAggregate="none"><expression>[WMS].[Last Update Date/Time]</expression></dataItem><dataItem name="eBiz Order Line Status" label="eBiz Order Line Status" aggregate="none" rollupAggregate="none"><expression>[eBiz with Cost].[Order Line Status]</expression></dataItem><dataItem name="eBiz Creation Date/Time" label="eBiz Creation Date/Time" aggregate="none" rollupAggregate="none"><expression>[eBiz with Cost].[Creation Date/Time]</expression></dataItem><dataItem name="eBiz Last Update Date/Time" label="eBiz Last Update Date/Time" aggregate="none" rollupAggregate="none"><expression>[eBiz with Cost].[Last Update Date/Time]</expression></dataItem><dataItem name="Cost per Shipping Unit" label="Cost per Case" aggregate="none" rollupAggregate="none"><expression>[eBiz with Cost].[PRODUCT_COST_PER_SHIP_UNIT]</expression></dataItem><dataItem name="Total Cost" label="Total Cost" aggregate="total" rollupAggregate="total"><expression>[WMS Case Quantity] * [Cost per Shipping Unit]</expression></dataItem></selection>
+		</query><query name="WMS">
+			<source>
+				
+			<sqlQuery dataSource="wms" name="SQL1">
+			<sqlText>SELECT whse_code AS &quot;Warehouse&quot;
+     , ib_oid AS &quot;PO Number&quot;
+	 , host_order_lno AS &quot;PO Line Number&quot;
+	 , receipt AS &quot;Receipt&quot;
+	 , RIGHT(&apos;00000000&apos; + sku,8) AS &quot;SKU&quot;
+	 , qty AS &quot;Quantity&quot;
+	 , CAST(BtlPerCase AS INTEGER) AS &quot;Bottles per Case&quot;
+	 , CAST(qty / BtlPerCase AS DECIMAL(10,2)) AS &quot;Case Quantity&quot;
+	 , transaction_id AS &quot;Transaction ID&quot;
+	 , status AS &quot;Order Line Status&quot;
+	 , is_extracted AS &quot;Extracted&quot;
+	 , create_stamp AS &quot;Creation Date/Time&quot;
+	 , mod_stamp AS &quot;Last Update Date/Time&quot;
+FROM (
+SELECT po.whse_code
+     , po.ib_oid
+	 , po.host_order_lno
+	 , po.receipt
+	 , po.sku
+	 , qty
+	 , CASE WHEN pm_f.uom1 = &apos;BTL&apos; THEN pm_f.qty1in2 ELSE 1 END AS BtlPerCase
+	 , po.transaction_id
+	 , po.status
+	 , po.is_extracted
+	 , po.create_stamp
+	 , po.mod_stamp
+FROM (
+(SELECT whse_code
+      , ib_oid
+	  , host_order_lno
+	  , receipt
+	  , sku
+	  , CASE WHEN pkg = &apos;*&apos; THEN &apos;&apos; ELSE pkg END pkg
+	  , cmp_qty AS qty
+	  , CASE WHEN receipt = &apos;&apos; AND cmp_qty = 0 THEN &apos;Not Received&apos; ELSE &apos;Order Line Not Closed&apos; END as status
+	  , &apos;N/A&apos; AS transaction_id
+	  , 0 AS is_extracted
+	  , create_stamp
+	  , mod_stamp
+ FROM   ibod_f
+WHERE   ISNUMERIC(ib_oid) = 1
+)
+UNION ALL
+(SELECT up_rcpt.whse_code
+      , up_rcpt.ib_oid
+	  , up_rcpt_line.host_order_lno
+	  , up_rcpt_line.receipt
+	  , sku
+	  , CASE WHEN up_rcpt_line.pkg = &apos;*&apos; THEN &apos;&apos; ELSE up_rcpt_line.pkg END AS pkg
+	  , up_rcpt_line.qty AS qty
+	  , CASE WHEN is_extracted = 0 THEN &apos;Order Line Not Interfaced&apos; 
+	         WHEN up_rcpt_line.qty = 0 THEN &apos;Order Line Not Interfaced - Zero Quantity&apos;
+	         ELSE &apos;Order Line Interfaced&apos; END AS status
+	  , CONCAT(up_rcpt.up_rcpt_id,up_rcpt.up_rcpt_up_rid) AS transaction_id
+	  , up_rcpt.is_extracted
+	  , create_stamp
+	  , up_rcpt.mod_stamp
+ FROM   v_u_up_rcpt up_rcpt
+      , v_u_up_rcpt_line up_rcpt_line
+ WHERE  up_rcpt.whse_code = up_rcpt_line.whse_code
+   AND  up_rcpt.up_rcpt_id = up_rcpt_line.up_rcpt_id
+   AND  up_rcpt.whse_code = up_rcpt_line.whse_code
+   AND  ISNUMERIC(up_rcpt.ib_oid) = 1
+)
+) AS    po
+      , pm_f
+WHERE   po.whse_code = &apos;VDC&apos;
+  AND   po.whse_code = pm_f.whse_code
+  AND   po.sku = pm_f.sku
+  AND   po.pkg = pm_f.pkg
+) AS po_pm_f
+ORDER BY whse_code, ib_oid, host_order_lno, receipt, sku
+
+</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="PO Number"/><mdProjectedItem name="PO Line Number"/><mdProjectedItem name="Receipt"/><mdProjectedItem name="SKU"/><mdProjectedItem name="Quantity"/><mdProjectedItem name="Bottles per Case"/><mdProjectedItem name="Case Quantity"/><mdProjectedItem name="Transaction ID"/><mdProjectedItem name="Order Line Status"/><mdProjectedItem name="Extracted"/><mdProjectedItem name="Creation Date/Time"/><mdProjectedItem name="Last Update Date/Time"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Warehouse]</expression></dataItem><dataItem name="PO Number" aggregate="none" rollupAggregate="none"><expression>[SQL1].[PO Number]</expression></dataItem><dataItem name="PO Line Number" aggregate="none" rollupAggregate="none"><expression>[SQL1].[PO Line Number]</expression></dataItem><dataItem name="Receipt" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Receipt]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>[SQL1].[SKU]</expression></dataItem><dataItem name="Quantity" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Quantity]</expression></dataItem><dataItem name="Bottles per Case" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Bottles per Case]</expression></dataItem><dataItem name="Case Quantity" aggregate="total" rollupAggregate="total"><expression>[SQL1].[Case Quantity]</expression></dataItem><dataItem name="Transaction ID" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Transaction ID]</expression></dataItem><dataItem name="Order Line Status" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Order Line Status]</expression></dataItem><dataItem name="Extracted" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Extracted]</expression></dataItem><dataItem name="Creation Date/Time" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Creation Date/Time]</expression></dataItem><dataItem name="Last Update Date/Time" aggregate="none" rollupAggregate="none"><expression>[SQL1].[Last Update Date/Time]</expression></dataItem></selection>
+		<detailFilters><detailFilter use="optional"><filterExpression>[Creation Date/Time] in_range ?WMS Creation Date?</filterExpression></detailFilter><detailFilter use="optional"><filterExpression>[Order Line Status] in ?WMS Order Line Status?</filterExpression></detailFilter><detailFilter><filterExpression>[Quantity] &gt;= ?zero_qty?</filterExpression></detailFilter><detailFilter use="optional"><filterExpression>[PO Number] in ?PO Number?</filterExpression></detailFilter></detailFilters></query><query name="eBiz with Cost">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand><queryRef refQuery="eBiz"/></joinOperand>
+				<joinOperand cardinality="0:1"><queryRef refQuery="Cost"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[eBiz].[SKU] = [Cost].[PRODUCT_SKU_NO]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Warehouse]</expression></dataItem><dataItem name="Legacy PO Line ID" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Legacy PO Line ID]</expression></dataItem><dataItem name="Transaction ID" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Transaction ID]</expression></dataItem><dataItem name="Order Line Status" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Order Line Status]</expression></dataItem><dataItem name="Creation Date/Time" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Creation Date/Time]</expression></dataItem><dataItem name="Last Update Date/Time" aggregate="none" rollupAggregate="none"><expression>[eBiz].[Last Update Date/Time]</expression></dataItem><dataItem name="PRODUCT_COST_PER_SHIP_UNIT" aggregate="none" rollupAggregate="none"><expression>[Cost].[PRODUCT_COST_PER_SHIP_UNIT]</expression></dataItem></selection>
+		</query><query name="eBiz">
+			<source>
+				
+			<sqlQuery dataSource="eBiz" name="SQL2">
+			<sqlText>SELECT inv_org_code AS &quot;Warehouse&quot;
+     , po_number AS &quot;PO Number&quot;
+     , po_line_id AS &quot;PO Line Number&quot;
+     , TO_NUMBER(item_number) AS &quot;SKU&quot;
+     , receipt_quantity AS &quot;Quantity&quot;
+     , line_attribute1 AS &quot;Legacy PO Line ID&quot;
+     , header_attribute5 AS &quot;Transaction ID&quot;
+     , CASE WHEN process_flag = &apos;COMPLETED&apos; THEN &apos;Complete&apos; ELSE error_description END AS &quot;Order Line Status&quot;
+     , creation_date AS &quot;Creation Date/Time&quot;
+     , last_update_date AS &quot;Last Update Date/Time&quot;
+FROM   xxbcldb.xxpo_rcpt_ib_stage a
+WHERE  1=1
+  AND  REGEXP_LIKE(header_attribute5, &apos;^[0-9]*$&apos;)
+  AND  bpel_batch_id = (SELECT MAX(bpel_batch_id) FROM xxbcldb.xxpo_rcpt_ib_stage b WHERE a.header_attribute5 = b.header_attribute5  and a.line_attribute1 = b.line_attribute1)
+  AND  line_attribute1 IS NOT NULL
+ORDER BY inv_org_code, po_header_id, po_line_id, sku</sqlText>
+		<mdProjectedItems><mdProjectedItem name="Warehouse"/><mdProjectedItem name="PO Number"/><mdProjectedItem name="PO Line Number"/><mdProjectedItem name="SKU"/><mdProjectedItem name="Quantity"/><mdProjectedItem name="Legacy PO Line ID"/><mdProjectedItem name="Transaction ID"/><mdProjectedItem name="Order Line Status"/><mdProjectedItem name="Creation Date/Time"/><mdProjectedItem name="Last Update Date/Time"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="Warehouse" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Warehouse]</expression></dataItem><dataItem name="PO Number" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PO Number]</expression></dataItem><dataItem name="PO Line Number" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PO Line Number]</expression></dataItem><dataItem name="SKU" aggregate="none" rollupAggregate="none"><expression>[SQL2].[SKU]</expression></dataItem><dataItem name="Quantity" aggregate="total" rollupAggregate="total"><expression>[SQL2].[Quantity]</expression></dataItem><dataItem name="Legacy PO Line ID" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Legacy PO Line ID]</expression></dataItem><dataItem name="Transaction ID" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Transaction ID]</expression></dataItem><dataItem name="Order Line Status" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Order Line Status]</expression></dataItem><dataItem name="Creation Date/Time" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Creation Date/Time]</expression></dataItem><dataItem name="Last Update Date/Time" aggregate="none" rollupAggregate="none"><expression>[SQL2].[Last Update Date/Time]</expression></dataItem><dataItem name="Status Filter" aggregate="none" rollupAggregate="none"><expression>if ([Order Line Status] = &apos;Complete&apos;)
+then (&apos;C&apos;)
+else (&apos;N&apos;)</expression></dataItem></selection>
+		<detailFilters><detailFilter use="optional"><filterExpression>[Status Filter] in ?eBiz Order Line Status?</filterExpression></detailFilter><detailFilter use="optional"><filterExpression>[PO Number] in ?PO Number?</filterExpression></detailFilter></detailFilters></query><query name="Cost">
+			<source>
+				
+			<sqlQuery name="SQL2" dataSource="DWMARTP">
+			<sqlText> SELECT   
+
+C.&quot;COSTING_EFFECTIVE_DATE&quot;,
+C.&quot;COSTING_END_DATE&quot; ,
+C.&quot;PRODUCT_SKU_NO&quot;,
+C.&quot;PRODUCT_COST&quot;,
+
+P.&quot;PRODUCT_INFO_EFFECTIVE_DATE&quot;,
+P.&quot;PRODUCT_INFO_END_DATE&quot;,
+P.&quot;PRD_CONTAINER_PER_SELL_UNIT&quot;,
+P.&quot;PRD_CONTAINER_PER_SHIP_UNIT&quot;
+
+        
+FROM DV_COSTING  C INNER JOIN DV_PRODUCT P ON P.&quot;PRODUCT_SKU_NO&quot; = C.&quot;PRODUCT_SKU_NO&quot; 
+
+
+WHERE  	C.&quot;COSTING_END_DATE&quot; &gt;= TRUNC (SYSDATE , &apos;DD&apos;) AND 
+	P.&quot;PRODUCT_INFO_END_DATE&quot; &gt;= TRUNC (SYSDATE , &apos;DD&apos;) 
+	</sqlText>
+		<mdProjectedItems><mdProjectedItem name="COSTING_EFFECTIVE_DATE"/><mdProjectedItem name="COSTING_END_DATE"/><mdProjectedItem name="PRODUCT_SKU_NO"/><mdProjectedItem name="PRODUCT_COST"/><mdProjectedItem name="PRODUCT_INFO_EFFECTIVE_DATE"/><mdProjectedItem name="PRODUCT_INFO_END_DATE"/><mdProjectedItem name="PRD_CONTAINER_PER_SELL_UNIT"/><mdProjectedItem name="PRD_CONTAINER_PER_SHIP_UNIT"/></mdProjectedItems></sqlQuery></source>
+			<selection><dataItem name="PRODUCT_SKU_NO" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PRODUCT_SKU_NO]</expression></dataItem><dataItem name="PRODUCT_COST_PER_SHIP_UNIT" aggregate="none" rollupAggregate="none"><expression>[SQL2].[PRODUCT_COST] / [SQL2].[PRD_CONTAINER_PER_SELL_UNIT] * [SQL2].[PRD_CONTAINER_PER_SHIP_UNIT]</expression></dataItem></selection>
+		</query></queries><reportVariables><reportVariable name="ReportIsInProduction" type="boolean">
+			<reportExpression>1=1</reportExpression>
+			<variableValues>
+				<variableValue value="1"/>
+			</variableValues>
+		</reportVariable><reportVariable name="AlwaysHide" type="boolean">
+			<reportExpression>1 = 2</reportExpression>
+			<variableValues>
+				<variableValue value="1"/>
+			</variableValues>
+		</reportVariable></reportVariables><reportName>PO Receipt Interface Exception Report</reportName></report>

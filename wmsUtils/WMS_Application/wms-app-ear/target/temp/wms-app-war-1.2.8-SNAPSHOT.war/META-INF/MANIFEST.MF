@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Implementation-Title: WMS Util Application - WAR
+Implementation-Version: 1.2.8-SNAPSHOT
+Archiver-Version: Plexus Archiver
+Built-By: bikahlon
+Specification-Vendor: BC Liquor Distribution Branch
+Specification-Title: WMS Util Application - WAR
+Implementation-Vendor-Id: com.bcldb.web
+Class-Path: 
+Implementation-Vendor: BC Liquor Distribution Branch
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_191
+Specification-Version: 1.2.8-SNAPSHOT
+Implementation-URL: http://www.bcldb.com/wms-app-war
+bcldbVersion: 1.2.8-SNAPSHOT
+

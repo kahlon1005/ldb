@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2019-02-24T15:16:18 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wms_cpack" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6a893128-ed04-480d-86f2-347a0c86e930">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="30"/>
+	<parameter name="jasper*subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jasper*locale_name" class="java.lang.String"/>
+	<parameter name="jasper*parameter*reprint" class="java.lang.String"/>
+	<parameter name="jasper*images_path" class="java.lang.String"/>
+	<parameter name="bill_to_3" class="java.lang.String"/>
+	<parameter name="packed_by" class="java.lang.String"/>
+	<parameter name="container_pack_list_reprint" class="java.lang.String"/>
+	<parameter name="container_num" class="java.lang.String"/>
+	<parameter name="ship" class="java.lang.String"/>
+	<parameter name="ord" class="java.lang.String"/>
+	<parameter name="ship_3" class="java.lang.String"/>
+	<parameter name="tot_wght" class="java.lang.String"/>
+	<parameter name="container_pack_list_3" class="java.lang.String"/>
+	<parameter name="uom" class="java.lang.String"/>
+	<parameter name="page" class="java.lang.String"/>
+	<parameter name="ship_to_4" class="java.lang.String"/>
+	<parameter name="probill" class="java.lang.String"/>
+	<parameter name="cust_po" class="java.lang.String"/>
+	<parameter name="ord_2" class="java.lang.String"/>
+	<parameter name="date_2" class="java.lang.String"/>
+	<parameter name="inner_container" class="java.lang.String"/>
+	<parameter name="mult_ship_tos" class="java.lang.String"/>
+	<parameter name="mult_bill_tos" class="java.lang.String"/>
+	<parameter name="carrier_2" class="java.lang.String"/>
+	<parameter name="qty" class="java.lang.String"/>
+	<parameter name="ship_date" class="java.lang.String"/>
+	<parameter name="item" class="java.lang.String"/>
+	<parameter name="phone_3" class="java.lang.String"/>
+	<parameter name="pack_num_2" class="java.lang.String"/>
+	<parameter name="mult_carriers_2" class="java.lang.String"/>
+	<parameter name="descr" class="java.lang.String"/>
+	<parameter name="time" class="java.lang.String"/>
+	<parameter name="summ" class="java.lang.String"/>
+	<parameter name="lot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="serial_3" class="java.lang.String"/>
+	<field name="WmsCpackOrderLine2Ldb-Jasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ContainerPackingListReprint" class="java.lang.String"/>
+	<detail>
+		<band height="665">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="0" width="572" height="655" uuid="5ab80108-2943-43b3-b616-9c9dd32d966c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="packed_by">
+					<subreportParameterExpression><![CDATA[$P{packed_by}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="container_num">
+					<subreportParameterExpression><![CDATA[$P{container_num}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ship">
+					<subreportParameterExpression><![CDATA[$P{ship}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ord">
+					<subreportParameterExpression><![CDATA[$P{ord}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ship_3">
+					<subreportParameterExpression><![CDATA[$P{ship_3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="bill_to_3">
+					<subreportParameterExpression><![CDATA[$P{bill_to_3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tot_wght">
+					<subreportParameterExpression><![CDATA[$P{tot_wght}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="time">
+					<subreportParameterExpression><![CDATA[$P{time}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="container_pack_list_3">
+					<subreportParameterExpression><![CDATA[$P{container_pack_list_3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="page">
+					<subreportParameterExpression><![CDATA[$P{page}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="uom">
+					<subreportParameterExpression><![CDATA[$P{uom}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ship_to_4">
+					<subreportParameterExpression><![CDATA[$P{ship_to_4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*locale_name">
+					<subreportParameterExpression><![CDATA[$P{jasper*locale_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="probill">
+					<subreportParameterExpression><![CDATA[$P{probill}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cust_po">
+					<subreportParameterExpression><![CDATA[$P{cust_po}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ord_2">
+					<subreportParameterExpression><![CDATA[$P{ord_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date_2">
+					<subreportParameterExpression><![CDATA[$P{date_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*images_path">
+					<subreportParameterExpression><![CDATA[$P{jasper*images_path}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="inner_container">
+					<subreportParameterExpression><![CDATA[$P{inner_container}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mult_ship_tos">
+					<subreportParameterExpression><![CDATA[$P{mult_ship_tos}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mult_bill_tos">
+					<subreportParameterExpression><![CDATA[$P{mult_bill_tos}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="serial_3">
+					<subreportParameterExpression><![CDATA[$P{serial_3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*subreport_dir">
+					<subreportParameterExpression><![CDATA[$P{jasper*subreport_dir}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="qty">
+					<subreportParameterExpression><![CDATA[$P{qty}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="carrier_2">
+					<subreportParameterExpression><![CDATA[$P{carrier_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="container_pack_list_reprint">
+					<subreportParameterExpression><![CDATA[$P{container_pack_list_reprint}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ship_date">
+					<subreportParameterExpression><![CDATA[$P{ship_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pack_num_2">
+					<subreportParameterExpression><![CDATA[$P{pack_num_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="phone_3">
+					<subreportParameterExpression><![CDATA[$P{phone_3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="item">
+					<subreportParameterExpression><![CDATA[$P{item}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="jasper*parameter*reprint">
+					<subreportParameterExpression><![CDATA[$P{jasper*parameter*reprint}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="lot">
+					<subreportParameterExpression><![CDATA[$P{lot}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="descr">
+					<subreportParameterExpression><![CDATA[$P{descr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mult_carriers_2">
+					<subreportParameterExpression><![CDATA[$P{mult_carriers_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="summ">
+					<subreportParameterExpression><![CDATA[$P{summ}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{WmsCpackOrderLine2Ldb-Jasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{jasper*subreport_dir} + "wms_cpack_order_line_2_ldb.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="231" y="10" width="50" height="14" uuid="5cac2b71-a7b7-4a60-bdcc-5aa335d069aa"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{PAGE_NUMBER}.intValue() - 1) +" of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="281" y="10" width="50" height="14" uuid="1c5fec5e-245b-404f-92d2-7624d76c4932"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[' '+($V{PAGE_NUMBER}.intValue() - 1)+'']]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="0" width="545" height="1" backcolor="#000000" uuid="7fd4cc48-685a-49d5-9d35-f6ab1d2cb925">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField pattern="MM/dd/yyyy h:mm:ss a">
+				<reportElement x="10" y="10" width="130" height="14" uuid="f50f6acc-a536-459c-b49a-99d0d3e28328">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

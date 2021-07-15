@@ -1,0 +1,22 @@
+### Steps to deploy Cognos reports
+
+1. go to link 
+https://tswmsbi.bcldb.com/wms_bi/
+
+2. Link on Launch > Report Studio
+3. Select package - Report Model - Warehouse Management System
+
+4. Create New Report > select Blank report
+
+5. Click on Tools > Open Report from Clip Clipboard
+
+6. downloaded file 
+http://subversion.bcliquor.com/svn/WMS/Reports/release/RLS-520716/03_Cognos_Wave_Tracking_Report.xml
+
+7. open the file in notepad and copy text using ALT+A and CTL+C and Paste text using CTL+V in  dialog open using step 5
+8. Click File > Save As ... 
+ In Save As dialogbox 
+ Select Save in: Public Folders > BCLDB - Custom Reports 
+ Enter Name : LDB Wave Tracking Report
+
+

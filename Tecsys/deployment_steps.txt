@@ -1,0 +1,69 @@
+Jboss Deployment
+------------------
+1. Remove existing web-service archive wholesale-inventory-ear-1.0.15.ear, if exists.
+2. deploy the modified wholesale-inventory-ear-1.0.16-SNAPSHOT.ear from svn repo below
+
+http://subversion.bcliquor.com/svn/SOA/Services/WholesaleInventoryService/release/wholesale-inventory-ear-1.0.16-SNAPSHOT.ear
+
+
+
+
+##Jasper Reports
+
+--------------------------------------
+
+Jasper Reports Deployment
+---------------------------
+Deploy the Jasper Reports Files as per the instructions in SVN
+http://subversion.bcliquor.com/svn/WMS/Reports/Jasper/deployment_instructions.txt
+
+Enterprise Computing
+
+
+
+Jasper Reports Database objects 
+---------------------------------
+Deploy the Jasper Reports Database objects as per the instructions in SVN
+
+http://subversion.bcliquor.com/svn/WMS/Reports/Jasper/database/readme.txt	
+
+DBA
+
+
+
+Jasper Reports Metadata
+-------------------------
+Deploy the Jasper Reports Metadata as per the instructions in SVN
+
+http://subversion.bcliquor.com/svn/WMS/Reports/Jasper/metadata/Metadata.xlsx	
+
+Daniel Girard
+
+
+
+
+
+EBIZ istore - deployment steps
+--------------------------------------
+
+Copy java file from:
+http://subversion.bcliquor.com/svn/eBiz/branch_projects/WMS/SourceCode/IStore/trunk/IStore/WebStore/src/oracle/apps/ibe/catalog/WOM_ibeProductAvailabilityWS.java
+
+
+to the EBIZ istore server.
+
+cp WOM_ibeProductAvailabilityWS.java $JAVA_TOP/classes/oracle/apps/ibe/catalog/
+
+cd /opt/u01/womk1/fs2/EBSapps/comn/java/classes/oracle/apps/ibe/catalog/
+
+javac WOM_ibeProductAvailabilityWS.java
+
+run adadmin
+
+to regenerate custom jar file
+
+restart oacore managed servers for istore.
+admanagedsrvctl.sh oacore_server3 and 4
+cp $JAVA_TOP/oracle/apps/ibe/catalog/WOM_ibeProductAvailabilityWS.java $PATCH_BASE/EBSapps/comn/java/classes/oracle/apps/ibe/catalog/
+cp $JAVA_TOP/oracle/apps/ibe/catalog/WOM_ibeProductAvailabilityWS.class $PATCH_BASE/EBSapps/comn/java/classes/oracle/apps/ibe/catalog/
+

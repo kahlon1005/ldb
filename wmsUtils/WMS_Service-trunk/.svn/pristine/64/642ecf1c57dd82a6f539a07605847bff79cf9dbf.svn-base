@@ -1,0 +1,84 @@
+package com.bcldb.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+
+@Entity
+@IdClass(BolOrderId.class)
+@Table(name="bol_po")
+public class BolOrder implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "bol_id")
+	private long bolId;
+	
+	@Id
+	@Column(name = "bol_po_seq")
+	private long bolOrderSeq;
+	
+	@Column(name = "ship_po")
+	private String orderNumber;
+	
+	@Column(name = "whse_code")
+	private String warehouse;
+	
+	
+
+	public BolOrder() {
+		super();
+	}
+
+	public BolOrder(long bolId, String orderNumber, String warehouse) {
+		this.bolId = bolId;
+		this.bolOrderSeq = 1;
+		this.orderNumber = orderNumber;
+		this.warehouse = warehouse;
+	}
+
+	public long getBolId() {
+		return bolId;
+	}
+
+	public void setBolId(long bolId) {
+		this.bolId = bolId;
+	}
+
+	public long getBolOrderSeq() {
+		return bolOrderSeq;
+	}
+
+	public void setBolOrderSeq(long bolOrderSeq) {
+		this.bolOrderSeq = bolOrderSeq;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	@Override
+	public String toString() {
+		return "BolOrder [bolId=" + bolId + ", bolOrderSeq=" + bolOrderSeq + ", orderNumber=" + orderNumber
+				+ ", warehouse=" + warehouse + "]";
+	} 
+	
+	
+}

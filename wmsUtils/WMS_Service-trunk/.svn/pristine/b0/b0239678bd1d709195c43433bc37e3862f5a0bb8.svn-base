@@ -1,0 +1,90 @@
+package com.bcldb.dto;
+
+import java.util.Date;
+
+public class TransactionDto {
+	
+	private String orderNumber;
+	private String orderType;
+	private String taskCode;
+	private String status;
+	private Date createDateTime;
+	private String shipmentNumber;
+	private String message;
+	
+	
+
+	public TransactionDto() {
+	}
+
+	public TransactionDto(String orderNumber) {
+		super();
+		this.orderNumber = orderNumber;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getShipmentNumber() {
+		return shipmentNumber;
+	}
+
+	public void setShipmentNumber(String shipmentNumber) {
+		this.shipmentNumber = shipmentNumber;
+	}
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "ShipmentDto [orderNumber=" + orderNumber + ", orderType=" + orderType + ", taskCode=" + taskCode
+				+ ", status=" + status + ", createDateTime=" + createDateTime + ", shipmentNumber=" + shipmentNumber
+				+ ", message=" + message + "]";
+	}
+	
+	
+	
+}
